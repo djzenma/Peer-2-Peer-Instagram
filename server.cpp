@@ -42,7 +42,7 @@ int main(int argc,char **argv) //server
         else
             printf("Data Recieved: %s \n",buffer);
 
-        if(sendto(socketfd, "Message Received", 1024, 0, (struct sockaddr*)&si_other, sizeof(si_other))<0)
+        if(sendto(socketfd, buffer, 1024, 0, (struct sockaddr*)&si_other, sizeof(si_other))<0)
             perror("Could not Reply to Sender") ;
 
     }while ( strcmp (buffer,"q") !=0  );

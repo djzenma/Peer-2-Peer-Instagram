@@ -6,6 +6,8 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <thread>        
+
 
 int main(int argc,char **argv) // client
 {
@@ -33,7 +35,6 @@ int main(int argc,char **argv) // client
     serverAddr.sin_addr.s_addr = inet_addr((argv[2])); 
     
     do {
-        //fflush(stdin);
         printf("Enter message:");
         scanf("%s",buffer );
 
@@ -52,3 +53,4 @@ int main(int argc,char **argv) // client
 
     return 0;
 }
+
