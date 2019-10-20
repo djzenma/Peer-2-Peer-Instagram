@@ -30,9 +30,9 @@ int main(int argc,char **argv) // client
         printf("Enter message:");
         scanf("%s",buffer );
         sendto(socketfd, buffer, 1024, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
-        printf("Data Send: %s \n", buffer);
+        //printf("Data Send: %s \n", buffer);
         recvfrom(socketfd,buffer,1024,0,(struct sockaddr*)&serverAddr, &addr_size);
-        printf("Data Received: %s \n", buffer);
+        printf("%s \n", buffer);
 
     } while (strcmp (buffer,"Q") !=0  );
 

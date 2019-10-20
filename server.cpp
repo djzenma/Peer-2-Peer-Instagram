@@ -32,7 +32,7 @@ int main(int argc,char **argv) //server
     do{
         recvfrom(socketfd,buffer,1024,0,(struct sockaddr*)&si_other, &addr_size);
         printf("Data Recieved: %s \n",buffer);
-        sendto(socketfd, buffer, 1024, 0, (struct sockaddr*)&si_other, sizeof(si_other));
+        sendto(socketfd, "Message Received", 1024, 0, (struct sockaddr*)&si_other, sizeof(si_other));
     }while ( strcmp (buffer,"Q") !=0  );
 
     return 0;
