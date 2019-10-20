@@ -20,21 +20,34 @@ int main(int argc,char **argv) //server
     struct sockaddr_in si_me, si_other;
     char buffer [1024];
     socklen_t addr_size;
-    socketfd = socket(AF_INET,SOCK_DGRAM,0); // define socket
+
+    socketfd = socket(AF_INET,SOCK_DGRAM,0);
+    if(socketfd <0) 
+    {
+        perror("socket failed");
+        return 0;
+    }
     memset(&si_me,'\0',sizeof(si_me));
     si_me.sin_family=AF_INET;
     si_me.sin_port=htons(port);
     si_me.sin_addr.s_addr = inet_addr(argv[2]);
 
     bind(socketfd, (struct sockaddr*)  &si_me, sizeof(si_me));
+        
     addr_size = sizeof(si_other);
 
     do{
-        recvfrom(socketfd,buffer,1024,0,(struct sockaddr*)&si_other, &addr_size);
-        printf("Data Recieved: %s \n",buffer);
-        sendto(socketfd, "Message Received", 1024, 0, (struct sockaddr*)&si_other, sizeof(si_other));
-    }while ( strcmp (buffer,"Q") !=0  );
+        if(recvfrom(socketfd,buffer,1024,0,(struct sockaddr*)&si_other, &addr_size)<0)
+            perror("Could not Receive Message") ;
+        else
+            printf("Data Recieved: %s \n",buffer);
 
+        if(sendto(socketfd, "Message Received", 1024, 0, (struct sockaddr*)&si_other, sizeof(si_other))<0)
+            perror("Could not Reply to Sender") ;
+
+    }while ( strcmp (buffer,"q") !=0  );
+
+    shutdown(socketfd , SHUT_RDWR);  
     return 0;
 
 }
