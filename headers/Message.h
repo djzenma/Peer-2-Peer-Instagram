@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <string>
 #include <iostream>  
-
+#include <cstring>
 
 #include "utils.h"
 
