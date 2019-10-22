@@ -1,5 +1,5 @@
-#include "RequestReply.h"
-#include "Message.h"
+#include "../headers/RequestReply.h"
+#include "../headers/Message.h"
 
 RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient) {
 
