@@ -3,14 +3,14 @@ CC = g++
 
 SRCDIR := src
 BUILDDIR := build
-TARGET := bin/rrpclient
+TARGET := bin/rrp
 BOOST_ROOT = /usr/include/
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g
 LIB := -pthread
-INC := -I include
+INC := -I headers
 
 
 all: $(TARGET)
