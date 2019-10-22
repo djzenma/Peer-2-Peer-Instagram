@@ -2,16 +2,21 @@
 
 // convert from integer to hexadecimal
 std::string encode64(const std::string &val) {
-    using namespace boost::archive::iterators;
-    using It = base64_from_binary<transform_width<std::string::const_iterator, 6, 8>>;
-    auto tmp = std::string(It(std::begin(val)), It(std::end(val)));
-    return tmp.append((3 - val.size() % 3) % 3, '=');
+    return base64_encode(reinterpret_cast<const unsigned char*>(val.c_str()), val.length());
 }
 
 std::string decode64(const std::string &val) {
-    using namespace boost::archive::iterators;
-    using It = transform_width<binary_from_base64<std::string::const_iterator>, 8, 6>;
-    return boost::algorithm::trim_right_copy_if(std::string(It(std::begin(val)), It(std::end(val))), [](char c) {
-        return c == '\0';
-    });
+    return base64_decode(val);
+}
+
+std::string hostname_to_ip(char * hostname){
+    hostent * record = gethostbyname(hostname);
+	if(record == NULL)
+	{
+		printf("%s is unavailable\n",hostname );
+		exit(1);
+	}
+	in_addr * address = (in_addr * )record->h_addr;
+	std::string hostIP = inet_ntoa(* address);
+    return hostIP;    
 }

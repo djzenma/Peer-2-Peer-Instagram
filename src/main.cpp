@@ -36,7 +36,7 @@ void testMsg(){
 }
 
 int main(int argc,char **argv){
-    testServer(argv);
+    testClient(argv);
     return 0;
 }
 

@@ -3,7 +3,7 @@ CC = g++
 
 SRCDIR := src
 BUILDDIR := build
-TARGET := bin/rrp
+TARGET := bin/rrpclient
 BOOST_ROOT = /usr/include/
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
