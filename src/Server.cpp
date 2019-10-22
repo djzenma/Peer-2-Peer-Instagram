@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "../headers/Server.h"
 
 Server::Server(const char *destinationPort, const char *destinationIp) {
     RequestReply * reqReply = new RequestReply(destinationPort, destinationIp, false);

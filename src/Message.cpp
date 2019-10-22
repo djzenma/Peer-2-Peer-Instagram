@@ -1,4 +1,4 @@
-#include "Message.h"
+#include "../headers/Message.h"
 
 Message::Message(void *p_message, size_t p_message_size){
     message = (char *) malloc(strlen((char *)p_message));
@@ -60,3 +60,4 @@ std::ostream& operator<< (std::ostream& stream, const Message& msg) {
            << ", Message: " << (char *) msg.message << std::endl;
     return stream; 
 }
+
