@@ -1,13 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include "RequestReply.hpp"
+#include "Client.h"
 
-class Client {
-private:
-    char buffer [1024];
-
-public:
-    Client(const char *destinationPort, const char *destinationIp) {
+Client::Client(const char *destinationPort, const char *destinationIp) {
         RequestReply * reqReply = new RequestReply(destinationPort, destinationIp, true);
         do {
             printf("Enter message:");
@@ -19,5 +12,4 @@ public:
 
         } while (strcmp(buffer,"q") !=0);
         reqReply->shutDownFD();
-    }
-};
+}
