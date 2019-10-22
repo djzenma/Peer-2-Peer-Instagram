@@ -18,5 +18,6 @@ std::string hostname_to_ip(char * hostname){
 	}
 	in_addr * address = (in_addr * )record->h_addr;
 	std::string hostIP = inet_ntoa(* address);
+    std::cout << hostIP << std::endl;
     return hostIP;    
 }
