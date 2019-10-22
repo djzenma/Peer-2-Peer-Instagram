@@ -1,7 +1,7 @@
 #include "../headers/Message.h"
 
 Message::Message(void *p_message, size_t p_message_size){
-    message = (char *) malloc(strlen((char *)p_message));
+    message = new char[strlen((char *)p_message)];
     std::strcpy((char *)message, (char *)p_message);
     message_size = p_message_size;
 }
@@ -11,7 +11,7 @@ Message::Message(char * marshalled_base64){
     message_size  = atoi(decoded.substr(3, 16).c_str());
     std::string msg_decoded = decoded.substr(19);
 
-    message =  (char *) malloc(msg_decoded.length());
+    message =  new char[msg_decoded.length()];
     std::strcpy((char *)message, msg_decoded.c_str());
 }
 char* Message::marshal(){
@@ -24,7 +24,6 @@ char* Message::marshal(){
     std::string encoded = encode64(to_encode);
 
     char * marshalled = new char[encoded.length()];
-    marshalled =  (char *) malloc(sizeof(encoded));
     std::strcpy(marshalled, encoded.c_str());
 
     return marshalled;
