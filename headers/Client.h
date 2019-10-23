@@ -9,7 +9,7 @@
 
 class Client {
 private:
-    char buffer [1024];
+    char buffer [2048];
     RequestReply* reqReply;
 
 public:

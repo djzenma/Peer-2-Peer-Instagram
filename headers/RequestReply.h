@@ -19,13 +19,17 @@ class RequestReply {
         struct sockaddr_in serverAddr, si_other;
         bool isClient;
         bool isTimeout;
+        int buff_size;
+
     public:
 
-        RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, bool isTimeout);
+        RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, bool isTimeout, int buff_size);
 
         int doOperation(char buffer []);
         int getRequest(char buffer []);
         int sendReply(char buffer []);
         void shutDownFD();
+
+        void setBuffSize(int);
 };
 #endif

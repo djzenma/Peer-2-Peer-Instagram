@@ -2,7 +2,7 @@
 
 Client::Client(const char * hostname, const char * port){
         std::string serverIp = hostname_to_ip((char *)hostname);
-        reqReply = new RequestReply(port, serverIp.c_str(), true, false);
+        reqReply = new RequestReply(port, serverIp.c_str(), true, true, 1024);
 }
 
 void Client::executePrompt(){
