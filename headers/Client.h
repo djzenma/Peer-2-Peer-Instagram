@@ -4,13 +4,19 @@
 #include <stdio.h>
 #include <string.h>
 #include "RequestReply.h"
-
+#include "utils.h"
+#include "Message.h"
 
 class Client {
 private:
     char buffer [1024];
+    RequestReply* reqReply;
 
 public:
-    Client(const char *destinationPort, const char *destinationIp);
+    Client(const char* hostname, const char* port);
+
+    int execute(char * msg);
+    void executePrompt();
+    ~Client();
 };
 #endif

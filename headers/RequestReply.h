@@ -17,10 +17,11 @@ class RequestReply {
         int port, socketfd;
         socklen_t addr_size;
         struct sockaddr_in serverAddr, si_other;
-
+        bool isClient;
+        bool isTimeout;
     public:
 
-        RequestReply(const char *destinationPort, const char *destinationIp, bool isClient);
+        RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, bool isTimeout);
 
         int doOperation(char buffer []);
         int getRequest(char buffer []);
