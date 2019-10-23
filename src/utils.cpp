@@ -10,14 +10,23 @@ std::string decode64(const std::string &val) {
 }
 
 std::string hostname_to_ip(char * hostname){
-    hostent * record = gethostbyname(hostname);
-	if(record == NULL)
-	{
-		printf("%s is unavailable\n",hostname );
-		exit(1);
-	}
-	in_addr * address = (in_addr * )record->h_addr;
-	std::string hostIP = inet_ntoa(* address);
-    std::cout << hostIP << std::endl;
-    return hostIP;    
+    int i;
+    struct hostent *he;
+    struct in_addr **addr_list;
+
+    if ((he = gethostbyname(hostname)) == NULL) {  // get the host info
+        herror("gethostbyname");
+        exit(1);
+    }
+    // print information about this host:
+    printf("Official name is: %s\n", he->h_name);
+    printf("    IP addresses: ");
+    addr_list = (struct in_addr **)he->h_addr_list;
+    for(i = 0; addr_list[i] != NULL; i++) {
+        printf("%s ", inet_ntoa(*addr_list[i]));
+    }
+    printf("\n");
+    std::string ip = inet_ntoa(*addr_list[0]);
+
+    return ip;
 }

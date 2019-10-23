@@ -9,6 +9,17 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "base64.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <net/if.h>
+#include <arpa/inet.h>
+#include <string>
+
 
 template< typename T >
 std::string int_to_hex( T i ) {
