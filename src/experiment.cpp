@@ -1,4 +1,4 @@
-#include "experiment.h"
+#include "../headers/experiment.h"
 
 void varyLoad(Client * c, int num_reqs){
     char  msg [] = "Hello";

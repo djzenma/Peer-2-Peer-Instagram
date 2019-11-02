@@ -11,5 +11,6 @@ add_executable(DistributedC__
         src/utils.cpp
         src/main.cpp
         src/base64.cpp
+        src/experiment.cpp
         headers/utils.h)
 

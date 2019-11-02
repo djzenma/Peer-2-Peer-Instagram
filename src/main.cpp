@@ -3,7 +3,6 @@
 
 #include "../headers/Client.h"
 #include "../headers/Server.h"
-#include "../headers/utils.h"
 #include "../headers/experiment.h"
 
 using namespace std;
