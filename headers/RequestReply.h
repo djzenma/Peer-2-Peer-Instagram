@@ -14,12 +14,17 @@
 
 class RequestReply {
     private:
-        int port, socketfd;
-        socklen_t addr_size;
-        struct sockaddr_in serverAddr, si_other;
+        int port, socketfd , newsockfd;
+        socklen_t addr_size  , clilen;
+        struct sockaddr_in serverAddr, cli_addr;
         bool isClient;
         bool isTimeout;
         int buff_size;
+        //////////
+        struct hostent *server;
+        FILE *picture;
+        long stat, packet_index, read_size, size ;
+        char send_buffer[10240], read_buffer[256];
 
     public:
 
@@ -27,6 +32,7 @@ class RequestReply {
 
         int doOperation(char buffer []);
         int getRequest(char buffer []);
+        int getReply();
         int sendReply(char buffer []);
         void shutDownFD();
 

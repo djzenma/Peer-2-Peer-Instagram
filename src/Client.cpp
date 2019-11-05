@@ -6,15 +6,13 @@ Client::Client(const char * hostname, const char * port){
 }
 
 void Client::executePrompt(){
-      do {
-        printf("Enter message:");
+        printf("Enter Image Path:");
         scanf("%s", buffer );
 
         reqReply->doOperation(buffer);
-        if(reqReply->getRequest(buffer) >= 0){
+        if(reqReply->getReply() >= 0){
                 printf("%s \n", buffer); //reply from server
         }
-       } while (strcmp(buffer,"q") !=0);
        reqReply->shutDownFD();
 }
 
@@ -24,7 +22,7 @@ int Client::execute(char *msg){
         requestStatus = reqReply->doOperation(buffer);
         std::cout << requestStatus << std::endl;
         if (requestStatus >= 0){
-                if((replyStatus = reqReply->getRequest(buffer)) >= 0){
+                if((replyStatus = reqReply->getReply()) >= 0){
                         printf("%s \n", buffer); //reply from server
                 }
         }
