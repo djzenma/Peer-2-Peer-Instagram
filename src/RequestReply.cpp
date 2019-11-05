@@ -116,11 +116,13 @@ int RequestReply::doOperation(char buffer []){
             }
             else {break;}
         }
-
-        if(stat<=0) {
+        if(stat<=0)
+        {
             perror("Send Failed with status ");
             return stat;
         }
+        else
+            perror("Send Succeeded ");
         //////////
 
         //Send Picture as Byte Array
@@ -173,54 +175,54 @@ int RequestReply::doOperation(char buffer []){
     }
 }
 
-int receive_image(int socket)
-{ // Start function
+int receive_image(int socket) { // Start function
 
-    int buffersize = 0, recv_size = 0,size = 0, read_size, write_size, packet_index =1,stat;
+    int buffersize = 0, recv_size = 0, size = 0, read_size, write_size, packet_index = 1, stat;
 
-    char imagearray[10241],verify = '1';
+    char imagearray[10241], verify = '1';
     FILE *image;
 
 //Find the size of the image
-    do{
+    do {
         stat = read(socket, &size, sizeof(int));
-    }while(stat<0 );
+    } while (stat < 0);
 
     printf("Packet received.\n");
-    printf("Packet size: %i\n",stat);
-    printf("Image size: %i\n",size);
+    printf("Packet size: %i\n", stat);
+    printf("Image size: %i\n", size);
     printf(" \n");
 
     char buffer[] = "Got it";
 
 //Send our verification signal
-    do{
+    do {
         stat = write(socket, &buffer, sizeof(int));
-    }while(stat<0);
+    } while (stat < 0);
 
     printf("Reply sent\n");
     printf(" \n");
 
     image = fopen("Winnie_Pooh.jpg", "w");
 
-    if( image == NULL) {
+    if (image == NULL) {
         printf("Error has occurred. Image file could not be opened\n");
-        return -1; }
+        return -1;
+    }
 
 //Loop while we have not received the entire file yet
 
     int need_exit = 0;
-    struct timeval timeout = {10,0};
+    struct timeval timeout = {10, 0};
 
     fd_set fds;
     int buffer_fd, buffer_out;
 
-    while(recv_size < size && read_size != 0) {
+    while (recv_size < size && read_size != 0) {
 
         FD_ZERO(&fds);
-        FD_SET(socket,&fds);
+        FD_SET(socket, &fds);
 
-        buffer_fd = select(FD_SETSIZE,&fds,NULL,NULL,&timeout);
+        buffer_fd = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
 
         if (buffer_fd < 0)
             printf("error: bad file descriptor set.\n");
@@ -228,37 +230,48 @@ int receive_image(int socket)
         if (buffer_fd == 0)
             printf("error: buffer read timeout expired.\n");
 
-        if (buffer_fd > 0)
-        {
-            do{
-                read_size = read(socket,imagearray, 10241);
-            }while(read_size <0);
+        if (buffer_fd > 0) {
+            do {
+                read_size = read(socket, imagearray, 10241);
+            } while (read_size < 0);
 
-            printf("Packet number received: %i\n",packet_index);
-            printf("Packet size: %i\n",read_size);
+            printf("Packet number received: %i\n", packet_index);
+            printf("Packet size: %i\n", read_size);
 
 
             //Write the currently read data into our image file
-            write_size = fwrite(imagearray,1,read_size, image);
-            printf("Written image size: %i\n",write_size);
+            write_size = fwrite(imagearray, 1, read_size, image);
+            printf("Written image size: %i\n", write_size);
 
-            if(read_size !=write_size) {
-                printf("error in read write\n");    }
+            if (read_size != write_size) {
+                printf("error in read write\n");
+            }
 
 
             //Increment the total number of bytes read
             recv_size += read_size;
             packet_index++;
-            printf("Total received image size: %i\n",recv_size);
+            printf("Total received image size: %i\n", recv_size);
             printf(" \n");
             printf(" \n");
         }
 
     }
 
+    fseek(image, 0, SEEK_END);
+    size = ftell(image);
+    if (size > 0)
+        {
+        printf("Total Picture size: %i\n", size);
+        printf("Image successfully Received!\n");
+        }
+    else
+        printf("Image Not Received!\n");
+
+
 
     fclose(image);
-    printf("Image successfully Received!\n");
+
     return 1;
 }
 
@@ -282,59 +295,60 @@ void RequestReply::setBuffSize(int size){
     buff_size = size;
 }
 int RequestReply::sendReply(char buffer []) {
-    Message m = Message(buffer, strlen(buffer));
+    /*Message m = Message(buffer, strlen(buffer));
     m.setMessageType(MessageType(Reply));
-    char * marshalled = m.marshal();
-    int replyStatus = sendto(socketfd, marshalled, buff_size, 0, (struct sockaddr*)&cli_addr, sizeof(cli_addr));
-    if (isTimeout){
-        std::cout<<"timeout reply"<<std::endl;
+    char * marshalled = m.marshal();*/
+    int replyStatus = write(newsockfd, buffer, strlen(buffer));
+   // if (isTimeout){
+       // std::cout<<"timeout reply"<<std::endl;
         int n = 0;
         if (replyStatus<=0)
                 n =5;
         while (replyStatus<=0){
             if (n>0){
-             replyStatus =send(socketfd, "Transaction Success!\n", 13, 0);
+             replyStatus =write(newsockfd, buffer, strlen(buffer));
                 n--;
             }
             else {
                 break;
             }
         }
-    }
+    //}
    
     if(replyStatus<0)
     {
         perror("Could not Reply to Sender with status ");
     }
+    else
+        printf("Sent Reply");
 
     return replyStatus;
 }
-int RequestReply::getReply() {
-    int recStatus  = read(socketfd, &size, sizeof(int));
+int RequestReply::getReply(char buffer []) {
+    int recStatus  = read(socketfd, buffer, sizeof(int));
     ///Timeout Check
-    if (isClient){ // a server does not need the timeout in getRequest as it is always listening
-        int n = 0;
-        if (recStatus<=0)
-            n =5;
-        while (recStatus<=0){
-            std::cout << "I am trying again "<< std::endl;
-            if (n>0){
-                recStatus = read(socketfd, &size, sizeof(int));
-                n--;
-            }
-            else {
-                break;
-            }
+
+    int n = 0;
+    if (recStatus<=0)
+        n =20;
+    while (recStatus<=0){
+        std::cout << "I am trying again "<< std::endl;
+        if (n>0){
+            recStatus = read(socketfd, buffer, sizeof(int));
+            n--;
+        }
+        else {
+            break;
         }
     }
 
-   /* if(recStatus<=0) {
+
+    if(recStatus<=0) {
         perror("Could not Receive Message with status ");
     }
     else {
-        Message m = Message(buffer);
-        std::strcpy(buffer, (char *) m.getMessage());
-    }*/
+        printf("Server Replied\n");
+    }
 
     return recStatus;
 

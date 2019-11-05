@@ -13,11 +13,12 @@ void Server::setBufferSize(int size){
 }
 
 void Server::serveRequest(){
-    do {    
+
         if(reqReply->getRequest(buffer) >= 0)
-            printf("Data Recieved: %s \n",buffer); // msg received
+            //printf("Data Recieved: %s \n",buffer); // msg received
+            buffer = "Connected to Server";
         reqReply->sendReply(buffer);
-    } while (strcmp(buffer,"q") !=0);
+
     reqReply->shutDownFD();
 }
 

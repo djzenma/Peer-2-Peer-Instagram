@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 
+
 class RequestReply {
     private:
         int port, socketfd , newsockfd;
@@ -32,7 +33,7 @@ class RequestReply {
 
         int doOperation(char buffer []);
         int getRequest(char buffer []);
-        int getReply();
+        int getReply(char buffer []);
         int sendReply(char buffer []);
         void shutDownFD();
 

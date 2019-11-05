@@ -6,19 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/Message.h
-cstddef
--
-string
--
-iostream
--
-cstring
--
-utils.h
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/utils.h
-
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
 cstdlib
 -
 netinet/in.h
@@ -32,11 +20,19 @@ arpa/inet.h
 iostream
 -
 
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/base64.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
+iostream
+-
+RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
+utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+
+/Users/owner/CLionProjects/Distributed-Client/headers/base64.h
 string
 -
 
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
 sstream
 -
 iomanip
@@ -52,7 +48,7 @@ netinet/in.h
 arpa/inet.h
 -
 base64.h
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/base64.h
+/Users/owner/CLionProjects/Distributed-Client/headers/base64.h
 stdio.h
 -
 unistd.h
@@ -74,11 +70,7 @@ arpa/inet.h
 string
 -
 
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/src/RequestReply.cpp
-../headers/RequestReply.h
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/RequestReply.h
-../headers/Message.h
-/Users/owner/CLionProjects/Distributed-Server 2.13.57 AM/headers/Message.h
-fcntl.h
--
+/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp
+../headers/Server.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
 

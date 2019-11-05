@@ -10,7 +10,7 @@ void Client::executePrompt(){
         scanf("%s", buffer );
 
         reqReply->doOperation(buffer);
-        if(reqReply->getReply() >= 0){
+        if(reqReply->getReply(buffer) >= 0){
                 printf("%s \n", buffer); //reply from server
         }
        reqReply->shutDownFD();
@@ -22,7 +22,7 @@ int Client::execute(char *msg){
         requestStatus = reqReply->doOperation(buffer);
         std::cout << requestStatus << std::endl;
         if (requestStatus >= 0){
-                if((replyStatus = reqReply->getReply()) >= 0){
+                if((replyStatus = reqReply->getReply(buffer)) >= 0){
                         printf("%s \n", buffer); //reply from server
                 }
         }
