@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+cstddef
+-
+string
+-
+iostream
+-
+cstring
+-
+utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+
 /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
 cstdlib
 -
@@ -19,14 +31,6 @@ arpa/inet.h
 -
 iostream
 -
-
-/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
-iostream
--
-RequestReply.h
-/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
-utils.h
-/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
 
 /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
 string
@@ -70,7 +74,11 @@ arpa/inet.h
 string
 -
 
-/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp
-../headers/Server.h
-/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
+/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp
+../headers/RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
+../headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+fcntl.h
+-
 

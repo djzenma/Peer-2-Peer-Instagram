@@ -6,14 +6,18 @@ Client::Client(const char * hostname, const char * port){
 }
 
 void Client::executePrompt(){
+
         printf("Enter Image Path:");
         scanf("%s", buffer );
 
-        reqReply->doOperation(buffer);
-        if(reqReply->getReply(buffer) >= 0){
+        if (reqReply->doOperation(buffer)) {
+            if (reqReply->getReply(buffer) >= 0) {
                 printf("%s \n", buffer); //reply from server
+            }
+            reqReply->shutDownFD();
         }
-       reqReply->shutDownFD();
+        else
+            printf ("error in doOperation");
 }
 
 int Client::execute(char *msg){

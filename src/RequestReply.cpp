@@ -122,7 +122,7 @@ int RequestReply::doOperation(char buffer []){
             return stat;
         }
         else
-            perror("Send Succeeded ");
+            printf("Send Succeeded ");
         //////////
 
         //Send Picture as Byte Array
@@ -131,12 +131,14 @@ int RequestReply::doOperation(char buffer []){
         do
         { //Read while we get errors that are due to signals.
             stat=read(socketfd, &read_buffer , 255);
-            printf("Bytes read: %i\n",stat);
+            //printf("Bytes read: %i\n",stat);
         } while (stat < 0);
 
 
-        while(!feof(picture))
+       while(!feof(picture))
+       //while (total_size < size )
         {
+
             //Read from the file into our send buffer
             read_size = fread(send_buffer, 1, sizeof(send_buffer) - 1, picture);
 
@@ -146,7 +148,7 @@ int RequestReply::doOperation(char buffer []){
             ///Timeout Check
             int n = 0;
             if (stat<=0)
-                n =5;
+                n =100;
             while (stat<=0){
                 std::cout << "I am trying again "<< std::endl;
                 if (n>0){
@@ -160,16 +162,23 @@ int RequestReply::doOperation(char buffer []){
                 perror("Send Failed with status ");
                 return stat;
             }
+            else
+                printf("Sent All\n");
+
             //////////
+
+            total_size += read_size;
 
             printf("Packet Number: %i\n", packet_index);
             printf("Packet Size Sent: %i\n", read_size);
+            printf("Sent: %i of the photo\n", total_size);
             printf(" \n");
             printf(" \n");
 
             packet_index++;
             //Zero out our send buffer
             bzero(send_buffer, sizeof(send_buffer));
+            sleep(1);
         }
         return 1;
     }
