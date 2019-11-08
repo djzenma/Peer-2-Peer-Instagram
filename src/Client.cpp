@@ -52,11 +52,11 @@ bool Client::req_photo(int photoid, const char *hostname, const char *port)
     }
 
     requestStatus= reqReply->doOperation(buffer); //what to put
-    if (requestStatus >= 0){
+    /*if (requestStatus >= 0){
             if((replyStatus = reqReply->getReply(buffer)) >= 0){
 
             }
-            }
+            }*/
 }
 
 
