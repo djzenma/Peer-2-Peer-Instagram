@@ -33,8 +33,8 @@ class RequestReply {
 
         int doOperation(char buffer []);
         int getRequest(char buffer []);
-        int getMessage(char buffer []);
-        int sendMessage(char buffer []);
+        int getReq(int & reqNum);
+        int sendReq(int reqNum);
         void shutDownFD();
 
         void setBuffSize(int);

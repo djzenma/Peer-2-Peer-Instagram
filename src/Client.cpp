@@ -9,9 +9,13 @@ Client::Client(const char * listen_hostname, const char * listen_port){
 }
 
 
-void Client::executePrompt(){
-while (1)
-    reqReply->getRequest(buffer) ;
+void Client::executePrompt() {
+    while (1) {
+    reqReply->getReq(reqNum);
+        printf("Request Number: %i\n", reqNum);
+
+    }
+    //reqReply->getRequest(buffer) ;
 
 }
 

@@ -310,62 +310,55 @@ int RequestReply::getRequest(char buffer []) {
 void RequestReply::setBuffSize(int size){
     buff_size = size;
 }
-int RequestReply::sendMessage(char buffer []) {
+int RequestReply::sendReq(int reqNum) {
     /*Message m = Message(buffer, strlen(buffer));
     m.setMessageType(MessageType(Reply));
     char * marshalled = m.marshal();*/
-    int replyStatus = write(newsockfd, buffer, strlen(buffer));
-   // if (isTimeout){
-       // std::cout<<"timeout reply"<<std::endl;
-        int n = 0;
-        if (replyStatus<=0)
-                n =5;
-        while (replyStatus<=0){
-            if (n>0){
-             replyStatus =write(newsockfd, buffer, strlen(buffer));
-                n--;
-            }
-            else {
-                break;
-            }
-        }
-    //}
-   
-    if(replyStatus<0)
-    {
-        perror("Could not Reply to Sender with status ");
-    }
-    else
-        printf("Sent Reply");
-    return replyStatus;
-}
-int RequestReply::getMessage(char buffer []) {
-    int recStatus  = read(socketfd, buffer, sizeof(int));
-    ///Timeout Check
+    stat = write(socketfd, (void *)&reqNum, sizeof(long));
 
+    // if (isTimeout){
+    // std::cout<<"timeout reply"<<std::endl;
     int n = 0;
-    if (recStatus<=0)
-        n =20;
-    while (recStatus<=0){
-        std::cout << "I am trying again "<< std::endl;
+    if (stat<=0)
+        n =5;
+    while (stat<=0){
         if (n>0){
-            recStatus = read(socketfd, buffer, sizeof(int));
+            stat = write(socketfd, (void *)&reqNum, sizeof(int));
             n--;
         }
         else {
             break;
         }
     }
+    //}
 
-
-    if(recStatus<=0) {
-        perror("Could not Receive Message with status ");
+    if(stat<0)
+    {
+        perror("Could not Message");
     }
-    else {
-        printf("Server Replied\n");
-    }
+    else
+        printf("Sent Message");
 
-    return recStatus;
+    return stat;
+}
+int RequestReply::getReq(int & reqNum) {
+
+    clilen = sizeof(cli_addr);
+
+
+    newsockfd = accept(socketfd,
+                       (struct sockaddr *) &cli_addr, &clilen);
+    if (newsockfd < 0)
+        error("ERROR on accept");
+
+    printf("server: got connection from %s port %d\n",
+           inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+
+    do {
+        stat = read(newsockfd, &reqNum, sizeof(int));
+    } while (stat < 0);
+
+    return stat;
 
 }
 void RequestReply::shutDownFD() {

@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/Users/owner/CLionProjects/Distributed-Client/headers/Client.h
+stdio.h
+-
+string.h
+-
+RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
+utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 cstddef
 -
@@ -32,9 +44,23 @@ arpa/inet.h
 iostream
 -
 
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
+iostream
+-
+RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
+utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+
 /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
 string
 -
+
+/Users/owner/CLionProjects/Distributed-Client/headers/experiment.h
+Client.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Client.h
+Server.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
 
 /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
 sstream
@@ -74,6 +100,10 @@ arpa/inet.h
 string
 -
 
+/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp
+../headers/Client.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Client.h
+
 /Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp
 ../headers/RequestReply.h
 /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
@@ -81,4 +111,24 @@ string
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 fcntl.h
 -
+
+/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp
+../headers/Server.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
+
+/Users/owner/CLionProjects/Distributed-Client/src/experiment.cpp
+../headers/experiment.h
+/Users/owner/CLionProjects/Distributed-Client/headers/experiment.h
+
+/Users/owner/CLionProjects/Distributed-Client/src/main.cpp
+iostream
+-
+string
+-
+../headers/Client.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Client.h
+../headers/Server.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
+../headers/experiment.h
+/Users/owner/CLionProjects/Distributed-Client/headers/experiment.h
 

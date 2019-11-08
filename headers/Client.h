@@ -11,6 +11,7 @@ class Client {
 private:
     char * buffer;
     int buff_size = 1024;
+    int reqNum;
     RequestReply* reqReply;
 
 public:

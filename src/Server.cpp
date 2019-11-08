@@ -11,10 +11,11 @@ void Server::setBufferSize(int size){
 }
 
 void Server::serveRequest(){
-    printf("Enter Image Path:");
+    /*printf("Enter Image Path:");
     scanf("%s", buffer );
 
-  reqReply->doOperation(buffer);
+  reqReply->doOperation(buffer);*/
+    reqReply->sendReq(100);
 }
 
 Server::~Server(){
