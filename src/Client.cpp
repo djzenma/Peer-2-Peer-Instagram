@@ -1,27 +1,23 @@
 #include "../headers/Client.h"
 
-Client::Client(const char * hostname, const char * port){
-        std::string serverIp = hostname_to_ip((char *)hostname);
-        reqReply = new RequestReply(port, serverIp.c_str(), true, true, 1024);
+
+
+Client::Client(const char * listen_hostname, const char * listen_port){
+    buffer = new char [buff_size];
+    std::string serverIp = hostname_to_ip((char *)listen_hostname);
+    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, true, 1024);
 }
+
 
 void Client::executePrompt(){
+while (1)
+    reqReply->getRequest(buffer) ;
 
-        printf("Enter Image Path:");
-        scanf("%s", buffer );
-
-        if (reqReply->doOperation(buffer)) {
-            if (reqReply->getReply(buffer) >= 0) {
-                printf("%s \n", buffer); //reply from server
-            }
-            reqReply->shutDownFD();
-        }
-        else
-            printf ("error in doOperation");
 }
 
+
 int Client::execute(char *msg){
-        int replyStatus, requestStatus; 
+        /*int replyStatus, requestStatus;
         std::strcpy(buffer, msg);
         requestStatus = reqReply->doOperation(buffer);
         std::cout << requestStatus << std::endl;
@@ -30,7 +26,7 @@ int Client::execute(char *msg){
                         printf("%s \n", buffer); //reply from server
                 }
         }
-        return replyStatus;
+        return replyStatus;*/
 }
 Client::~Client(){
      reqReply->shutDownFD();

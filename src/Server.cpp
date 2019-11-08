@@ -1,27 +1,23 @@
 #include "../headers/Server.h"
 
-Server::Server(const char * listen_hostname, const char * listen_port){
-    buffer = new char [buff_size];
-    std::string serverIp = hostname_to_ip((char *)listen_hostname);
-    reqReply = new RequestReply(listen_port,  serverIp.c_str(), false, false, buff_size);
+Server::Server(const char * hostname, const char * port){
+    std::string serverIp = hostname_to_ip((char *)hostname);
+    reqReply = new RequestReply(port, serverIp.c_str(), false, false, 1024);
 }
-
 void Server::setBufferSize(int size){
-    delete buffer;
+    /*delete buffer;
     buffer = new char [buff_size];
-    reqReply->setBuffSize(buff_size);
+    reqReply->setBuffSize(buff_size);*/
 }
 
 void Server::serveRequest(){
+    printf("Enter Image Path:");
+    scanf("%s", buffer );
 
-        if(reqReply->getRequest(buffer) >= 0)
-            //printf("Data Recieved: %s \n",buffer); // msg received
-            buffer = "Connected to Server";
-        reqReply->sendReply(buffer);
-
-    reqReply->shutDownFD();
+  reqReply->doOperation(buffer);
 }
 
 Server::~Server(){
-    delete buffer;
+    reqReply->shutDownFD();
+
 }

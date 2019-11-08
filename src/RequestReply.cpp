@@ -14,7 +14,7 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
 
 
 
-    if(isClient){
+    if(!isClient){
         socketfd = socket(AF_INET, SOCK_STREAM, 0);
         if (socketfd < 0)
             error("ERROR opening socket");
@@ -118,11 +118,11 @@ int RequestReply::doOperation(char buffer []){
         }
         if(stat<=0)
         {
-            perror("Send Failed with status ");
+            perror("Sending Size Failed with status \n");
             return stat;
         }
         else
-            printf("Send Succeeded ");
+            printf("Sending Size Succeeded \n");
         //////////
 
         //Send Picture as Byte Array
@@ -135,8 +135,8 @@ int RequestReply::doOperation(char buffer []){
         } while (stat < 0);
 
 
-       while(!feof(picture))
-       //while (total_size < size )
+       //while(!feof(picture))
+       while (total_size < size  )
         {
 
             //Read from the file into our send buffer
@@ -178,7 +178,7 @@ int RequestReply::doOperation(char buffer []){
             packet_index++;
             //Zero out our send buffer
             bzero(send_buffer, sizeof(send_buffer));
-            sleep(1);
+            //sleep(1);
         }
         return 1;
     }
@@ -211,7 +211,7 @@ int receive_image(int socket) { // Start function
     printf("Reply sent\n");
     printf(" \n");
 
-    image = fopen("Winnie_Pooh.jpg", "w");
+    image = fopen("Image.jpg", "w");
 
     if (image == NULL) {
         printf("Error has occurred. Image file could not be opened\n");
@@ -226,7 +226,12 @@ int receive_image(int socket) { // Start function
     fd_set fds;
     int buffer_fd, buffer_out;
 
-    while (recv_size < size && read_size != 0) {
+    printf("Receive Size: %i\n", recv_size);
+    printf("Size: %i\n", size);
+    printf("Read Size: %i\n", read_size);
+
+
+    while (recv_size < size ) {
 
         FD_ZERO(&fds);
         FD_SET(socket, &fds);
@@ -298,12 +303,14 @@ int RequestReply::getRequest(char buffer []) {
            inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 
     receive_image(newsockfd);
+    shutdown(newsockfd , SHUT_RDWR);
+
 }
 
 void RequestReply::setBuffSize(int size){
     buff_size = size;
 }
-int RequestReply::sendReply(char buffer []) {
+int RequestReply::sendMessage(char buffer []) {
     /*Message m = Message(buffer, strlen(buffer));
     m.setMessageType(MessageType(Reply));
     char * marshalled = m.marshal();*/
@@ -330,10 +337,9 @@ int RequestReply::sendReply(char buffer []) {
     }
     else
         printf("Sent Reply");
-
     return replyStatus;
 }
-int RequestReply::getReply(char buffer []) {
+int RequestReply::getMessage(char buffer []) {
     int recStatus  = read(socketfd, buffer, sizeof(int));
     ///Timeout Check
 

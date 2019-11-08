@@ -9,7 +9,8 @@
 
 class Client {
 private:
-    char buffer [2048];
+    char * buffer;
+    int buff_size = 1024;
     RequestReply* reqReply;
 
 public:

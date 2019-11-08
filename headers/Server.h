@@ -10,9 +10,8 @@ using namespace std;
 class Server {
 
     private:
-        char * buffer;
-        int buff_size = 1024;
-        RequestReply * reqReply;
+    char buffer [2048];
+    RequestReply * reqReply;
 
     public:
         Server(const char * listen_hostname,const char * listen_port);
