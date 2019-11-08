@@ -32,6 +32,34 @@ int Client::execute(char *msg){
         }
         return replyStatus;*/
 }
+
+bool Client::req_photo(int photoid, const char *hostname, const char *port)
+{
+    /*Message m((void *)"",(size_t)0);
+    m.setMessageType(Request);
+    std::strcpy(buffer,(char*) m);
+    */
+    int requestStatus, replyStatus;
+    List::entry e;
+    e.port= (char*)port;
+    e.hostname=(char*)hostname;
+    e.photoid=photoid;
+    int val = 0;
+    if(!lookup_table.search(e))  //define search function as well the undefined crap if needed
+    {
+
+        lookup_table.insertFirst(e,val);  //could be a table of pic/needs to expand
+    }
+
+    requestStatus= reqReply->doOperation(buffer); //what to put
+    if (requestStatus >= 0){
+            if((replyStatus = reqReply->getReply(buffer)) >= 0){
+
+            }
+            }
+}
+
+
 Client::~Client(){
      reqReply->shutDownFD();
 }
