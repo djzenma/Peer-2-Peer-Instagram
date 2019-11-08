@@ -175,13 +175,13 @@ private:
     int buff_size = 1024;
     int reqNum;
     RequestReply* reqReply;
+    List lookup_table;
 
 public:
     Client(const char* hostname, const char* port);
-
+    bool req_photo(int photoid, const char *hostname, const char *port);
     int execute(char * msg);
     void executePrompt();
-    void req
     ~Client();
 };
 #endif
