@@ -181,6 +181,7 @@ public:
 
     int execute(char * msg);
     void executePrompt();
+    void req
     ~Client();
 };
 #endif
