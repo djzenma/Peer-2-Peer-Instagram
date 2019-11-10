@@ -8,7 +8,7 @@ void error(const char *msg)
     exit(0);
 }
 
-RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, bool isTimeout, int buff_size) {
+RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size) {
 
     port = atoi(destinationPort);
 
@@ -72,14 +72,27 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
 
         listen(socketfd,5);
         puts("Waiting for incoming connections...");
+
+
+        clilen = sizeof(cli_addr);
+
+        newsockfd = accept(socketfd,
+                           (struct sockaddr *) &cli_addr, &clilen);
+        if (newsockfd < 0)
+            error("ERROR on accept");
+
+        printf("server: got connection from %s port %d\n",
+               inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+
     }
     
     if(socketfd  <0) {
         perror("socket failed");
     }
     this->isClient = isClient;
-    this->isTimeout = isTimeout;
     this->buff_size = buff_size;
+
+
 }
 
 int RequestReply::doOperation(char buffer []){
@@ -184,7 +197,100 @@ int RequestReply::doOperation(char buffer []){
     }
 }
 
-int receive_image(int socket) { // Start function
+int RequestReply::sendSamples(char buffer []) {
+    packet_index = 1;
+
+    picture = fopen(buffer, "r");
+    printf("Getting Picture Size\n");
+
+    if (picture == NULL) {
+        printf("Error Opening Image File");
+    } else {
+
+        //Get Image Size
+        fseek(picture, 0, SEEK_END);
+        size = ftell(picture);
+        fseek(picture, 0, SEEK_SET);
+        printf("Total Picture size: %i\n", size);
+
+        //Send Picture Size
+        printf("Sending Picture Size\n");
+        stat = write(socketfd, (void *) &size, sizeof(int));
+        ///Timeout Check
+        int n = 0;
+        if (stat <= 0)
+            n = 5;
+        while (stat <= 0) {
+            std::cout << "I am trying again " << std::endl;
+            if (n > 0) {
+                stat = write(socketfd, send_buffer, read_size);
+                n--;
+            } else { break; }
+        }
+        if (stat <= 0) {
+            perror("Sending Size Failed with status \n");
+            return stat;
+        } else
+            printf("Sending Size Succeeded \n");
+        //////////
+
+        //Send Picture as Byte Array
+        printf("Sending Picture as Byte Array\n");
+
+        do { //Read while we get errors that are due to signals.
+            stat = read(socketfd, &read_buffer, 255);
+            //printf("Bytes read: %i\n",stat);
+        } while (stat < 0);
+
+
+        //while(!feof(picture))
+        while (total_size < size) {
+
+            //Read from the file into our send buffer
+            read_size = fread(send_buffer, 1, sizeof(send_buffer) - 1, picture);
+
+            //Send data through our socket
+            stat = write(socketfd, send_buffer, read_size);
+
+            ///Timeout Check
+            int n = 0;
+            if (stat <= 0)
+                n = 100;
+            while (stat <= 0) {
+                std::cout << "I am trying again " << std::endl;
+                if (n > 0) {
+                    stat = write(socketfd, send_buffer, read_size);
+                    n--;
+                } else { break; }
+            }
+
+            if (stat <= 0) {
+                perror("Send Failed with status ");
+                return stat;
+            } else
+                printf("Sent All\n");
+
+            //////////
+
+            total_size += read_size;
+
+            printf("Packet Number: %i\n", packet_index);
+            printf("Packet Size Sent: %i\n", read_size);
+            printf("Sent: %i of the photo\n", total_size);
+            printf(" \n");
+            printf(" \n");
+
+            packet_index++;
+            //Zero out our send buffer
+            bzero(send_buffer, sizeof(send_buffer));
+            //sleep(1);
+
+        }
+        return 1;
+    }
+}
+
+int receive_image(int socket) {
 
     int buffersize = 0, recv_size = 0, size = 0, read_size, write_size, packet_index = 1, stat;
 
@@ -211,7 +317,7 @@ int receive_image(int socket) { // Start function
     printf("Reply sent\n");
     printf(" \n");
 
-    image = fopen("Image.jpg", "w");
+    image = fopen("/Users/owner/CLionProjects/Distributed-Client/Image.jpg", "w");
 
     if (image == NULL) {
         printf("Error has occurred. Image file could not be opened\n");
@@ -289,21 +395,9 @@ int receive_image(int socket) { // Start function
     return 1;
 }
 
-int RequestReply::getRequest(char buffer []) {
-
-    clilen = sizeof(cli_addr);
-
-
-    newsockfd = accept(socketfd,
-                       (struct sockaddr *) &cli_addr, &clilen);
-    if (newsockfd < 0)
-        error("ERROR on accept");
-
-    printf("server: got connection from %s port %d\n",
-           inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+int RequestReply::getRequest() {
 
     receive_image(newsockfd);
-    shutdown(newsockfd , SHUT_RDWR);
 
 }
 
@@ -314,48 +408,38 @@ int RequestReply::sendReq(int reqNum) {
     /*Message m = Message(buffer, strlen(buffer));
     m.setMessageType(MessageType(Reply));
     char * marshalled = m.marshal();*/
-    stat = write(socketfd, (void *)&reqNum, sizeof(long));
 
-    // if (isTimeout){
-    // std::cout<<"timeout reply"<<std::endl;
+
+    stat = write(newsockfd, (void *)&reqNum, sizeof(long));
+
+
     int n = 0;
     if (stat<=0)
         n =5;
     while (stat<=0){
         if (n>0){
-            stat = write(socketfd, (void *)&reqNum, sizeof(int));
+            stat = write(newsockfd, (void *)&reqNum, sizeof(int));
             n--;
         }
         else {
             break;
         }
     }
-    //}
+
 
     if(stat<0)
     {
-        perror("Could not Message");
+        perror("Could not Message \n");
     }
     else
-        printf("Sent Message");
+        printf("Sent Message \n");
 
     return stat;
 }
 int RequestReply::getReq(int & reqNum) {
 
-    clilen = sizeof(cli_addr);
-
-
-    newsockfd = accept(socketfd,
-                       (struct sockaddr *) &cli_addr, &clilen);
-    if (newsockfd < 0)
-        error("ERROR on accept");
-
-    printf("server: got connection from %s port %d\n",
-           inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
-
     do {
-        stat = read(newsockfd, &reqNum, sizeof(int));
+        stat = read(socketfd, &reqNum, sizeof(int));
     } while (stat < 0);
 
     return stat;
@@ -363,4 +447,5 @@ int RequestReply::getReq(int & reqNum) {
 }
 void RequestReply::shutDownFD() {
     shutdown(socketfd , SHUT_RDWR);
+    shutdown(newsockfd , SHUT_RDWR);
 }

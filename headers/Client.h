@@ -11,13 +11,17 @@ class Client {
 private:
     char * buffer;
     int buff_size = 1024;
-    int reqNum;
     RequestReply* reqReply;
+    const char * port;
+    const char * hostname;
+    int req ;
 
 public:
     Client(const char* hostname, const char* port);
 
     int execute(char * msg);
+    int requestSamples();
+    int requestNumber (int req);
     void executePrompt();
     ~Client();
 };

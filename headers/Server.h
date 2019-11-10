@@ -11,6 +11,9 @@ class Server {
 
     private:
     char buffer [2048];
+    int reqNum;
+    const char * port;
+    const char * hostname;
     RequestReply * reqReply;
 
     public:

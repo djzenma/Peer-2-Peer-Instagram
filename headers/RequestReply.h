@@ -1,7 +1,4 @@
 
-//
-// Created by Mazen on 21.10.19.
-//
 #ifndef REQUESTREPLY_H
 #define REQUESTREPLY_H
 
@@ -16,23 +13,23 @@
 class RequestReply {
     private:
         int port, socketfd , newsockfd;
-        socklen_t addr_size  , clilen;
+        socklen_t  clilen;
         struct sockaddr_in serverAddr, cli_addr;
         bool isClient;
-        bool isTimeout;
         int buff_size;
         //////////
         struct hostent *server;
-        FILE *picture;
+        FILE *picture, *picture2;
         long stat, packet_index, read_size,total_size = 0  ,size ;
-        char send_buffer[10240], read_buffer[256];
+        char send_buffer[10240], blurr_buffer[10240] ,read_buffer[256];
 
     public:
 
-        RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, bool isTimeout, int buff_size);
+        RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size);
 
         int doOperation(char buffer []);
-        int getRequest(char buffer []);
+        int sendSamples(char buffer []);
+         int getRequest();
         int getReq(int & reqNum);
         int sendReq(int reqNum);
         void shutDownFD();
