@@ -95,9 +95,11 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
 
 }
 
-int RequestReply::doOperation(char buffer []){
+int RequestReply::doOperation(std::string s){
     packet_index = 1;
 
+    char buffer [s.size()+1]  ;
+    strcpy(buffer , s.c_str());
     picture = fopen(buffer, "r");
     printf("Getting Picture Size\n");
 
@@ -191,106 +193,15 @@ int RequestReply::doOperation(char buffer []){
             packet_index++;
             //Zero out our send buffer
             bzero(send_buffer, sizeof(send_buffer));
-            //sleep(1);
+            sleep(0.5);
         }
+        total_size= 0 ;
         return 1;
     }
 }
 
-int RequestReply::sendSamples(char buffer []) {
-    packet_index = 1;
 
-    picture = fopen(buffer, "r");
-    printf("Getting Picture Size\n");
-
-    if (picture == NULL) {
-        printf("Error Opening Image File");
-    } else {
-
-        //Get Image Size
-        fseek(picture, 0, SEEK_END);
-        size = ftell(picture);
-        fseek(picture, 0, SEEK_SET);
-        printf("Total Picture size: %i\n", size);
-
-        //Send Picture Size
-        printf("Sending Picture Size\n");
-        stat = write(socketfd, (void *) &size, sizeof(int));
-        ///Timeout Check
-        int n = 0;
-        if (stat <= 0)
-            n = 5;
-        while (stat <= 0) {
-            std::cout << "I am trying again " << std::endl;
-            if (n > 0) {
-                stat = write(socketfd, send_buffer, read_size);
-                n--;
-            } else { break; }
-        }
-        if (stat <= 0) {
-            perror("Sending Size Failed with status \n");
-            return stat;
-        } else
-            printf("Sending Size Succeeded \n");
-        //////////
-
-        //Send Picture as Byte Array
-        printf("Sending Picture as Byte Array\n");
-
-        do { //Read while we get errors that are due to signals.
-            stat = read(socketfd, &read_buffer, 255);
-            //printf("Bytes read: %i\n",stat);
-        } while (stat < 0);
-
-
-        //while(!feof(picture))
-        while (total_size < size) {
-
-            //Read from the file into our send buffer
-            read_size = fread(send_buffer, 1, sizeof(send_buffer) - 1, picture);
-
-            //Send data through our socket
-            stat = write(socketfd, send_buffer, read_size);
-
-            ///Timeout Check
-            int n = 0;
-            if (stat <= 0)
-                n = 100;
-            while (stat <= 0) {
-                std::cout << "I am trying again " << std::endl;
-                if (n > 0) {
-                    stat = write(socketfd, send_buffer, read_size);
-                    n--;
-                } else { break; }
-            }
-
-            if (stat <= 0) {
-                perror("Send Failed with status ");
-                return stat;
-            } else
-                printf("Sent All\n");
-
-            //////////
-
-            total_size += read_size;
-
-            printf("Packet Number: %i\n", packet_index);
-            printf("Packet Size Sent: %i\n", read_size);
-            printf("Sent: %i of the photo\n", total_size);
-            printf(" \n");
-            printf(" \n");
-
-            packet_index++;
-            //Zero out our send buffer
-            bzero(send_buffer, sizeof(send_buffer));
-            //sleep(1);
-
-        }
-        return 1;
-    }
-}
-
-int receive_image(int socket) {
+int receive_image(int socket , std::string s ) {
 
     int buffersize = 0, recv_size = 0, size = 0, read_size, write_size, packet_index = 1, stat;
 
@@ -314,10 +225,11 @@ int receive_image(int socket) {
         stat = write(socket, &buffer, sizeof(int));
     } while (stat < 0);
 
-    printf("Reply sent\n");
-    printf(" \n");
 
-    image = fopen("/Users/owner/CLionProjects/Distributed-Client/Image.jpg", "w");
+    char path [s.size()+1]  ;
+    strcpy(path , s.c_str());
+
+    image = fopen(path, "w");
 
     if (image == NULL) {
         printf("Error has occurred. Image file could not be opened\n");
@@ -395,9 +307,9 @@ int receive_image(int socket) {
     return 1;
 }
 
-int RequestReply::getRequest() {
+int RequestReply::getRequest(std::string s) {
 
-    receive_image(newsockfd);
+    return receive_image(newsockfd , s);
 
 }
 

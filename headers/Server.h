@@ -4,6 +4,8 @@
 #include <iostream>
 #include "RequestReply.h"
 #include "utils.h"
+#include <string>
+#include <cstring>
 
 using namespace std;
 

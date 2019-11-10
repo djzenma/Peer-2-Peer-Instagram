@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <cstdio>
 #include <cstring>
+#include <string>
 #include <arpa/inet.h>
 #include <iostream>
 
@@ -27,9 +28,8 @@ class RequestReply {
 
         RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size);
 
-        int doOperation(char buffer []);
-        int sendSamples(char buffer []);
-         int getRequest();
+        int doOperation(std::string s);
+         int getRequest(std::string s);
         int getReq(int & reqNum);
         int sendReq(int reqNum);
         void shutDownFD();

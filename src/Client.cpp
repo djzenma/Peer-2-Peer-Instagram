@@ -13,9 +13,11 @@ void Client::executePrompt() {
 
     if (!requestNumber (0))
         perror("Error Sending Request Number");
-    if (!requestSamples ())
-        perror("Error Requesting Samples from Server");
-
+    for (int i=1 ;i<4  ;i++) {
+        std::string s= "/Users/owner/CLionProjects/Distributed-Client/imag"+ std::to_string(i) + ".jpg" ;
+        if (!requestSamples(s) )
+            perror("Error Requesting Samples from Server");
+    }
 
 }
 int Client :: requestNumber (int req)
@@ -24,10 +26,11 @@ int Client :: requestNumber (int req)
     return reqReply->sendReq(req); //sends request number to server
 }
 
-int Client :: requestSamples ()
+int Client :: requestSamples (std::string s )
 {
+
     printf("Receiving Samples ...\n");
-    return reqReply->getRequest() ; // receives photo
+    return reqReply->getRequest( s ) ; // receives photo
     //reqReply->shutDownFD();
 }
 

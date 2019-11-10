@@ -1,11 +1,15 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <iostream>
+#include <string>
+#include <cstring>
 #include <stdio.h>
 #include <string.h>
 #include "RequestReply.h"
 #include "utils.h"
 #include "Message.h"
+
 
 class List{
 public:
@@ -179,11 +183,12 @@ private:
     int req ;
     List lookup_table;
 
+
 public:
     Client(const char* hostname, const char* port);
     bool req_photo(int photoid, const char *hostname, const char *port);
     int execute(char * msg);
-    int requestSamples();
+    int requestSamples(std::string s );
     int requestNumber (int req);
     void executePrompt();
     ~Client();

@@ -1,5 +1,7 @@
 #include "../headers/Server.h"
 
+
+
 Server::Server(const char * hostname, const char * port){
     this->port = port ;
     this->hostname = hostname ;
@@ -24,9 +26,15 @@ void Server::serveRequest(){
 
     switch (reqNum)
     {
-        case 0:
-            reqReply->sendSamples("/Users/owner/CLionProjects/Distributed-Client/Winnie_Pooh.jpg");
-            break ;
+        case 0:{ //Samples
+            for (int i=1 ;i<4 ;i++) {
+                string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
+                reqReply->doOperation(s);
+            }
+
+
+            break;
+        }
 
     }
 }
