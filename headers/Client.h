@@ -174,13 +174,10 @@ private:
     char * buffer;
     int buff_size = 1024;
     RequestReply* reqReply;
-<<<<<<< HEAD
     const char * port;
     const char * hostname;
     int req ;
-=======
     List lookup_table;
->>>>>>> 09a5b0337e611809248d273c5a692a9bb485d448
 
 public:
     Client(const char* hostname, const char* port);
