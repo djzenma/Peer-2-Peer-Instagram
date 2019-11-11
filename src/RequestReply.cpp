@@ -85,7 +85,7 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
                inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 
     }
-    
+
     if(socketfd  <0) {
         perror("socket failed");
     }
@@ -150,8 +150,8 @@ int RequestReply::doOperation(std::string s){
         } while (stat < 0);
 
 
-       //while(!feof(picture))
-       while (total_size < size  )
+        //while(!feof(picture))
+        while (total_size < size  )
         {
 
             //Read from the file into our send buffer
@@ -249,7 +249,7 @@ int receive_image(int socket , std::string s ) {
     printf("Read Size: %i\n", read_size);
 
 
-    while (recv_size < size ) {
+    while (recv_size < size&&  read_size != 0 ) {
 
         FD_ZERO(&fds);
         FD_SET(socket, &fds);
@@ -290,21 +290,25 @@ int receive_image(int socket , std::string s ) {
 
     }
 
-    fseek(image, 0, SEEK_END);
-    size = ftell(image);
-    if (size > 0)
-        {
+//    fseek(image, 0, SEEK_END);
+//    size = ftell(image);
+    if (recv_size == size)
+    {
         printf("Total Picture size: %i\n", size);
         printf("Image successfully Received!\n");
-        }
-    else
+        fclose(image);
+
+        return 1;
+    }
+    else {
+
         printf("Image Not Received!\n");
+        return 0 ;
+    }
 
 
 
-    fclose(image);
 
-    return 1;
 }
 
 int RequestReply::getRequest(std::string s) {
@@ -357,6 +361,49 @@ int RequestReply::getReq(int & reqNum) {
     return stat;
 
 }
+
+int RequestReply::sendMessage(std::string msg) {
+    /*Message m = Message(buffer, strlen(buffer));
+    m.setMessageType(MessageType(Reply));
+    char * marshalled = m.marshal();*/
+
+    msg+= " " ;
+    stat = write(newsockfd, (void *)&msg, msg.length());
+
+
+    int n = 0;
+    if (stat<=0)
+        n =5;
+    while (stat<=0){
+        if (n>0){
+            stat = write(newsockfd, (void *)&msg, 1024);
+            n--;
+        }
+        else {
+            break;
+        }
+    }
+
+
+    if(stat<0)
+    {
+        perror("Could not Message \n");
+    }
+    else
+        printf("Sent Message %s\n", &msg);
+
+    return stat;
+}
+int RequestReply::getMessage(std::string & msg) {
+
+    do {
+        stat = read(socketfd, &msg, 2000);
+    } while (stat < 0 || msg == "");
+
+    return stat;
+
+}
+
 void RequestReply::shutDownFD() {
     shutdown(socketfd , SHUT_RDWR);
     shutdown(newsockfd , SHUT_RDWR);

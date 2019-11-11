@@ -1,4 +1,6 @@
 #include "../headers/Client.h"
+#include <iostream>
+using namespace std ;
 
 Client::Client(const char * listen_hostname, const char * listen_port){
     buffer = new char [buff_size];
@@ -10,13 +12,35 @@ Client::Client(const char * listen_hostname, const char * listen_port){
 
 
 void Client::executePrompt() {
-
-    if (!requestNumber (0))
+    cout << "Enter Request Number" ;
+    cin >> req ;
+    if (!requestNumber (req))
         perror("Error Sending Request Number");
-    for (int i=1 ;i<4  ;i++) {
-        std::string s= "/Users/owner/CLionProjects/Distributed-Client/imag"+ std::to_string(i) + ".jpg" ;
-        if (!requestSamples(s) )
-            perror("Error Requesting Samples from Server");
+    switch (req)
+    {
+        case 0:{ //Samples
+
+         for (int i=1 ;i<4  ;i++) // second loop for other users
+             {
+                 std::string s = "/Users/owner/CLionProjects/Distributed-Client/got" + std::to_string(i) + ".jpg";
+                 if (!requestSamples(s))
+                     {
+                         perror("Error Requesting Samples from Server");
+                         int flag = 0;
+                         for (int i = 0; i < 3 && flag == 0; i++) {
+                             flag = !requestSamples(s);
+                         }
+                     }
+             }
+            break;}
+            case 1:
+            {
+                cout << "Enter User Requested ";
+                cin >> name ;
+                reqReply->sendMessage(name);
+                break ;
+            }
+
     }
 
 }

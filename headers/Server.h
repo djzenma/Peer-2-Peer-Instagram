@@ -17,7 +17,7 @@ class Server {
     const char * port;
     const char * hostname;
     RequestReply * reqReply;
-
+    string name ;
     public:
         Server(const char * listen_hostname,const char * listen_port);
         void setBufferSize(int size);

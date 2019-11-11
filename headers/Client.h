@@ -180,6 +180,7 @@ private:
     RequestReply* reqReply;
     const char * port;
     const char * hostname;
+    std::string name ;
     int req ;
     List lookup_table;
 

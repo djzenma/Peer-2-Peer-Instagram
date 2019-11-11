@@ -16,11 +16,6 @@ void Server::setBufferSize(int size){
 
 void Server::serveRequest(){
 
-//    printf("Enter Image Path:");
-//    scanf("%s", buffer );
-//
-//  reqReply->doOperation(buffer);
-
     reqReply->getReq(reqNum);
     printf("Request Number: %i\n", reqNum);
 
@@ -30,10 +25,17 @@ void Server::serveRequest(){
             for (int i=1 ;i<4 ;i++) {
                 string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
                 reqReply->doOperation(s);
+                sleep (5);
             }
 
-
             break;
+        }
+        case 1:
+        {
+            reqReply->getMessage(name);
+            printf("Name: %s\n", &name);
+
+            break ;
         }
 
     }
