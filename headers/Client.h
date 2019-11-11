@@ -183,6 +183,7 @@ private:
     std::string name ;
     int req ;
     List lookup_table;
+    int viewPic ;
 
 
 public:

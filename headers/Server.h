@@ -13,7 +13,7 @@ class Server {
 
     private:
     char buffer [2048];
-    int reqNum;
+    int reqNum , picNum = -1;
     const char * port;
     const char * hostname;
     RequestReply * reqReply;

@@ -32,10 +32,27 @@ void Server::serveRequest(){
         }
         case 1:
         {
-            reqReply->getMessage(name);
+            reqReply->getMessage(name); //move to dos
             printf("Name: %s\n", &name);
 
+            for (int i=1 ;i<7 ;i++) {
+                string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
+                reqReply->doOperation(s);
+                sleep (5);
+            }
+
             break ;
+        }
+        case 2:
+        {
+
+            while ( picNum <0 || picNum >6  ) {
+                reqReply->getReq(picNum);
+            }
+            printf("Pic Number: %i\n", picNum);
+
+            string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(picNum) + ".jpg" ;
+            reqReply->doOperation(s);
         }
 
     }

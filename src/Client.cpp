@@ -38,8 +38,35 @@ void Client::executePrompt() {
                 cout << "Enter User Requested ";
                 cin >> name ;
                 reqReply->sendMessage(name);
+
+                for (int i=1 ;i<7  ;i++) // second loop for other users
+                {
+                    std::string s = "/Users/owner/CLionProjects/Distributed-Client/got" + std::to_string(i) + ".jpg";
+                    if (!requestSamples(s))
+                    {
+                        perror("Error Requesting Samples from Server");
+
+                    }
+                }
                 break ;
             }
+        case 2:
+        {
+            cout << "Which Picture would you like to view";
+            cin >> viewPic ;
+            if (!requestNumber (viewPic))
+                perror("Error Pic Number");
+
+            std::string s = "/Users/owner/CLionProjects/Distributed-Client/got.jpg";
+            if (!requestSamples(s))
+            {
+                perror("Error Requesting Samples from Server");
+
+            }
+
+            break ;
+        }
+
 
     }
 
