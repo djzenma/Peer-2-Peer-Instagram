@@ -80,10 +80,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/ImageMessage.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h">
+			<Option target="DistributedC__"/>
+		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/utils.h">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/ImageMessage.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Message.cpp">
@@ -93,6 +102,9 @@
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp">

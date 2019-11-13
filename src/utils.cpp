@@ -1,6 +1,12 @@
 #include "../headers/utils.h"
 
 // convert from integer to hexadecimal
+int hex_to_int(std::string  hex){
+    std::istringstream converter(hex);
+    unsigned int value;
+    converter >> std::hex >> value;
+    return value;
+}
 std::string encode64(const std::string &val) {
     return base64_encode(reinterpret_cast<const unsigned char*>(val.c_str()), val.length());
 }

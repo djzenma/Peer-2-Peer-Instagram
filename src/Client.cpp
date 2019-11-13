@@ -20,7 +20,7 @@ void Client::executePrompt() {
     {
         case 0:{ //Samples
 
-         for (int i=1 ;i<4  ;i++) // second loop for other users
+         for (int i=1 ;i<2  ;i++) // second loop for other users
              {
                  std::string s = "/Users/owner/CLionProjects/Distributed-Client/got" + std::to_string(i) + ".jpg";
                  if (!requestSamples(s))
@@ -52,17 +52,18 @@ void Client::executePrompt() {
             }
         case 2:
         {
-            cout << "Which Picture would you like to view";
-            cin >> viewPic ;
-            if (!requestNumber (viewPic))
-                perror("Error Pic Number");
-
-            std::string s = "/Users/owner/CLionProjects/Distributed-Client/got.jpg";
-            if (!requestSamples(s))
-            {
-                perror("Error Requesting Samples from Server");
-
-            }
+              cout << "Which Picture would you like to view";
+              cin >> viewPic ;
+//            if (!requestNumber (viewPic))
+//                perror("Error Pic Number");
+//
+//            std::string s = "/Users/owner/CLionProjects/Distributed-Client/got.jpg";
+//            if (!requestSamples(s))
+//            {
+//                perror("Error Requesting Samples from Server");
+//
+//            }
+            req_photo(viewPic, hostname, port);
 
             break ;
         }
@@ -117,7 +118,7 @@ bool Client::req_photo(int photoid, const char *hostname, const char *port)
         lookup_table.insertFirst(e,val);  //could be a table of pic/needs to expand
     }
 
-    requestStatus= reqReply->doOperation(buffer); //what to put
+    //requestStatus= reqReply->doOperation(buffer); //what to put
     /*if (requestStatus >= 0){
             if((replyStatus = reqReply->getReply(buffer)) >= 0){
 

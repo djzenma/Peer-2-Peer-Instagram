@@ -161,6 +161,32 @@ CMakeFiles/DistributedC__.dir/src/experiment.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/experiment.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/experiment.cpp -o CMakeFiles/DistributedC__.dir/src/experiment.cpp.s
 
+CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
+CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.o: ../src/ImageMessage.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/ImageMessage.cpp
+
+CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/ImageMessage.cpp > CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.i
+
+CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/ImageMessage.cpp -o CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.s
+
+CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
+CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: ../src/Stego.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp
+
+CMakeFiles/DistributedC__.dir/src/Stego.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Stego.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp > CMakeFiles/DistributedC__.dir/src/Stego.cpp.i
+
+CMakeFiles/DistributedC__.dir/src/Stego.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Stego.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.s
+
 # Object files for target DistributedC__
 DistributedC___OBJECTS = \
 "CMakeFiles/DistributedC__.dir/src/Client.cpp.o" \
@@ -170,7 +196,9 @@ DistributedC___OBJECTS = \
 "CMakeFiles/DistributedC__.dir/src/utils.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/main.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/base64.cpp.o" \
-"CMakeFiles/DistributedC__.dir/src/experiment.cpp.o"
+"CMakeFiles/DistributedC__.dir/src/experiment.cpp.o" \
+"CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.o" \
+"CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
 
 # External object files for target DistributedC__
 DistributedC___EXTERNAL_OBJECTS =
@@ -183,9 +211,11 @@ DistributedC__: CMakeFiles/DistributedC__.dir/src/utils.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/main.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/base64.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/experiment.cpp.o
+DistributedC__: CMakeFiles/DistributedC__.dir/src/ImageMessage.cpp.o
+DistributedC__: CMakeFiles/DistributedC__.dir/src/Stego.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/build.make
 DistributedC__: CMakeFiles/DistributedC__.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable DistributedC__"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable DistributedC__"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DistributedC__.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

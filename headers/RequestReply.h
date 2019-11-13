@@ -9,6 +9,18 @@
 #include <string>
 #include <arpa/inet.h>
 #include <iostream>
+#include "Stego.h"
+#include "ImageMessage.h"
+#include <math.h>
+
+
+
+enum serviceOperations{
+    SendImage = 0,
+    GrantAccess = 1,
+    DecrementView = 2
+};
+
 
 
 class RequestReply {
@@ -28,8 +40,9 @@ class RequestReply {
 
         RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size);
 
-        int doOperation(std::string s);
+        int doOperation(std::string s, int rN);
          int getRequest(std::string s);
+         int sendImage (std::string s);
         int getReq(int & reqNum);
         int sendReq(int reqNum);
         int getMessage(std::string & msg);

@@ -22,9 +22,9 @@ void Server::serveRequest(){
     switch (reqNum)
     {
         case 0:{ //Samples
-            for (int i=1 ;i<4 ;i++) {
+            for (int i=1 ;i<2 ;i++) {
                 string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
-                reqReply->doOperation(s);
+                reqReply->doOperation(s,reqNum );
                 sleep (5);
             }
 
@@ -37,7 +37,7 @@ void Server::serveRequest(){
 
             for (int i=1 ;i<7 ;i++) {
                 string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
-                reqReply->doOperation(s);
+                reqReply->doOperation(s,reqNum);
                 sleep (5);
             }
 
@@ -51,8 +51,8 @@ void Server::serveRequest(){
             }
             printf("Pic Number: %i\n", picNum);
 
-            string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(picNum) + ".jpg" ;
-            reqReply->doOperation(s);
+            string s= "/Users/owner/CLionProjects/Distributed-Client/imag"+ to_string(picNum) + ".jpg" ;
+            reqReply->doOperation(s,reqNum);
         }
 
     }

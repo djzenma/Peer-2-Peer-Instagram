@@ -94,11 +94,11 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
 
 
 }
-
-int RequestReply::doOperation(std::string s){
+int RequestReply :: sendImage (std::string s)
+{
     packet_index = 1;
 
-    char buffer [s.size()+1]  ;
+   /* char buffer [s.size()+1]  ;
     strcpy(buffer , s.c_str());
     picture = fopen(buffer, "r");
     printf("Getting Picture Size\n");
@@ -113,24 +113,47 @@ int RequestReply::doOperation(std::string s){
         //Get Image Size
         fseek(picture, 0, SEEK_END);
         size = ftell(picture);
-        fseek(picture, 0, SEEK_SET);
-        printf("Total Picture size: %i\n",size);
+        fseek(picture, 0, SEEK_SET);*/
+
+        std::string image_loc = s;
+        std::string temp_loc = "/Users/owner/CLionProjects/Distributed-Client/Manar/temp.jpeg";
+
+        std::string hidden_text = "Manar: 3, Aya: 5";
+        std::string stego_image = stega_encode(image_loc, hidden_text, temp_loc);
+        requestInfo reqinfo ={.image_id=1,
+                .storage_location="manar",
+                .p_message= stego_image,
+                .operation = SendImage,
+                .rpc_id = 5,
+                .msg_type = Reply };
+
+        ImageMessage msg = ImageMessage(reqinfo);
+        std::string imageMarshalled =  msg.marshal();
+
+        size = imageMarshalled.length();
+        int chunks = ceil((float)size / sizeof(send_buffer));
+        int rem = remainder((float)imageMarshalled.length() , sizeof(send_buffer)) ;
+
+
+      printf("Total Picture size after Marshalling : %i\n",size);
 
         //Send Picture Size
         printf("Sending Picture Size\n");
         stat = write(socketfd, (void *)&size, sizeof(int));
+
         ///Timeout Check
         int n = 0;
         if (stat<=0)
             n =5;
         while (stat<=0){
-            std::cout << "I am trying again "<< std::endl;
+            std::cout << "I am trying again to send size"<< std::endl;
             if (n>0){
-                stat = write(socketfd, send_buffer, read_size);
+                stat = write(socketfd, send_buffer, sizeof(int));
                 n--;
             }
             else {break;}
         }
+
         if(stat<=0)
         {
             perror("Sending Size Failed with status \n");
@@ -138,37 +161,45 @@ int RequestReply::doOperation(std::string s){
         }
         else
             printf("Sending Size Succeeded \n");
-        //////////
+
 
         //Send Picture as Byte Array
         printf("Sending Picture as Byte Array\n");
 
-        do
+       /* do
         { //Read while we get errors that are due to signals.
             stat=read(socketfd, &read_buffer , 255);
             //printf("Bytes read: %i\n",stat);
-        } while (stat < 0);
+        } while (stat < 0);*/
 
 
-        //while(!feof(picture))
-        while (total_size < size  )
+        while(chunks!=0)
         {
+            std::string chunkedImage = imageMarshalled.substr((packet_index-1)*sizeof(send_buffer) , packet_index*sizeof(send_buffer) );
+            strcpy(send_buffer , chunkedImage.c_str());
 
             //Read from the file into our send buffer
-            read_size = fread(send_buffer, 1, sizeof(send_buffer) - 1, picture);
+            //read_size = fread(send_buffer, 1, sizeof(send_buffer) - 1, picture);
 
             //Send data through our socket
+            if (chunks==1 && rem !=0) // last chunk
+                read_size=rem ;
+            else
+                read_size=sizeof(send_buffer);
+
+
             stat = write(socketfd, send_buffer, read_size);
+
 
             ///Timeout Check
             int n = 0;
             if (stat<=0)
-                n =100;
+                n =5;
             while (stat<=0){
-                std::cout << "I am trying again "<< std::endl;
+                std::cout << "I am trying again to send packet"<< std::endl;
                 if (n>0){
                     stat = write(socketfd, send_buffer, read_size);
-                    n--;
+
                 }
                 else {break;}
             }
@@ -179,8 +210,6 @@ int RequestReply::doOperation(std::string s){
             }
             else
                 printf("Sent All\n");
-
-            //////////
 
             total_size += read_size;
 
@@ -193,22 +222,28 @@ int RequestReply::doOperation(std::string s){
             packet_index++;
             //Zero out our send buffer
             bzero(send_buffer, sizeof(send_buffer));
+            chunks--;
             sleep(0.5);
         }
-        total_size= 0 ;
+        chunks= 0 ;
         return 1;
-    }
+}
+
+int RequestReply::doOperation(std::string s , int rN){
+
+    if (rN== 0 || rN == 1)
+      sendImage (s);
 }
 
 
 int receive_image(int socket , std::string s ) {
 
-    int buffersize = 0, recv_size = 0, size = 0, read_size, write_size, packet_index = 1, stat;
+    int buffersize = 0, recv_size = 0, size = 0, read_size = -1, write_size, packet_index = 1, stat;
 
     char imagearray[10241], verify = '1';
     FILE *image;
 
-//Find the size of the image
+    //Find the size of the image
     do {
         stat = read(socket, &size, sizeof(int));
     } while (stat < 0);
@@ -218,13 +253,11 @@ int receive_image(int socket , std::string s ) {
     printf("Image size: %i\n", size);
     printf(" \n");
 
-    char buffer[] = "Got it";
-
-//Send our verification signal
+/*
+    //Send our verification signal
     do {
         stat = write(socket, &buffer, sizeof(int));
-    } while (stat < 0);
-
+    } while (stat < 0);*/
 
     char path [s.size()+1]  ;
     strcpy(path , s.c_str());
@@ -236,20 +269,14 @@ int receive_image(int socket , std::string s ) {
         return -1;
     }
 
-//Loop while we have not received the entire file yet
+   //Loop while we have not received the entire file yet
 
-    int need_exit = 0;
     struct timeval timeout = {10, 0};
 
     fd_set fds;
-    int buffer_fd, buffer_out;
+    int buffer_fd;
 
-    printf("Receive Size: %i\n", recv_size);
-    printf("Size: %i\n", size);
-    printf("Read Size: %i\n", read_size);
-
-
-    while (recv_size < size&&  read_size != 0 ) {
+    while (recv_size < size &&  read_size != 0 ) {
 
         FD_ZERO(&fds);
         FD_SET(socket, &fds);
@@ -267,12 +294,28 @@ int receive_image(int socket , std::string s ) {
                 read_size = read(socket, imagearray, 10241);
             } while (read_size < 0);
 
+            std::string iA = imagearray ;
+
+            ImageMessage m2 = ImageMessage(iA);
+
+            std::string stego_image =  m2.getMessage();
+
+
             printf("Packet number received: %i\n", packet_index);
             printf("Packet size: %i\n", read_size);
 
 
             //Write the currently read data into our image file
-            write_size = fwrite(imagearray, 1, read_size, image);
+           /* std::ofstream outFile;
+            outFile.open(temp_loc);
+            outFile << stego_image;
+            outFile.close();*/
+            char writtenImage [stego_image.size()+1]  ;
+            strcpy(writtenImage , stego_image.c_str());
+
+            write_size = fwrite(writtenImage, 1, read_size, image);
+            std::string secret_text = stega_decode("/Users/owner/CLionProjects/Distributed-Client/Manar/temp.jpeg");
+
             printf("Written image size: %i\n", write_size);
 
             if (read_size != write_size) {
