@@ -8,6 +8,9 @@
 
 #include <map>
 #include <netinet/in.h>
+#include <thread>
+#include <arpa/inet.h>
+#include <zconf.h>
 
 class DoS {
 private:
@@ -19,14 +22,22 @@ private:
     Transaction authTx;
     Transaction loginTx;
 
+    std::thread loginThread;
+    std::thread authThread;
+
     std::map<std::string, std::string> db;
-    Transaction init_socket(int LISTEN_PORT);
-    void listenTx(Transaction tx, char* req);
+    Transaction init_socket(const char * LISTEN_IP, int LISTEN_PORT);
+    int listenTx(Transaction tx, char* req);
 
 public:
-    DoS(int AUTH_PORT, int LOGIN_PORT);
-    void DoS::runLoginSys();
-    void DoS::runAuthSys();
+    DoS(const char * LISTEN_IP, int AUTH_PORT, int LOGIN_PORT);
+    void runLoginSys();
+    void runAuthSys();
+    void runLoginThread();
+    void runAuthThread();
+    void join();
+
+    virtual ~DoS();
 };
 
 

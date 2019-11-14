@@ -1,12 +1,11 @@
 #include<iostream>
-#include <string>
-#include <thread>
 
 #include "../headers/Client.h"
 #include "../headers/Server.h"
-#include "../headers/experiment.h"
+#include "../headers/DoS.h"
 
 using namespace std;
+
 
 int main(int argc,char **argv){  
       
@@ -30,9 +29,13 @@ int main(int argc,char **argv){
         s->serveRequest();
     }
     else {// DoS
-
-        //std::thread loginThread();
-        //std::thread authThread();
+        /*
+         * argv[1] = Auth Port, argv[2] = Login Port, argv[3] = IP
+         */
+        auto dos = new DoS(argv[3], stoi(argv[1]), stoi(argv[2]));
+        dos->runAuthThread();
+        dos->runLoginThread();
+        dos->join();
     }
     return 0;
 }
