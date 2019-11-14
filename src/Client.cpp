@@ -75,7 +75,7 @@ void Client::executePrompt() {
             cout << "Which Picture would you like to view ? ";
             cin >> image_id;
 
-            Message msg = buildRequestMsg(SendSample, image_id);
+            Message msg = buildRequestMsg(SendImage, image_id);
             int req_status = reqReply->sendReq(msg); 
 
             if (req_status >= 0){

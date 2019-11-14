@@ -3,12 +3,13 @@
 #include "../headers/Client.h"
 #include "../headers/Server.h"
 #include "../headers/DoS.h"
+#include "../headers/Database.h"
 
 using namespace std;
 
 
 int main(int argc,char **argv){  
-      
+
     if(strcmp(argv[3], "client") == 0){ // equal doesn't work
         Client * c = new Client(argv[2], argv[1]);
         /*if (argc > 4){
