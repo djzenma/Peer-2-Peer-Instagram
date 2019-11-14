@@ -13,41 +13,55 @@ enum MessageType {
     Reply
 };
 
+struct requestInfo {
+    int image_id;
+    std::string storage_location;
+    std::string p_message;           // msg buffer : contain text/image
+    int operation;                  // operation id
+    int rpc_id;                    // Unique request id
+    MessageType msg_type;
+};
+
+
 class Message{
 
-private:
-    MessageType message_type;
-    std::string message;
-    size_t message_size;
-    int operation;
-    int rpc_id;
+    private:
+        MessageType message_type;
+        std::string message;
+        size_t message_size;
+        int operation;
+        int rpc_id;
+        int image_id;
+        std::string storage_location;
 
-protected:
-    std::string serialize();
-    void deserialize(std::string marshalled);
-public:
-    Message(std::string p_message, size_t p_message_size, int operation, int rpc_id);
-    Message(std::string marshalled_base64);
-    Message();
+    protected:
+        std::string serialize();
+        void deserialize(std::string marshalled);
+    public:
+        Message(std::string & marshalled_base64);
+        Message(requestInfo req_info);
+        Message();
+    
+        std::string marshal();
 
-    std::string marshal();
+        // getters
+        std::string getMessage();
+        size_t getMessageSize();
+        MessageType getMessageType();
+        int getOperation();
+        int getRPCId();
+        int getImageId();
+        std::string getStorageLocation();
 
-    // getters
-    std::string getMessage();
-    size_t getMessageSize();
-    MessageType getMessageType();
-    int getOperation();
-    int getRPCId();
+        // setters
+        void setOperation (int operation);
+        void setMessage (std::string message, size_t message_size);
+        void setMessageType (MessageType message_type);
+        void setRPCId(int rpc_id);
 
-    // setters
-    void setOperation (int operation);
-    void setMessage (std::string message, size_t message_size);
-    void setMessageType (MessageType message_type);
-    void setRPCId(int rpc_id);
+        ~Message();
 
-    ~Message();
-
-    friend std::ostream& operator<< (std::ostream& stream, const Message& msg);
+        friend std::ostream& operator<< (std::ostream& stream, const Message& msg);
 
 };
 #endif // MESSAGE_H

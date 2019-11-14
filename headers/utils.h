@@ -21,11 +21,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-
-struct credentials{
-    std::string username;
-    std::string passwrod;
-};
+#include "Message.h"
 
 template< typename T >
 std::string int_to_hex( T i ) {
@@ -40,12 +36,6 @@ int hex_to_int(std::string  hex);
 // Base 64
 std::string encode64(const std::string &val);
 std::string decode64(const std::string &val);
-
-// Steganography
-std::string stegoEncode(std::string file_name, credentials owner,
-                        std::vector<std::string> users, std::vector<int> num_grants);
-
-std::string stegoDecode();
 
 std::string hostname_to_ip(char * hostname);
 

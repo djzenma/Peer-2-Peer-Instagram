@@ -4,17 +4,20 @@
 Message::Message(): operation(0), rpc_id(0), message_size(0), message(""){
 
 }
-Message::Message(std::string message, size_t p_message_size, int operation, int rpc_id){
-    message_size = p_message_size;
-    this->message = message;
-    this->operation = operation;
-    this->rpc_id = rpc_id;
+Message::Message(requestInfo req_info){
+    message = req_info.p_message;
+    message_size = req_info.p_message.length()+1;
+    operation = req_info.operation;
+    rpc_id = req_info.rpc_id;
+    message_type = req_info.msg_type;
+    // resource attributes
+    image_id = req_info.image_id;
+    storage_location = req_info.storage_location;
 }
 
-Message::Message(std::string marshalled_base64){
+Message::Message(std::string & marshalled_base64){
     std::string decoded = decode64(marshalled_base64);
     std::string msg_decoded;
-
     deserialize(decoded);
 }
 
@@ -27,12 +30,9 @@ void Message::deserialize(std::string decoded){
     message_size  = hex_to_int(decoded.substr(3, 16));
     operation = hex_to_int(decoded.substr(21, 8 ));
     rpc_id = hex_to_int(decoded.substr(31, 8 ));
-
-    if (decoded.substr(39).find("0x")== std::string::npos)
-        msg_decoded = decoded.substr(39);
-    else
-        msg_decoded = decoded.substr(39).substr(0,decoded.substr(39).find("0x"));
-
+    image_id = hex_to_int(decoded.substr(41, 8 ));
+    storage_location = hex_to_int(decoded.substr( 49, decoded.substr(49).find(";")));
+    msg_decoded = decoded.substr(49+storage_location.length());
     message = msg_decoded;
 }
 
@@ -43,11 +43,14 @@ std::string Message::serialize(){
 
     std::string op_str = int_to_hex(operation);
     std::string rpc_str = int_to_hex(rpc_id);
+    std::string img_id = int_to_hex(image_id);
 
     // type: 1 byte | size: 2 bytes + 16 bytes  | operation : 2 bytes + 16 bytes
-    // | rpc_id : 2 bytes + 16 bytes | message
+    // | rpc_id : 2 bytes + 16 bytes | img_id: 2 bytes + 8 bytes | storage_location | message
 
-    std::string to_encode = mtype + size_str + op_str + rpc_str + message;
+    std::string to_encode = mtype + size_str + op_str + rpc_str + img_id + storage_location + ";" + message;
+    std::cout << "encoded: " << to_encode << std::endl;
+    std::cout << "msg: " << message << std::endl;
     return to_encode;
 }
 
@@ -90,6 +93,14 @@ void Message::setRPCId(int rpc_id){
     this->rpc_id = rpc_id;
 }
 
+int Message::getImageId(){
+    return image_id;
+}
+
+std::string Message::getStorageLocation(){
+    return storage_location;
+}
+
 Message::~Message(){
 
 }
@@ -99,6 +110,8 @@ std::ostream& operator<< (std::ostream& stream, const Message& msg) {
            << ", Size: " << msg.message_size
            << ", Operation: " << msg.operation
            << ", RPC_ID: " << msg.rpc_id
-           << ", Message: " << msg.message << std::endl;
+           << ", Message: " << msg.message
+           << ", Image ID: " << msg.image_id
+           << ", Storage Location: " << msg.storage_location << std::endl;
     return stream;
 }

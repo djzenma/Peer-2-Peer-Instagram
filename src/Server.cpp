@@ -1,64 +1,62 @@
 #include "../headers/Server.h"
 
-
-
 Server::Server(const char * hostname, const char * port){
     this->port = port ;
     this->hostname = hostname ;
     std::string serverIp = hostname_to_ip((char *)hostname);
     reqReply = new RequestReply(port, serverIp.c_str(), false, 1024);
 }
-void Server::setBufferSize(int size){
-    /*delete buffer;
-    buffer = new char [buff_size];
-    reqReply->setBuffSize(buff_size);*/
+/*
+    constructs image msg given an image id
+*/
+Message buildImageMsg(int image_id){
+    std::string path = "./images/mine/" + to_string(image_id)+ ".jpg";
+    std::string temp_path = "./images/stego/" + to_string(image_id)+ "_stego.jpg";
+    // get hidden text from DB
+    std::string hidden_text = "Manar: 3, Aya: 5";
+    std::string stego_image = stega_encode(path, hidden_text, temp_path);
+    requestInfo reqinfo ={.image_id=image_id,
+                .storage_location="",
+                .p_message= stego_image,
+                .operation = SendImage,
+                .rpc_id = 5,
+                .msg_type = Reply };
+            
+    Message msg = Message(reqinfo);
+    return msg;
 }
 
-void Server::serveRequest(){
-
-    reqReply->getReq(reqNum);
-    printf("Request Number: %i\n", reqNum);
-
-    switch (reqNum)
-    {
-        case 0:{ //Samples
-            for (int i=1 ;i<2 ;i++) {
-                string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
-                reqReply->doOperation(s,reqNum );
-                sleep (5);
-            }
-
+void Server::dispatch(Message & msg){
+    printf("Request Number: %i\n", msg.getOperation());
+    switch (msg.getOperation()){
+        case SendImage: { // an image with a specified id
+            int image_id = msg.getImageId();
+            Message m = buildImageMsg(image_id);
+            reqReply->sendReply(m);
             break;
         }
-        case 1:
-        {
-            reqReply->getMessage(name); //move to dos
-            printf("Name: %s\n", &name);
-
-            for (int i=1 ;i<7 ;i++) {
-                string s= "/Users/owner/CLionProjects/Distributed-Server/imag"+ to_string(i) + ".jpg" ;
-                reqReply->doOperation(s,reqNum);
-                sleep (5);
+        case SendSample :{ // send three samples
+            for(int i=0; i<3; i++){
+                Message msg = buildImageMsg(i);
+                reqReply->sendReply(msg); 
+                sleep(5);
             }
-
-            break ;
+            break;
         }
-        case 2:
-        {
-
-            while ( picNum <0 || picNum >6  ) {
-                reqReply->getReq(picNum);
-            }
-            printf("Pic Number: %i\n", picNum);
-
-            string s= "/Users/owner/CLionProjects/Distributed-Client/imag"+ to_string(picNum) + ".jpg" ;
-            reqReply->doOperation(s,reqNum);
-        }
-
+        case GrantAccess :
+            break;
+        case DecrementView :
+            break;
+        default:
+            break;
     }
+}
+void Server::serveRequest(){
+    Message msg = Message();
+    reqReply->getReq(msg);
+    dispatch(msg);
 }
 
 Server::~Server(){
     reqReply->shutDownFD();
-
 }

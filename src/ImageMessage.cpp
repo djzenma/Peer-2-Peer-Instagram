@@ -1,17 +1,23 @@
 #include "../headers/ImageMessage.h"
 
-
-ImageMessage::ImageMessage(requestInfo req_info)
-        :Message(req_info.p_message, req_info.p_message.length()+1, req_info.operation, req_info.rpc_id){
+ImageMessage::ImageMessage():Message(){
+    
+}
+ImageMessage::ImageMessage(requestInfo req_info){
 
     Message::setMessageType(req_info.msg_type);
 
     image_id = req_info.image_id;
     storage_location = req_info.storage_location;
+
 };
 
 ImageMessage::ImageMessage(std::string & marshalled_base64){
     std::string decoded = decode64(marshalled_base64);
+    std::ofstream out;
+    out.open("decoded.txt");
+    out << decoded;
+    out.close();
     Message::deserialize(decoded);
     int image_id_pos = decoded.substr(39).find("0x");
     image_id = hex_to_int(decoded.substr(image_id_pos+2, 8));
@@ -26,6 +32,12 @@ std::string ImageMessage::marshal(){
     return encoded;
 }
 
+int ImageMessage::getImageId(){
+    return image_id;
+}
+std::string ImageMessage::getStorageLocation(){
+    return storage_location;
+}
 ImageMessage::~ImageMessage(){
 
 }
