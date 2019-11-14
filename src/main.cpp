@@ -1,5 +1,6 @@
 #include<iostream>
 #include <string>
+#include <thread>
 
 #include "../headers/Client.h"
 #include "../headers/Server.h"
@@ -19,7 +20,7 @@ int main(int argc,char **argv){
         else*/
           c->executePrompt();
     }
-    else{
+    else if(strcmp(argv[3], "server") == 0){
         Server* s = new Server(argv[2], argv[1]);
         /*if(argc > 4){
            // server buffer <buff_size>
@@ -27,6 +28,11 @@ int main(int argc,char **argv){
            varyBuffSize(s,buff_size); 
         }*/
         s->serveRequest();
+    }
+    else {// DoS
+
+        //std::thread loginThread();
+        //std::thread authThread();
     }
     return 0;
 }

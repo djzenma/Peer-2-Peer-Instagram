@@ -2,6 +2,14 @@
 #include <iostream>
 using namespace std ;
 
+enum serviceOperations{
+    SendImage = 0,
+    GrantAccess = 1,
+    DecrementView = 2,
+    SendSample = 3,
+};
+
+
 Client::Client(const char * listen_hostname, const char * listen_port){
     buffer = new char [buff_size];
     this->port = listen_port ;

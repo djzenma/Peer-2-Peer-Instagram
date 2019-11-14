@@ -7,6 +7,7 @@ void error(const char *msg) {
     exit(0);
 }
 
+// isClient  = isReceiver
 RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size) {
 
     port = atoi(destinationPort);

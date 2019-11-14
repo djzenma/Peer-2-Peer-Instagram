@@ -12,12 +12,6 @@
 #include "Message.h"
 
 
-enum serviceOperations{
-    SendImage = 0,
-    GrantAccess = 1,
-    DecrementView = 2,
-    SendSample = 3,
-};
 
 
 class List{
