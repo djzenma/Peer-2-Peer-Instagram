@@ -10,7 +10,7 @@ Server::Server(const char * hostname, const char * port){
     constructs image msg given an image id
 */
 Message buildImageMsg(int image_id){
-    std::string path = "/Users/owner/CLionProjects/Distributed-Client//images/mine/" + to_string(image_id)+ ".jpg";
+    std::string path = "/Users/owner/CLionProjects/Distributed-Client/images/mine/" + to_string(image_id)+ ".jpg";
     std::string temp_path = "/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
     std::string hidden_text = "Manar: 3, Aya: 5";
