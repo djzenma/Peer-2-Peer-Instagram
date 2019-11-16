@@ -28,7 +28,7 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
     return msg;
 }
 void saveImage(std::string image, int image_id){
-    std::string temp_loc = "./images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc = "/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;

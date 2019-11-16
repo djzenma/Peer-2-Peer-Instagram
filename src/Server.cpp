@@ -10,11 +10,12 @@ Server::Server(const char * hostname, const char * port){
     constructs image msg given an image id
 */
 Message buildImageMsg(int image_id){
-    std::string path = "./images/mine/" + to_string(image_id)+ ".jpg";
-    std::string temp_path = "./images/stego/" + to_string(image_id)+ "_stego.jpg";
+    std::string path = "/Users/owner/CLionProjects/Distributed-Client//images/mine/" + to_string(image_id)+ ".jpg";
+    std::string temp_path = "/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
     std::string hidden_text = "Manar: 3, Aya: 5";
     std::string stego_image = stega_encode(path, hidden_text, temp_path);
+    std::cout << stego_image ;
     requestInfo reqinfo ={.image_id=image_id,
                 .storage_location="",
                 .p_message= stego_image,
@@ -23,6 +24,7 @@ Message buildImageMsg(int image_id){
                 .msg_type = Reply };
             
     Message msg = Message(reqinfo);
+    std::cout << msg ;
     return msg;
 }
 
