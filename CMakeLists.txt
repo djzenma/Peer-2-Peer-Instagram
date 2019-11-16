@@ -3,6 +3,8 @@ project(DistributedC__)
 
 set(CMAKE_CXX_STANDARD 11)
 
+include_directories(/usr/local/Cellar/jsoncpp/1.9.1/include/json)
+
 add_executable(DistributedC__
         src/Client.cpp
         src/Message.cpp

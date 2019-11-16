@@ -45,6 +45,14 @@ void Server::dispatch(Message & msg){
             }
             break;
         }
+        case SendImages: { // an image with a specified id
+            for(int i=0; i<6; i++){
+                Message msg = buildImageMsg(i);
+                reqReply->sendReply(msg);
+                sleep(5);
+            }
+            break;
+        }
         case GrantAccess :
             break;
         case DecrementView :

@@ -37,7 +37,6 @@ NodePointer head, cursor, prev; // Pointers
 public:
 List()// Create an empty List
 {
-  std::cout<<"Here"<<std::endl;
     NodePointer p;
   new node == p;
     head==p;
