@@ -2,6 +2,7 @@
 // Created by Mazen on 14.11.19.
 //
 
+#include <iostream>
 #include "../headers/DoS.h"
 
 DoS::DoS(const char *LISTEN_IP, const int AUTH_PORT, const int LOGIN_PORT) {
@@ -55,12 +56,24 @@ DoS::Transaction DoS::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) 
 void DoS::runLoginSys() {
     int new_socket;
     char req[1024] = {0};
-    char *hello = "Hello from server";
+    Credentials credentials;
+    std::map<std::string, std::string>::iterator it;
+    char *res;
 
     while(true) {
         new_socket = listenTx(loginTx, req);
-        send(new_socket , hello , strlen(hello) , 0 );
-        printf("Hello message sent\n");
+        std::cout<<"DoS: Login request= "<<req<<"\n";
+        credentials = getCredentials(req);
+
+        try {
+            db.at(credentials.user);
+            res = const_cast<char *>("ok");
+        } catch (std::out_of_range& exception) {
+            res = const_cast<char *>("refused");
+        }
+
+        send(new_socket , res , strlen(res) , 0);
+        std::cout<<"DoS: sent: "<<res<<"\n";
     }
 }
 #pragma clang diagnostic pop
@@ -73,12 +86,16 @@ void DoS::runLoginSys() {
 void DoS::runAuthSys() {
     int new_socket;
     char req[1024] = {0};
-    char *hello = "Hello from server";
+    Credentials credentials;
 
     while(true) {
         new_socket = listenTx(authTx, req);
-        send(new_socket , hello , strlen(hello) , 0 );
-        printf("Hello message sent\n");
+        std::cout<<"DoS: Auth request= "<<req<<"\n";
+        credentials = getCredentials(req);
+        db.insert({credentials.user, credentials.pass});
+
+        send(new_socket , "ok" , strlen("ok") , 0 );
+        std::cout<<"DoS: Credentials for "<< credentials.user << " inserted.\n";
     }
 }
 #pragma clang diagnostic pop
@@ -101,7 +118,6 @@ int DoS::listenTx(DoS::Transaction tx, char* req) {
     }
 
     valread = read( new_socket , req, 1024);
-    printf("%s\n", req);
     return new_socket;
 }
 
@@ -124,4 +140,20 @@ DoS::~DoS() {
 void DoS::join() {
     authThread.join();
     loginThread.join();
+}
+
+DoS::Credentials DoS::getCredentials(std::string request) {
+    std::string delimiter = "/";
+    Credentials credentials;
+
+    size_t pos = 0;
+    std::string token;
+    while ((pos = request.find(delimiter)) != std::string::npos) {
+        token = request.substr(0, pos);
+        credentials.user = token;
+        request.erase(0, pos + delimiter.length());
+    }
+    credentials.pass = request;
+
+    return credentials;
 }

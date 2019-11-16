@@ -12,5 +12,5 @@ add_executable(DistributedC__
         src/main.cpp
         src/base64.cpp
         src/experiment.cpp
-        headers/utils.h src/Stego.cpp headers/Stego.h src/DoS.cpp headers/DoS.h)
+        headers/utils.h src/Stego.cpp headers/Stego.h src/DoS.cpp headers/DoS.h src/Communication.cpp headers/Communication.h)
 

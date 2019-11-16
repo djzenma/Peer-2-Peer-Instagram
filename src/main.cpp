@@ -3,6 +3,7 @@
 #include "../headers/Client.h"
 #include "../headers/Server.h"
 #include "../headers/DoS.h"
+#include "../headers/Communication.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ int main(int argc,char **argv){
         }
         else*/
           c->executePrompt();
+
     }
     else if(strcmp(argv[3], "server") == 0){
         Server* s = new Server(argv[2], argv[1]);
@@ -32,10 +34,22 @@ int main(int argc,char **argv){
         /*
          * argv[1] = Auth Port, argv[2] = Login Port, argv[3] = IP
          */
-        auto dos = new DoS(argv[3], stoi(argv[1]), stoi(argv[2]));
-        dos->runAuthThread();
-        dos->runLoginThread();
-        dos->join();
+        const char* auth_port = argv[1];
+        const char* login_port = argv[2];
+        const char* ip = argv[3];
+
+        bool client_tst = true;
+        if (tst) {
+            auto com = new Communication();
+            com->sendMsg(ip, stoi(auth_port), "Mazen/123");
+            com->sendMsg(ip, stoi(login_port), "Mazen/123");
+        }
+        else {
+            auto dos = new DoS(ip, stoi(auth_port), stoi(login_port));
+            dos->runAuthThread();
+            dos->runLoginThread();
+            dos->join();
+        }
     }
     return 0;
 }

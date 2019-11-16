@@ -15,6 +15,11 @@
 class DoS {
 private:
 
+    struct Credentials{
+        std::string user, pass;
+    };
+
+
     struct Transaction{
         int server_fd;
         sockaddr_in address;
@@ -26,8 +31,11 @@ private:
     std::thread authThread;
 
     std::map<std::string, std::string> db;
+
     Transaction init_socket(const char * LISTEN_IP, int LISTEN_PORT);
     int listenTx(Transaction tx, char* req);
+
+    Credentials getCredentials(std::string request);
 
 public:
     DoS(const char * LISTEN_IP, int AUTH_PORT, int LOGIN_PORT);
