@@ -32,9 +32,9 @@ class RequestReply {
         RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size);
         
         int sendReply(Message & m);
-        int getReply(Message & m);
+        int getReply(Message & m); //gets the image
         int sendReq(Message & m);
-        int getReq(Message & m);
+        int getReq(Message & m); //gets reqnum
 
         int doOperation(std::string s, int rN);
         int sendImage (std::string s);

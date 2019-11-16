@@ -16,6 +16,7 @@ enum serviceOperations{
     GrantAccess = 1,
     DecrementView = 2,
     SendSample = 3,
+    SendImages = 4
 };
 
 class Server {

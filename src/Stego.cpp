@@ -194,12 +194,16 @@ std::string stega_encode(std::string image_file ,std::string secret_msg, std::st
     fclose(fp1);
     fclose(fp3);
 
-    std::ifstream ifs(stego_image, std::ios::in | std::ios::binary); // input file
+   //std::ifstream ifs(stego_image, std::ios::in | std::ios::binary); // input file
     std::ostringstream oss; // output to string
 
     int len;
     char buf[1024];
-    while((len = ifs.readsome(buf, 1024)) > 0)
+
+    FILE * ifs;
+    ifs = fopen(stego_image.c_str(), "r");
+
+    while((len = fread(buf, 1, sizeof(buf) - 1, ifs)) > 0)
     {
         oss.write(buf, len);
     }

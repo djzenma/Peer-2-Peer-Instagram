@@ -7,6 +7,7 @@ enum serviceOperations{
     GrantAccess = 1,
     DecrementView = 2,
     SendSample = 3,
+    SendImages = 4
 };
 
 
@@ -28,7 +29,7 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
     return msg;
 }
 void saveImage(std::string image, int image_id){
-    std::string temp_loc = "./images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc = "/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -39,21 +40,8 @@ void Client::executePrompt() {
     cout << "Enter Request Number" ;
     cin >> req;
     switch (req) {
-        case 0:{ //Samples
-        for (int i=1 ;i<2;i++) {
-            std::string s = "/Users/owner/CLionProjects/Distributed-Client/got" + std::to_string(i) + ".jpg";
-            if (!requestSamples(s))
-                {
-                    perror("Error Requesting Samples from Server");
-                    int flag = 0;
-                    for (int i = 0; i < 3 && flag == 0; i++) {
-                        flag = !requestSamples(s);
-                    }
-                }
-        }
-        break;
-        }
-        case 1: // request samples from a specific user
+
+        case 0: // request samples from a specific user
         {
             cout << "Enter User Requested ";
             cin >> name;
@@ -69,13 +57,28 @@ void Client::executePrompt() {
             }
             break;
         }
-        case 2:
+        case 1:{ //All photos
+            cout << "Enter User Requested ";
+            cin >> name;
+            // before get host ip and port
+            for (int i=0; i<6; i++){
+                Message m = buildRequestMsg(SendImages, i);
+                int req_status = reqReply->sendReq(m);
+                if (req_status >= 0){
+                    Message reply_msg = Message();
+                    if(reqReply->getReply(reply_msg) >= 0)
+                        saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                }
+            }
+            break;
+        }
+        case 2: //send 1 photo
         {   
             int image_id;
             cout << "Which Picture would you like to view ? ";
             cin >> image_id;
 
-            Message msg = buildRequestMsg(SendSample, image_id);
+            Message msg = buildRequestMsg(SendImage, image_id);
             int req_status = reqReply->sendReq(msg); 
 
             if (req_status >= 0){

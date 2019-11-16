@@ -11,6 +11,7 @@
 #include <thread>
 #include <arpa/inet.h>
 #include <zconf.h>
+#include <string.h>
 
 class DoS {
 private:

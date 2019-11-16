@@ -125,6 +125,7 @@ int RequestReply::sendReply(Message & m){
             std::cout << "I am trying again to send packet"<< std::endl;
             if (n>0){
                 stat = write(socketfd, send_buffer, read_size);
+                n-- ;
             }
             else {break;}
         }
@@ -288,7 +289,7 @@ int RequestReply::getReply(Message & m) {
 
    //Loop while we have not received the entire file yet
 
-    struct timeval timeout = {10, 0};
+    struct timeval timeout = {20, 0};
 
     fd_set fds;
     int buffer_fd;
