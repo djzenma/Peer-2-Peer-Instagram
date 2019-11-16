@@ -1,4 +1,11 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/owner/CLionProjects/Distributed-Client
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug
+CMake Error at /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.15/Modules/FindPackageHandleStandardArgs.cmake:137 (message):
+  Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE)
+Call Stack (most recent call first):
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.15/Modules/FindPackageHandleStandardArgs.cmake:378 (_FPHSA_FAILURE_MESSAGE)
+  /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.15/Modules/FindPkgConfig.cmake:41 (find_package_handle_standard_args)
+  CMakeLists.txt:6 (find_package)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/CMakeOutput.log".
