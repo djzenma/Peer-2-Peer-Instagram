@@ -39,7 +39,7 @@ int main(int argc,char **argv){
         const char* ip = argv[3];
 
         bool client_tst = true;
-        if (tst) {
+        if (client_tst) {
             auto com = new Communication();
             com->sendMsg(ip, stoi(auth_port), "Mazen/123");
             com->sendMsg(ip, stoi(login_port), "Mazen/123");
