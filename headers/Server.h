@@ -7,6 +7,7 @@
 #include <string>
 #include <cstring>
 #include "Message.h"
+#include "Database.h"
 
 using namespace std;
 
@@ -27,11 +28,13 @@ class Server {
         const char * hostname;
         RequestReply * reqReply;
         string name ;
+        Database * db;
 
         void dispatch(Message & m);
         
     public:
         Server(const char * listen_hostname,const char * listen_port);
+        void dec_count(Message m);
         void serveRequest();
         ~Server();
 };
