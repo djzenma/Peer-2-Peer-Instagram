@@ -5,15 +5,16 @@ Server::Server(const char * hostname, const char * port){
     this->hostname = hostname ;
     std::string serverIp = hostname_to_ip((char *)hostname);
     reqReply = new RequestReply(port, serverIp.c_str(), false, 1024);
+    myName = "Bassant";
 }
 /*
     constructs image msg given an image id
 */
-Message buildImageMsg(int image_id){
+Message buildImageMsg(int image_id ,string hidden){
     std::string path = "/Users/owner/CLionProjects/Distributed-Client/images/mine/" + to_string(image_id)+ ".jpg";
     std::string temp_path = "/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
-    std::string hidden_text = "Manar: 3, Aya: 5";
+    std::string hidden_text = hidden;
     std::string stego_image = stega_encode(path, hidden_text, temp_path);
     std::cout << stego_image ;
     requestInfo reqinfo ={.image_id=image_id,
@@ -33,13 +34,13 @@ void Server::dispatch(Message & msg){
     switch (msg.getOperation()){
         case SendImage: { // an image with a specified id
             int image_id = msg.getImageId();
-            Message m = buildImageMsg(image_id);
+            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
             reqReply->sendReply(m);
             break;
         }
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
-                Message msg = buildImageMsg(i);
+                Message msg = buildImageMsg(i , myName+","+hostname);
                 reqReply->sendReply(msg); 
                 sleep(5);
             }
@@ -47,7 +48,7 @@ void Server::dispatch(Message & msg){
         }
         case SendImages: { // an image with a specified id
             for(int i=0; i<6; i++){
-                Message msg = buildImageMsg(i);
+                Message msg = buildImageMsg(i , myName+","+hostname);
                 reqReply->sendReply(msg);
                 sleep(5);
             }

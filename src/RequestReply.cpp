@@ -133,8 +133,7 @@ int RequestReply::sendReply(Message & m){
             perror("Send Failed with status ");
             return stat;
         }
-        else
-            printf("Sent All\n");
+
 
         total_size += read_size;
 
@@ -149,126 +148,10 @@ int RequestReply::sendReply(Message & m){
         chunks--;
         //Zero out our send buffer
         bzero(send_buffer, sizeof(send_buffer));
-        sleep(0.5);
+        sleep(1);
     }
     chunks= 0 ;
     return 1;
-}
-
-int RequestReply::doOperation(std::string s , int rN){
-
-   // if (rN== 0 || rN == 1)
-   //   sendImage(s);
-}
-
-int receive_image(int socket , std::string s ) {
-
-    int buffersize = 0, recv_size = 0, size = 0, read_size = -1, write_size, packet_index = 1, stat;
-
-    char imagearray[10241], verify = '1';
-    FILE *image;
-
-    //Find the size of the image
-    do {
-        stat = read(socket, &size, sizeof(int));
-    } while (stat < 0);
-
-    printf("Packet received.\n");
-    printf("Packet size: %i\n", stat);
-    printf("Image size: %i\n", size);
-    printf(" \n");
-
-/*
-    //Send our verification signal
-    do {
-        stat = write(socket, &buffer, sizeof(int));
-    } while (stat < 0);*/
-
-    char path [s.size()+1]  ;
-    strcpy(path , s.c_str());
-
-    image = fopen(path, "w");
-
-    if (image == NULL) {
-        printf("Error has occurred. Image file could not be opened\n");
-        return -1;
-    }
-
-   //Loop while we have not received the entire file yet
-
-    struct timeval timeout = {10, 0};
-
-    fd_set fds;
-    int buffer_fd;
-
-    while (recv_size < size &&  read_size != 0 ) {
-
-        FD_ZERO(&fds);
-        FD_SET(socket, &fds);
-
-        buffer_fd = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
-
-        if (buffer_fd < 0)
-            printf("error: bad file descriptor set.\n");
-
-        if (buffer_fd == 0)
-            printf("error: buffer read timeout expired.\n");
-
-        if (buffer_fd > 0) {
-            do {
-                read_size = read(socket, imagearray, 10241);
-            } while (read_size < 0);
-
-            std::string iA = imagearray ;
-
-            Message m2 = Message(iA);
-
-            std::string stego_image =  m2.getMessage();
-
-
-            printf("Packet number received: %i\n", packet_index);
-            printf("Packet size: %i\n", read_size);
-
-
-          
-            char writtenImage [stego_image.size()+1]  ;
-            strcpy(writtenImage , stego_image.c_str());
-
-            write_size = fwrite(writtenImage, 1, read_size, image);
-            std::string secret_text = stega_decode("/Users/owner/CLionProjects/Distributed-Client/Manar/temp.jpeg");
-
-            printf("Written image size: %i\n", write_size);
-
-            if (read_size != write_size) {
-                printf("error in read write\n");
-            }
-
-
-            //Increment the total number of bytes read
-            recv_size += read_size;
-            packet_index++;
-            printf("Total received image size: %i\n", recv_size);
-            printf(" \n");
-            printf(" \n");
-        }
-
-    }
-
-//    fseek(image, 0, SEEK_END);
-//    size = ftell(image);
-    if (recv_size == size)
-    {
-        printf("Total Picture size: %i\n", size);
-        printf("Image successfully Received!\n");
-        fclose(image);
-
-        return 1;
-    }
-    else {
-
-        printf("Image Not Received!\n");
-        return 0 ;
-    }
 }
 
 int RequestReply::getReply(Message & m) {
@@ -339,7 +222,7 @@ int RequestReply::getReply(Message & m) {
         outFile.open(temp_loc);
         outFile << m.getMessage();
         outFile.close();
-                     
+
         return 1;
     }
     else {

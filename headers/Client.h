@@ -185,7 +185,10 @@ private:
     std::string name ;
     int req ;
     List lookup_table;
-    int viewPic ;
+    std::string hiddenText ;
+    int numViews ;
+    std::string senderName ;
+    std::string senderIp ;
 
 
 public:

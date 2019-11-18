@@ -4,30 +4,52 @@
 #include "../headers/Server.h"
 #include "../headers/DoS.h"
 #include "../headers/Database.h"
-
+#include <pthread.h>
+#include <string>
 using namespace std;
 
+#define NUM_THREADS 2
+const char* hostname ;
+const char* port ;
 
-int main(int argc,char **argv){  
+void *client_thread(void *threadid) {
+    Client * c = new Client(hostname, port);
+    c->executePrompt();
+}
 
-    if(strcmp(argv[3], "client") == 0){ // equal doesn't work
-        Client * c = new Client(argv[2], argv[1]);
-        /*if (argc > 4){
-           // client load <num_reqs>
-           int num_req = atoi(argv[5]);
-           varyLoad(c,num_req);
+void *server_thread(void *threadid) {
+    Server* s = new Server(hostname, port);
+    s->serveRequest();
+}
+
+
+int main(int argc,char **argv){
+
+    pthread_t threads[NUM_THREADS];
+    hostname = argv[2] ;
+    port = argv[1] ;
+    int rc;
+
+
+    if(strcmp(argv[3], "client") == 0) { // equal doesn't work
+
+        rc = pthread_create(&threads[0], NULL, client_thread, (void *) 0);
+
+        if (rc) {
+            cout << "Error:unable to create thread," << rc << endl;
+            exit(-1);
         }
-        else*/
-          c->executePrompt();
+        pthread_exit(NULL);
     }
-    else if(strcmp(argv[3], "server") == 0){
-        Server* s = new Server(argv[2], argv[1]);
-        /*if(argc > 4){
-           // server buffer <buff_size>
-           int buff_size = atoi(argv[5]);
-           varyBuffSize(s,buff_size); 
-        }*/
-        s->serveRequest();
+    else if(strcmp(argv[3], "server") == 0)
+    {
+        rc = pthread_create(&threads[1], NULL, server_thread, (void *) 1);
+
+        if (rc) {
+            cout << "Error:unable to create thread," << rc << endl;
+            exit(-1);
+        }
+        pthread_exit(NULL);
     }
     else {// DoS
         /*

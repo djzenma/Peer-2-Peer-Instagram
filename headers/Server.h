@@ -26,7 +26,7 @@ class Server {
         const char * port;
         const char * hostname;
         RequestReply * reqReply;
-        string name ;
+        string myName ;
 
         void dispatch(Message & m);
         

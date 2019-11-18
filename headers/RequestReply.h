@@ -31,14 +31,12 @@ class RequestReply {
 
         RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size);
         
-        int sendReply(Message & m);
+        int sendReply(Message & m); //sends the image
         int getReply(Message & m); //gets the image
-        int sendReq(Message & m);
+        int sendReq(Message & m); //sends reqnum
         int getReq(Message & m); //gets reqnum
 
-        int doOperation(std::string s, int rN);
-        int sendImage (std::string s);
-        int getMessage(std::string & msg);
+        int getMessage(std::string & msg);//sends message
         int sendMessage(std::string msg);
         void shutDownFD();
 
