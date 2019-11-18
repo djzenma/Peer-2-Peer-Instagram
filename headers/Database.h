@@ -1,13 +1,17 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+<<<<<<< HEAD
 //#include <json.h>
+=======
+>>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
 #include <fstream>
 #include <string>
 #include <map>
 #include <tuple>
 #include <string>
 #include <iostream>
+#include <json.h>
 
 class Database{
 
