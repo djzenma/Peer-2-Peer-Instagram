@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h">
+			<Option target="DistributedC__"/>
+		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/DoS.h">
 			<Option target="DistributedC__"/>
 		</Unit>
@@ -90,6 +93,9 @@
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/DoS.cpp">

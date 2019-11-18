@@ -31,23 +31,16 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
     Message msg = Message(reqinfo);
     return msg;
 }
-<<<<<<< HEAD
 string saveImage(std::string image, int image_id){
-    std::string temp_loc = "/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
-=======
-std::string saveImage(std::string image, int image_id){
-    std::string temp_loc = (std::string)PATH+"images/requested/" + to_string(image_id) + ".jpg";
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
+
+    std::string temp_loc = (std::string)"images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
     outFile.close();
     std::string secret_text = stega_decode(temp_loc);
-<<<<<<< HEAD
     return secret_text ;
-=======
-    return secret_text;
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
+
 }
 void Client::executePrompt() {
     cout << "Enter Request Number" ;
@@ -98,7 +91,6 @@ void Client::executePrompt() {
             if (req_status >= 0){
                 Message reply_msg = Message();
                 if(reqReply->getReply(reply_msg) >= 0){
-<<<<<<< HEAD
                     hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
                     stringstream ss(hiddenText);
                     string  token [3];
@@ -109,22 +101,8 @@ void Client::executePrompt() {
                     numViews = stoi(token[0]);
                     senderName= token[1];
                     senderIp= token[2];}
-=======
-                    saveImage(reply_msg.getMessage(), reply_msg.getImageId());
 
-                    /*std::vector<std::string> result;
-                    std::istringstream iss(s);
-                    for(std::string s; iss >> s; )
-                        result.push_back(s);
-                    /*for (std::vector<std::string>::const_iterator i = result.begin(); i != result.end(); ++i)
-                        std::cout << *i << endl;
-                    int r = std::atoi(result[1].c_str());
-                    std::tuple<std::string, int> t((""+result[3]+result[4]),r);
-                    //db->insertUser(image_id,t);
-                    */
                 }
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
-            }
             break ;
         }
     case 3: //update views when viewing image
@@ -134,8 +112,8 @@ void Client::executePrompt() {
         cout << "Which Picture would you like to view ? ";
         cin >> image_id;
 
-        std::string path = (std::string)PATH+"images/requested/" + to_string(image_id)+ ".jpg";
-        std::string temp_path = (std::string)PATH+"images/stego/" + to_string(image_id)+ ".jpg";
+        std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
+        std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";
         std::string s = stega_decode(path);
         std::cout<<s<<endl;
 

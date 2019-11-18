@@ -5,27 +5,19 @@ Server::Server(const char * hostname, const char * port){
     this->port = port ;
     this->hostname = hostname ;
     std::string serverIp = hostname_to_ip((char *)hostname);
-    db = new Database(path);
+    //db = new Database(path);
     reqReply = new RequestReply(port, serverIp.c_str(), false, 1024);
     myName = "Bassant";
 }
 /*
     constructs image msg given an image id
 */
-<<<<<<< HEAD
 Message buildImageMsg(int image_id ,string hidden){
     std::string path = "/Users/owner/CLionProjects/Distributed-Client/images/mine/" + to_string(image_id)+ ".jpg";
     std::string temp_path = "/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
     std::string hidden_text = hidden;
-=======
-Message buildImageMsg(int image_id, const char * hostname, const char * port){
-    int no_views =5 ; //default
-    std::string path = (std::string)PATH+"images/mine/" + to_string(image_id)+ ".jpg";
-    std::string temp_path = (std::string)PATH+"images/stego/" + to_string(image_id)+ "_stego.jpg";
-    // get hidden text from DB
-    std::string hidden_text = "{ "+to_string(no_views) +" from: "+ (std::string)hostname +" "+(std::string)port+" }" ; // format: Manar: 3, Aya: 5
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
+
     std::string stego_image = stega_encode(path, hidden_text, temp_path);
     std::cout << stego_image ;
     requestInfo reqinfo ={.image_id=image_id,
@@ -46,22 +38,15 @@ void Server::dispatch(Message & msg){
     std::string username;
     switch (msg.getOperation()){
         case SendImage: { // an image with a specified id
-<<<<<<< HEAD
             int image_id = msg.getImageId();
             Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
-=======
-            Message m = buildImageMsg(image_id,this->hostname, this->port);
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
+
             reqReply->sendReply(m);
             break;
         }
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
-<<<<<<< HEAD
                 Message msg = buildImageMsg(i , myName+","+hostname);
-=======
-                Message msg = buildImageMsg(i,this->hostname, this->port);
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
                 reqReply->sendReply(msg); 
                 sleep(5);
             }
@@ -70,32 +55,29 @@ void Server::dispatch(Message & msg){
         case SendImages: { // an image with a specified id
         int no_views = 5; //default
             for(int i=0; i<6; i++){
-<<<<<<< HEAD
                 Message msg = buildImageMsg(i , myName+","+hostname);
-=======
-                Message msg = buildImageMsg(i,this->hostname, this->port);
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
+
                 reqReply->sendReply(msg);
                 sleep(5);
-                //add in db
+                /*//add in db
                 std::tuple<std::string, int> t(username,no_views);
-                db->insertUser(std::to_string(image_id),t);
+                db->insertUser(std::to_string(image_id),t);*/
             }
             break;
         }
         case GrantAccess :
             break;
-    case DecrementView :{
-        //add in db
-        string t = msg.getMessage();
-        db->updateCount(image_id, username, atoi(t.c_str()));
+            /*case DecrementView :{
+                //add in db
+                string t = msg.getMessage();
+                db->updateCount(image_id, username, atoi(t.c_str()));
 
-            break;
-    }
-        default:
-            break;
-    }
-}
+                    break;
+            }
+                default:
+                    break;
+            }*/
+}}
 void Server::dec_count(Message m){
 
 }

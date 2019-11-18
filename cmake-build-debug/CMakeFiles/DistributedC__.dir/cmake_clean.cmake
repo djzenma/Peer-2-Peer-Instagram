@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/DistributedC__.dir/src/Client.cpp.o"
+  "CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/DoS.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"

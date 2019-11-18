@@ -9,6 +9,9 @@ CMakeFiles/DistributedC__.dir/src/Client.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/Client.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/Client.cpp.o: ../src/Client.cpp
 
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/Communication.h
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../src/Communication.cpp
+
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/DoS.h
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../src/DoS.cpp
 
@@ -24,6 +27,7 @@ CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../src/RequestReply.cpp
 
+CMakeFiles/DistributedC__.dir/src/Server.cpp.o: ../headers/Database.h
 CMakeFiles/DistributedC__.dir/src/Server.cpp.o: ../headers/Message.h
 CMakeFiles/DistributedC__.dir/src/Server.cpp.o: ../headers/RequestReply.h
 CMakeFiles/DistributedC__.dir/src/Server.cpp.o: ../headers/Server.h
@@ -42,6 +46,7 @@ CMakeFiles/DistributedC__.dir/src/experiment.cpp.o: ../headers/experiment.h
 CMakeFiles/DistributedC__.dir/src/experiment.cpp.o: ../src/experiment.cpp
 
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Client.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Communication.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Database.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/DoS.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Message.h

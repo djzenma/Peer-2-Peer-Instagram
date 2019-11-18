@@ -27,12 +27,8 @@ class Server {
         const char * port;
         const char * hostname;
         RequestReply * reqReply;
-<<<<<<< HEAD
         string myName ;
-=======
-        string name ;
         Database * db;
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
 
         void dispatch(Message & m);
         

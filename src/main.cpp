@@ -3,14 +3,11 @@
 #include "../headers/Client.h"
 #include "../headers/Server.h"
 #include "../headers/DoS.h"
-<<<<<<< HEAD
 #include "../headers/Database.h"
 #include <pthread.h>
 #include <string>
-=======
 #include "../headers/Communication.h"
 
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
 using namespace std;
 
 #define NUM_THREADS 2
@@ -28,7 +25,6 @@ void *server_thread(void *threadid) {
 }
 
 
-<<<<<<< HEAD
 int main(int argc,char **argv){
 
     pthread_t threads[NUM_THREADS];
@@ -46,20 +42,7 @@ int main(int argc,char **argv){
             exit(-1);
         }
         pthread_exit(NULL);
-=======
-int main(int argc,char **argv){  
-      
-    if(strcmp(argv[3], "client") == 0){ // equal doesn't work
-        Client * c = new Client(argv[2], argv[1]);
-        /*if (argc > 4){
-           // client load <num_reqs>
-           int num_req = atoi(argv[5]);
-           varyLoad(c,num_req);
-        }
-        else*/
-          c->executePrompt();
 
->>>>>>> 0e5ecd2388631a12ef5cc0c5ce0d97407971cd95
     }
     else if(strcmp(argv[3], "server") == 0)
     {
