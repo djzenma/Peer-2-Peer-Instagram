@@ -14,7 +14,7 @@
 
 
 
-class List{
+/*class List{
 public:
     struct entry{
        int photoid;
@@ -174,7 +174,7 @@ void orderInsert( entry &,  int & ){}
 void traverse(){}
 };
 
-
+*/
 class Client {
 private:
     char * buffer;
@@ -184,11 +184,6 @@ private:
     const char * hostname;
     std::string name ;
     int req ;
-    List lookup_table;
-    std::string hiddenText ;
-    int numViews ;
-    std::string senderName ;
-    std::string senderIp ;
     int viewPic ;
     //Database* db;
 
@@ -199,6 +194,7 @@ public:
     int requestSamples(std::string s );
     int requestNumber (int req);
     int executePrompt();
+    bool decrementView(std::string image);
     ~Client();
 };
 #endif

@@ -8,6 +8,7 @@
 #include <thread>
 #include <string>
 #include "../headers/Communication.h"
+#include "../headers/Stego.h"
 
 using namespace std;
 

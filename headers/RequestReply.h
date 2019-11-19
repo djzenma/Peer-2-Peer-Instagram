@@ -27,6 +27,7 @@ class RequestReply {
         long stat, packet_index, read_size = -1,total_size = 0  ,size ;
         char send_buffer[10240] ,read_buffer[10240];
 
+
     public:
 
         RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size);
@@ -41,6 +42,5 @@ class RequestReply {
         int sendMessage(std::string msg);
         void shutDownFD();
 
-        void setBuffSize(int);
 };
 #endif

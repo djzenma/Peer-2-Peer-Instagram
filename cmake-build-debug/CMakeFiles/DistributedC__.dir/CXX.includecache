@@ -24,8 +24,6 @@ utils.h
 Message.h
 /Users/owner/Desktop/Distributed-Client/headers/Message.h
 
-/Users/owner/Desktop/Distributed-Client/headers/Communication.h
-
 /Users/owner/Desktop/Distributed-Client/headers/Database.h
 fstream
 -
@@ -38,20 +36,6 @@ tuple
 string
 -
 iostream
--
-
-/Users/owner/Desktop/Distributed-Client/headers/DoS.h
-map
--
-netinet/in.h
--
-thread
--
-arpa/inet.h
--
-zconf.h
--
-string.h
 -
 
 /Users/owner/Desktop/Distributed-Client/headers/Message.h
@@ -183,24 +167,4 @@ fcntl.h
 /Users/owner/Desktop/Distributed-Client/src/Server.cpp
 ../headers/Server.h
 /Users/owner/Desktop/Distributed-Client/headers/Server.h
-
-/Users/owner/Desktop/Distributed-Client/src/main.cpp
-iostream
--
-../headers/Client.h
-/Users/owner/Desktop/Distributed-Client/headers/Client.h
-../headers/Server.h
-/Users/owner/Desktop/Distributed-Client/headers/Server.h
-../headers/DoS.h
-/Users/owner/Desktop/Distributed-Client/headers/DoS.h
-../headers/Database.h
-/Users/owner/Desktop/Distributed-Client/headers/Database.h
-pthread.h
--
-string
--
-unordered_map
--
-../headers/Communication.h
-/Users/owner/Desktop/Distributed-Client/headers/Communication.h
 
