@@ -19,8 +19,7 @@ Client::Client(const char * listen_hostname, const char * listen_port){
     this->hostname = listen_hostname ;
     std::string serverIp = hostname_to_ip((char *)listen_hostname);
     //db = new Database(path);
-    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);
-}
+    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);}
 Message buildRequestMsg(serviceOperations operation, int image_id ){
     requestInfo reqinfo ={.image_id=image_id,
             .storage_location="",
@@ -33,7 +32,7 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
 }
 string saveImage(std::string image, int image_id){
 
-    std::string temp_loc = (std::string)"images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -58,9 +57,12 @@ bool Client::decrementView(std::string image){
     }
     else return false;
 }
-void Client::executePrompt() {
+
+int Client::executePrompt() {
+    reqReply->Accept();
     cout << "Enter Request Number" ;
     cin >> req;
+
     switch (req) {
 
         case 0: // request samples from a specific user
@@ -156,6 +158,7 @@ void Client::executePrompt() {
         break ;
     }
     }
+    return 1 ;
 }
 int Client::requestNumber(int req) {
     requestInfo reqinfo ={.image_id=1,

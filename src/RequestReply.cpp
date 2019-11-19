@@ -64,18 +64,6 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
             error("ERROR on binding");
 
 
-        listen(socketfd,5);
-        puts("Waiting for incoming connections...");
-
-        clilen = sizeof(cli_addr);
-
-        newsockfd = accept(socketfd,
-                           (struct sockaddr *) &cli_addr, &clilen);
-        if (newsockfd < 0)
-            error("ERROR on accept");
-
-        printf("server: got connection from %s port %d\n",
-               inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
     }
     if(socketfd  <0) {
         perror("socket failed");
@@ -155,6 +143,8 @@ int RequestReply::sendReply(Message & m){
 }
 
 int RequestReply::getReply(Message & m) {
+
+
     int buffersize = 0, recv_size = 0, size = 0, read_size = -1, write_size, packet_index = 1, stat;
 
     char recieve_buff[10241], verify = '1';
@@ -231,11 +221,7 @@ int RequestReply::getReply(Message & m) {
     }
 }
 
-void RequestReply::setBuffSize(int size){
-    buff_size = size;
-}
 int RequestReply::sendReq(Message & m) {
-
     stat = write(newsockfd, (void *)m.marshal().c_str(), sizeof(send_buffer));
 
     int n = 0;
@@ -261,7 +247,25 @@ int RequestReply::sendReq(Message & m) {
 
     return stat;
 }
+
+int RequestReply::Accept ()
+{
+    listen(socketfd,5);
+    puts("Waiting for incoming connections...");
+
+    clilen = sizeof(cli_addr);
+
+    newsockfd = accept(socketfd,
+                       (struct sockaddr *) &cli_addr, &clilen);
+    if (newsockfd < 0)
+        error("ERROR on accept");
+
+    printf("server: got connection from %s port %d\n",
+           inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+}
+
 int RequestReply::getReq(Message & msg) {
+
     do {
         stat = read(socketfd, read_buffer, sizeof(read_buffer));
     } while (stat < 0);

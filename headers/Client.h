@@ -193,9 +193,8 @@ public:
     int execute(char * msg);
     int requestSamples(std::string s );
     int requestNumber (int req);
-    void executePrompt();
-
-    static bool decrementView(std::string image);
+    int executePrompt();
+    bool decrementView(std::string image);
     ~Client();
 };
 #endif

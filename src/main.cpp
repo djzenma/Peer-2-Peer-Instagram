@@ -3,49 +3,62 @@
 #include "../headers/Client.h"
 #include "../headers/Server.h"
 #include "../headers/DoS.h"
+#include "../headers/Database.h"
+#include <pthread.h>
+#include <string>
+#include <unordered_map>
 #include "../headers/Communication.h"
 #include "../headers/Stego.h"
 
 using namespace std;
 
 #define NUM_THREADS 2
+pthread_t threads[NUM_THREADS];
 const char* hostname ;
 const char* port ;
+bool serv = false ;
 
-void *client_thread(void *threadid) {
-    Client * c = new Client(hostname, port);
-    c->executePrompt();
-}
 
-void *server_thread(void *threadid) {
-    Server* s = new Server(hostname, port);
+void  server_thread() {
+    Server* s = new Server(hostname, port); //needs to connect to client thus gets ip and port from argsv
     s->serveRequest();
+    pthread_cancel(threads[1]);
+    pthread_exit(NULL);
 }
 
 
-int main(int argc,char **argv){  
-    int rc;
-    
-    if(strcmp(argv[3], "client") == 0){ // equal doesn't work
-        Client * c = new Client(argv[2], argv[1]);
-        /*if (argc > 4){
-           // client load <num_reqs>
-           int num_req = atoi(argv[5]);
-           varyLoad(c,num_req);
+void client_thread() {
+    Client * c = new Client("127.0.0.1", "4040"); //always run on local ip
+    while(1) {
+        cout << "Do You want to Switch to Server? "  ;
+        cin >> serv ;
+        if (serv == true)
+        {
+            std::thread t1 (server_thread);
+            t1.join();
         }
-        else*/
-          c->executePrompt();
+        else
+            c->executePrompt();
+    }
+}
+int main(int argc,char **argv){
+
+    hostname = argv[2] ;
+    port = argv[1] ;
+    int rc;
+
+
+    if(strcmp(argv[3], "client") == 0) { // equal doesn't work
+
+        std::thread t0 (client_thread);
+        t0.join();
 
     }
     else if(strcmp(argv[3], "server") == 0)
     {
-        rc = pthread_create(&threads[1], NULL, server_thread, (void *) 1);
+        std::thread t1 (server_thread);
+        t1.join();
 
-        if (rc) {
-            cout << "Error:unable to create thread," << rc << endl;
-            exit(-1);
-        }
-        pthread_exit(NULL);
     }
     else {// DoS
         /*
