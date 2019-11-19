@@ -45,13 +45,16 @@ CMakeFiles/DistributedC__.dir/src/base64.cpp.o: ../src/base64.cpp
 CMakeFiles/DistributedC__.dir/src/experiment.cpp.o: ../headers/experiment.h
 CMakeFiles/DistributedC__.dir/src/experiment.cpp.o: ../src/experiment.cpp
 
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/headers/Client.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /Users/owner/CLionProjects/Distributed-Client/src/Client.cpp
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Client.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Communication.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Database.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/DoS.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Message.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/RequestReply.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Server.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Stego.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/base64.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../src/main.cpp
 
 CMakeFiles/DistributedC__.dir/src/utils.cpp.o: ../headers/Message.h
