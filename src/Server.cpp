@@ -81,10 +81,11 @@ void Server::dispatch(Message & msg){
 void Server::dec_count(Message m){
 
 }
-void Server::serveRequest(){
+int Server::serveRequest(){
     Message msg = Message();
     reqReply->getReq(msg);
     dispatch(msg);
+    return 1;
 }
 
 Server::~Server(){

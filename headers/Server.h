@@ -35,7 +35,7 @@ class Server {
     public:
         Server(const char * listen_hostname,const char * listen_port);
         void dec_count(Message m);
-        void serveRequest();
+        int serveRequest();
         ~Server();
 };
 #endif 

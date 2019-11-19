@@ -198,7 +198,7 @@ public:
     int execute(char * msg);
     int requestSamples(std::string s );
     int requestNumber (int req);
-    void executePrompt();
+    int executePrompt();
     ~Client();
 };
 #endif

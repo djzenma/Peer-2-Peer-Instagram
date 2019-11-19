@@ -36,6 +36,7 @@ class RequestReply {
         int sendReq(Message & m); //sends reqnum
         int getReq(Message & m); //gets reqnum
 
+        int Accept ();
         int getMessage(std::string & msg);//sends message
         int sendMessage(std::string msg);
         void shutDownFD();
