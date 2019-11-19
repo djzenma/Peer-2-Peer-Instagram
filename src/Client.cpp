@@ -40,7 +40,23 @@ string saveImage(std::string image, int image_id){
     outFile.close();
     std::string secret_text = stega_decode(temp_loc);
     return secret_text ;
+}
 
+bool Client::decrementView(std::string image){
+    std::string output = stega_decode(image);
+    std::string tempPath = "./images/stego/temp.jpg";
+    int sep_index = output.find(',');
+    int num_views = atoi(output.substr(0, sep_index).c_str());
+    FILE * fp1, *fp2;
+    char c;
+    if (num_views > 0){
+        num_views--;
+        std::string new_text = to_string(num_views) + output.substr(sep_index);
+        stega_encode(image, new_text, tempPath);
+        copyImage(tempPath, image);
+        return true;
+    }
+    else return false;
 }
 void Client::executePrompt() {
     cout << "Enter Request Number" ;
@@ -91,16 +107,16 @@ void Client::executePrompt() {
             if (req_status >= 0){
                 Message reply_msg = Message();
                 if(reqReply->getReply(reply_msg) >= 0){
-                    hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                    std::string hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
                     stringstream ss(hiddenText);
                     string  token [3];
                     int i =0 ;
                     while (getline(ss, token[i], ',')) {
                         i++ ;
                     }
-                    numViews = stoi(token[0]);
-                    senderName= token[1];
-                    senderIp= token[2];}
+                    int numViews = stoi(token[0]);
+                    std::string senderName= token[1];
+                    std::string senderIp= token[2];}
 
                 }
             break ;

@@ -3,10 +3,8 @@
 #include "../headers/Client.h"
 #include "../headers/Server.h"
 #include "../headers/DoS.h"
-#include "../headers/Database.h"
-#include <pthread.h>
-#include <string>
 #include "../headers/Communication.h"
+#include "../headers/Stego.h"
 
 using namespace std;
 
@@ -25,23 +23,18 @@ void *server_thread(void *threadid) {
 }
 
 
-int main(int argc,char **argv){
-
-    pthread_t threads[NUM_THREADS];
-    hostname = argv[2] ;
-    port = argv[1] ;
+int main(int argc,char **argv){  
     int rc;
-
-
-    if(strcmp(argv[3], "client") == 0) { // equal doesn't work
-
-        rc = pthread_create(&threads[0], NULL, client_thread, (void *) 0);
-
-        if (rc) {
-            cout << "Error:unable to create thread," << rc << endl;
-            exit(-1);
+    
+    if(strcmp(argv[3], "client") == 0){ // equal doesn't work
+        Client * c = new Client(argv[2], argv[1]);
+        /*if (argc > 4){
+           // client load <num_reqs>
+           int num_req = atoi(argv[5]);
+           varyLoad(c,num_req);
         }
-        pthread_exit(NULL);
+        else*/
+          c->executePrompt();
 
     }
     else if(strcmp(argv[3], "server") == 0)

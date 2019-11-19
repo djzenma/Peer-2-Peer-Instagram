@@ -36,3 +36,28 @@ std::string hostname_to_ip(char * hostname){
 
     return ip;
 }
+
+void copyImage(std::string src, std::string dst){
+
+    std::ifstream ifs (src, std::ifstream::in);
+    std::ofstream outfile (dst, std::ofstream::out);
+    // get size of file
+    ifs.seekg (0,ifs.end);
+    long size = ifs.tellg();
+    ifs.seekg (0);
+
+    // allocate memory for file content
+    char* buffer = new char[size];
+
+    // read content of infile
+    ifs.read (buffer,size);
+
+    // write to outfile
+    outfile.write (buffer,size);
+
+    // release dynamically-allocated memory
+    delete[] buffer;
+
+    outfile.close();
+    ifs.close();
+}
