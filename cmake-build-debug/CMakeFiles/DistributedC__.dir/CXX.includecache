@@ -166,6 +166,24 @@ fstream
 Message.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
+/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp
+../headers/Client.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Client.h
+iostream
+-
+
+/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp
+../headers/RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
+../headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+fcntl.h
+-
+
+/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp
+../headers/Server.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
+
 /Users/owner/CLionProjects/Distributed-Client/src/main.cpp
 iostream
 -

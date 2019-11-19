@@ -221,9 +221,6 @@ int RequestReply::getReply(Message & m) {
     }
 }
 
-void RequestReply::setBuffSize(int size){
-    buff_size = size;
-}
 int RequestReply::sendReq(Message & m) {
     stat = write(newsockfd, (void *)m.marshal().c_str(), sizeof(send_buffer));
 

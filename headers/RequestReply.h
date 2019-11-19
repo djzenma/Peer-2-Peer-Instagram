@@ -24,8 +24,8 @@ class RequestReply {
         //////////
         struct hostent *server;
         FILE *picture, *picture2;
-        long stat, packet_index, read_size = -1,total_size = 0  ,size ;
-        char send_buffer[10240], blurr_buffer[10240] ,read_buffer[256];
+        long stat, read_size = -1,total_size = 0  ,size ;
+        char send_buffer[90000]  ,read_buffer[90000];
 
     public:
 
@@ -41,6 +41,5 @@ class RequestReply {
         int sendMessage(std::string msg);
         void shutDownFD();
 
-        void setBuffSize(int);
 };
 #endif
