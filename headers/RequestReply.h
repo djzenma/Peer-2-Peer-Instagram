@@ -25,7 +25,7 @@ class RequestReply {
         struct hostent *server;
         FILE *picture, *picture2;
         long stat, packet_index, read_size = -1,total_size = 0  ,size ;
-        char send_buffer[10240], blurr_buffer[10240] ,read_buffer[256];
+        char send_buffer[10240] ,read_buffer[10240];
 
     public:
 
