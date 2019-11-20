@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug"/>
+				<Option working_dir="/Users/owner/Desktop/Distributed-Client/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug"/>
+				<Option working_dir="/Users/owner/Desktop/Distributed-Client/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug"/>
+				<Option working_dir="/Users/owner/Desktop/Distributed-Client/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="DistributedC__">
-				<Option output="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/DistributedC__" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug"/>
+				<Option output="/Users/owner/Desktop/Distributed-Client/cmake-build-debug/DistributedC__" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/owner/Desktop/Distributed-Client/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -52,15 +52,15 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 DistributedC__"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 DistributedC__"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="DistributedC__/fast">
-				<Option output="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/DistributedC__" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug"/>
+				<Option output="/Users/owner/Desktop/Distributed-Client/cmake-build-debug/DistributedC__" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/owner/Desktop/Distributed-Client/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -73,59 +73,59 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 DistributedC__/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 DistributedC__/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/owner/Desktop/Distributed-Client/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/Communication.h">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/DoS.h">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/DoS.h">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/Stego.h">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/utils.h">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/utils.h">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Client.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Communication.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/DoS.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/DoS.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Message.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Message.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/RequestReply.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Server.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Stego.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/base64.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/experiment.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/experiment.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/main.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/main.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/utils.cpp">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/utils.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/CMakeLists.txt">
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

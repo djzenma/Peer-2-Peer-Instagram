@@ -47,7 +47,7 @@ void Server::dispatch(Message & msg){
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
                 Message msg = buildImageMsg(i , myName+","+hostname);
-                reqReply->sendReply(msg); 
+                reqReply->sendReply(msg);
                 sleep(5);
             }
             break;
@@ -77,13 +77,16 @@ void Server::dispatch(Message & msg){
                 default:
                     break;
             }*/
-}}
+}
+}
 void Server::dec_count(Message m){
 
 }
 int Server::serveRequest(){
     Message msg = Message();
-    reqReply->getReq(msg);
+        reqReply->getReq(msg);
+        printf("Data Recieveddddx:%s \n", msg.getMessage().c_str()); // msg received
+
     dispatch(msg);
     return 1;
 }

@@ -59,7 +59,7 @@ bool Client::decrementView(std::string image){
 }
 
 int Client::executePrompt() {
-    reqReply->Accept();
+    //reqReply->Accept();
     cout << "Enter Request Number" ;
     cin >> req;
 
@@ -72,7 +72,7 @@ int Client::executePrompt() {
             // before get host ip and port
             for (int i=0; i<3; i++){
                 Message m = buildRequestMsg(SendSample, i);
-                int req_status = reqReply->sendReq(m); 
+                int req_status = reqReply->sendReq(m);
                 if (req_status >= 0) {
                     Message reply_msg = Message();
                     if (reqReply->getReply(reply_msg) >= 0) {
@@ -98,13 +98,13 @@ int Client::executePrompt() {
             break;
         }
         case 2: //send 1 photo
-        {   
+        {
             int image_id;
             cout << "Which Picture would you like to view ? ";
             cin >> image_id;
 
             Message msg = buildRequestMsg(SendImage, image_id);
-            int req_status = reqReply->sendReq(msg); 
+            int req_status = reqReply->sendReq(msg);
 
             if (req_status >= 0){
                 Message reply_msg = Message();

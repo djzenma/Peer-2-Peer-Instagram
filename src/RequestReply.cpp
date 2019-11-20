@@ -2,36 +2,21 @@
 #include "../headers/Message.h"
 #include <fcntl.h>
 
-void error(const char *msg) {
-    perror(msg);
-    exit(0);
-}
 
-// isClient  = isReceiver
-RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient,  int buff_size) {
+RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, int buff_size) {
 
     port = atoi(destinationPort);
 
-    if(!isClient){
-        socketfd = socket(AF_INET, SOCK_STREAM, 0);
-        if (socketfd < 0)
-            error("ERROR opening socket");
+    memset(&serverAddr,'\0',sizeof(serverAddr));
 
-        server = gethostbyname(destinationIp);
-        if (server == NULL) {
-            fprintf(stderr,"ERROR, no such host\n");
-            exit(0);
-        }
-        //setting up connection
-        bzero((char *) &serverAddr, sizeof(serverAddr));
+
+    if(isClient){
+
         serverAddr.sin_family = AF_INET;
-        bcopy((char *)server->h_addr,
-              (char *)&serverAddr.sin_addr.s_addr,
-              server->h_length);
         serverAddr.sin_port = htons(port);
+        serverAddr.sin_addr.s_addr = inet_addr(destinationIp);
 
-        if (connect(socketfd, (struct sockaddr *) &serverAddr, sizeof(serverAddr)) < 0)
-            error("ERROR connecting");
+        socketfd = socket(AF_INET,SOCK_DGRAM,0);
 
         // set timeout on client
         struct timeval tv;
@@ -43,28 +28,21 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
 
         if (setsockopt(socketfd, SOL_SOCKET,  SO_SNDTIMEO, (const char*)&tv, sizeof (tv)) < 0)
             perror("setsockopt failed\n");
+
     }
     else {
-        socketfd =  socket(AF_INET, SOCK_STREAM, 0); //create socket
-        if (socketfd < 0)
-            error("ERROR opening socket");
-
-        bzero((char *) &serverAddr, sizeof(serverAddr));
-
-        port = atoi(destinationPort);
-
-
-        serverAddr.sin_family = AF_INET;
+        serverAddr.sin_family=AF_INET;
+        serverAddr.sin_port=htons(port);
         serverAddr.sin_addr.s_addr = INADDR_ANY;
-        serverAddr.sin_port = htons(port);
 
+        socketfd = socket(AF_INET,SOCK_DGRAM,0);
 
-        if (bind(socketfd, (struct sockaddr *) &serverAddr,
-                 sizeof(serverAddr)) < 0)
-            error("ERROR on binding");
-
-
+        if (bind(socketfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == 0)
+            printf("\nSuccessfully binded!\n");
+        else
+            printf("\nBinding Failed!\n");
     }
+
     if(socketfd  <0) {
         perror("socket failed");
     }
@@ -72,54 +50,98 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
     this->buff_size = buff_size;
 }
 
+int RequestReply::sendReq (Message & m){ //send request number
+
+
+    int sendStatus = static_cast<int>(sendto(socketfd, (void *)m.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
+
+    ///Timeout Check
+    int n = 0;
+    if (sendStatus<=0)
+        n =5;
+    while (sendStatus<=0){
+        std::cout << "I am trying again "<< std::endl;
+        if (n>0){
+            int sendStatus = static_cast<int>(sendto(socketfd, (void *)m.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
+            n--;
+        }
+        else {break;}
+    }
+
+
+    if(sendStatus<=0) {
+        perror("Send Failed with status ");
+    }
+    else
+        printf("\n---------Data Received---------\n");
+    return sendStatus;
+}
+
+int RequestReply::getReq(Message & msg) {
+    addr_size = sizeof(serverAddr);
+
+    do {
+         stat = recvfrom(socketfd,read_buffer, buff_size,0,(struct sockaddr*)&serverAddr, &addr_size);
+
+    } while (stat < 0);
+    std::string marshalled = std::string(read_buffer);
+    msg = Message(marshalled);
+
+    return stat;
+}
+
 int RequestReply::sendReply(Message & m){
     int packet_index = 1;
     std::string marshalled = m.marshal();
     int msg_size = marshalled.length();
-    
+
     // Divide msg into chunks
     int chunks = ceil((float)msg_size / sizeof(send_buffer));
     printf("msg_size %i: , send_buffer %i , chunks: %i \n", msg_size, sizeof(send_buffer), chunks );
 
-    int rem = remainder((float)marshalled.length() , sizeof(send_buffer)) ;
+    float n1 = (float)marshalled.length() ;
+    int n2 = sizeof(send_buffer);
+
+    //float rem = remainder((float)marshalled.length() , sizeof(send_buffer)) ;
+    int rem = n1-(n1/n2)*n2 ;
     printf("Message size after Marshalling : %i, Dividing to : %i\n", msg_size,chunks );
 
     printf("Sending Message Size\n");
-    stat = write(socketfd, (void *)&msg_size, sizeof(int));
+    int sendStatus = static_cast<int>(sendto(socketfd, (void *)&msg_size, sizeof(int), 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
     int index = 0;
     while(chunks!=0){
         std::string chunkedImage;
         if(chunks == 1){
             chunkedImage = marshalled.substr(index * sizeof(send_buffer));
         }
-        else{ 
+        else{
             chunkedImage = marshalled.substr(index * sizeof(send_buffer), sizeof(send_buffer));
         }
         printf("lenght : %i: , %i \n", chunkedImage.length(), marshalled.length());
         strcpy(send_buffer , chunkedImage.c_str());
-        
+
         //Send data through our socket
         if (chunks==1 && rem !=0) // last chunk
             read_size=rem ;
         else
             read_size=sizeof(send_buffer);
 
-        stat = write(socketfd, send_buffer, read_size);
+        int sendStatus = static_cast<int>(sendto(socketfd, (void *)send_buffer, read_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
         ///Timeout Check
         int n = 0;
-        if (stat<=0)
+        if (sendStatus<=0)
             n =5;
-        while (stat<=0){
+        while (sendStatus<=0){
             std::cout << "I am trying again to send packet"<< std::endl;
             if (n>0){
-                stat = write(socketfd, send_buffer, read_size);
+                int sendStatus = static_cast<int>(sendto(socketfd, (void *)send_buffer, read_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
                 n-- ;
             }
             else {break;}
         }
-        if(stat<=0) {
+        if(sendStatus<=0) {
             perror("Send Failed with status ");
-            return stat;
+            return sendStatus;
         }
 
 
@@ -136,7 +158,7 @@ int RequestReply::sendReply(Message & m){
         chunks--;
         //Zero out our send buffer
         bzero(send_buffer, sizeof(send_buffer));
-        sleep(2);
+        sleep(1);
     }
     chunks= 0 ;
     return 1;
@@ -152,7 +174,7 @@ int RequestReply::getReply(Message & m) {
 
     //Find the size of the message
     do {
-        stat = read(newsockfd, &size, sizeof(int));
+        stat = recvfrom(socketfd,&size, sizeof(int),0,(struct sockaddr*)&serverAddr, &addr_size);
     } while (stat < 0);
 
     printf("Packet received.\n");
@@ -160,7 +182,7 @@ int RequestReply::getReply(Message & m) {
     printf("Message size: %i\n", size);
     printf(" \n");
 
-   //Loop while we have not received the entire file yet
+    //Loop while we have not received the entire file yet
 
     struct timeval timeout = {20, 0};
 
@@ -172,7 +194,7 @@ int RequestReply::getReply(Message & m) {
     while (recv_size < size &&  read_size != 0 ) {
 
         FD_ZERO(&fds);
-        FD_SET(newsockfd, &fds);
+        FD_SET(socketfd, &fds);
 
         buffer_fd = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
 
@@ -184,7 +206,7 @@ int RequestReply::getReply(Message & m) {
 
         if (buffer_fd > 0) {
             do {
-                read_size = read(newsockfd, recieve_buff, 10241);
+                read_size = recvfrom(socketfd,recieve_buff, sizeof(recieve_buff),0,(struct sockaddr*)&serverAddr, &addr_size);
             } while (read_size < 0);
 
             std::string chunked_msg = std::string(recieve_buff, read_size);
@@ -220,97 +242,6 @@ int RequestReply::getReply(Message & m) {
         return -1;
     }
 }
-
-int RequestReply::sendReq(Message & m) {
-    stat = write(newsockfd, (void *)m.marshal().c_str(), sizeof(send_buffer));
-
-    int n = 0;
-    if (stat<=0)
-        n =5;
-    while (stat<=0){
-        if (n>0){
-            stat = write(newsockfd, (void *)(void *)m.marshal().c_str(), sizeof(send_buffer));
-            n--;
-        }
-        else {
-            break;
-        }
-    }
-
-
-    if(stat<0)
-    {
-        perror("Could not Message \n");
-    }
-    else
-        printf("Sent Message \n");
-
-    return stat;
-}
-
-int RequestReply::Accept ()
-{
-    listen(socketfd,5);
-    puts("Waiting for incoming connections...");
-
-    clilen = sizeof(cli_addr);
-
-    newsockfd = accept(socketfd,
-                       (struct sockaddr *) &cli_addr, &clilen);
-    if (newsockfd < 0)
-        error("ERROR on accept");
-
-    printf("server: got connection from %s port %d\n",
-           inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
-}
-
-int RequestReply::getReq(Message & msg) {
-
-    do {
-        stat = read(socketfd, read_buffer, sizeof(read_buffer));
-    } while (stat < 0);
-    std::string marshalled = std::string(read_buffer);
-    msg = Message(marshalled);
-    return stat;
-}
-
-int RequestReply::sendMessage(std::string msg) {
-
-    msg+= " " ;
-    stat = write(newsockfd, (void *)&msg, msg.length());
-
-
-    int n = 0;
-    if (stat<=0)
-        n =5;
-    while (stat<=0){
-        if (n>0){
-            stat = write(newsockfd, (void *)&msg, 1024);
-            n--;
-        }
-        else {
-            break;
-        }
-    }
-
-
-    if(stat<0)
-    {
-        perror("Could not Message \n");
-    }
-    else
-        printf("Sent Message %s\n", &msg);
-
-    return stat;
-}
-int RequestReply::getMessage(std::string & msg) {
-    do {
-        stat = read(socketfd, &msg, 2000);
-    } while (stat < 0 || msg == "");
-    return stat;
-}
-
 void RequestReply::shutDownFD() {
     shutdown(socketfd , SHUT_RDWR);
-    shutdown(newsockfd , SHUT_RDWR);
 }

@@ -28,16 +28,16 @@ void  server_thread() {
 
 
 void client_thread() {
-    Client * c = new Client("127.0.0.1", "4040"); //always run on local ip
+    Client * c = new Client(hostname, port); //always run on local ip
     while(1) {
-        cout << "Do You want to Switch to Server? "  ;
-        cin >> serv ;
-        if (serv == true)
-        {
-            std::thread t1 (server_thread);
-            t1.detach();
-        }
-        else
+//        cout << "Do You want to Switch to Server? "  ;
+//        cin >> serv ;
+//        if (serv == true)
+//        {
+//            std::thread t1 (server_thread);
+//            t1.join();
+//        }
+//        else
             c->executePrompt();
     }
 }
