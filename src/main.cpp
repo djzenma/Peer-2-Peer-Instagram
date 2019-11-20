@@ -1,4 +1,4 @@
-#include<iostream>
+//#include<iostream>
 
 #include "../headers/Client.h"
 #include "../headers/Server.h"
@@ -16,51 +16,44 @@ using namespace std;
 pthread_t threads[NUM_THREADS];
 const char* hostname ;
 const char* port ;
-bool serv = false ;
-
-
-void  server_thread() {
-    Server* s = new Server(hostname, port); //needs to connect to client thus gets ip and port from argsv
-    s->serveRequest();
-    pthread_cancel(threads[1]);
-    pthread_exit(NULL);
-}
-
+bool cli = false ;
+string h , p ;
 
 void client_thread() {
     Client * c = new Client(hostname, port); //always run on local ip
-    while(1) {
-//        cout << "Do You want to Switch to Server? "  ;
-//        cin >> serv ;
-//        if (serv == true)
-//        {
-//            std::thread t1 (server_thread);
-//            t1.join();
-//        }
-//        else
             c->executePrompt();
+
+    pthread_cancel(threads[1]);
+    pthread_exit(NULL);
+
+}
+
+void  server_thread() {
+    Server* s = new Server("127.0.0.1", "4040"); //needs to connect to client thus gets ip and port from argsv
+    while(1) {
+        cout << "Do You want to Switch to Client? ";
+        cin >> cli;
+        if (cli == true) {
+            cout <<"Who do You want to Connect to (Ip)"; //from Dos
+            cin >> h ;
+            cout <<"Who do You want to Connect to (Port)"; //from Dos
+            cin >> p ;
+
+            port = p.c_str() ;
+            hostname = h.c_str();
+
+            std::thread t1(client_thread);
+            t1.join();
+        } else
+            s->serveRequest();
     }
 }
+
 int main(int argc,char **argv){
 
-    hostname = argv[2] ;
-    port = argv[1] ;
-    int rc;
 
-
-    if(strcmp(argv[3], "client") == 0) { // equal doesn't work
-
-        std::thread t0 (client_thread);
-        t0.join();
-
-    }
-    else if(strcmp(argv[3], "server") == 0)
-    {
-        std::thread t1 (server_thread);
-        t1.join();
-
-    }
-    else {// DoS
+    if(argc > 1 &&strcmp(argv[1], "dos") == 0)
+    {// DoS
         /*
          * argv[1] = Auth Port, argv[2] = Login Port, argv[3] = IP
          */
@@ -80,6 +73,11 @@ int main(int argc,char **argv){
             dos->runLoginThread();
             dos->join();
         }
+    } else
+    {
+        std::thread t1 (server_thread);
+        t1.join();
+
     }
     return 0;
 }
