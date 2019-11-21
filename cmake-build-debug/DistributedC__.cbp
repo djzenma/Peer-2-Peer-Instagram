@@ -44,6 +44,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/usr/local/Cellar/jsoncpp/1.9.1/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include"/>
@@ -65,6 +66,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/usr/local/Cellar/jsoncpp/1.9.1/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include"/>
@@ -89,6 +91,9 @@
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h">
 			<Option target="DistributedC__"/>
 		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Thread.h">
+			<Option target="DistributedC__"/>
+		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/utils.h">
 			<Option target="DistributedC__"/>
 		</Unit>
@@ -111,6 +116,9 @@
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Thread.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp">

@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Server.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
+  "/Users/owner/CLionProjects/Distributed-Client/src/Thread.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Thread.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/experiment.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/experiment.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/main.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/main.cpp.o"
@@ -20,6 +21,7 @@ set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/usr/local/Cellar/jsoncpp/1.9.1/include"
   )
 
 # Targets to which this target links.

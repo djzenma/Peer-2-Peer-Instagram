@@ -58,17 +58,13 @@ bool Client::decrementView(std::string image){
     else return false;
 }
 
-int Client::executePrompt() {
-    //reqReply->Accept();
-    cout << "Enter Request Number" ;
-    cin >> req;
+int Client::executePrompt(int req , int image_id , string name ) {
 
     switch (req) {
 
         case 0: // request samples from a specific user
         {
-            cout << "Enter User Requested ";
-            cin >> name;
+
             // before get host ip and port
             for (int i=0; i<3; i++){
                 Message m = buildRequestMsg(SendSample, i);
@@ -83,8 +79,7 @@ int Client::executePrompt() {
             break;
         }
         case 1:{ //All photos
-            cout << "Enter User Requested ";
-            cin >> name;
+
             // before get host ip and port
             for (int i=0; i<6; i++){
                 Message m = buildRequestMsg(SendImages, i);
@@ -99,9 +94,6 @@ int Client::executePrompt() {
         }
         case 2: //send 1 photo
         {
-            int image_id;
-            cout << "Which Picture would you like to view ? ";
-            cin >> image_id;
 
             Message msg = buildRequestMsg(SendImage, image_id);
             int req_status = reqReply->sendReq(msg);
@@ -126,9 +118,6 @@ int Client::executePrompt() {
     case 3: //update views when viewing image
     {
 
-        int image_id;
-        cout << "Which Picture would you like to view ? ";
-        cin >> image_id;
 
         std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
         std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";
