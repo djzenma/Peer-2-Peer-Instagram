@@ -13,7 +13,7 @@ Server::Server(const char * hostname, const char * port){
 /*
     constructs image msg given an image id
 */
-Message buildImageMsg(int image_id ,string hidden){
+Message buildImageMsg(int image_id ,string hidden, std::string request_id){
     std::string path = "./images/mine/" + to_string(image_id)+ ".jpg";
     std::string temp_path = "./images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
@@ -21,8 +21,9 @@ Message buildImageMsg(int image_id ,string hidden){
 
     std::string stego_image = stega_encode(path, hidden_text, temp_path);
     std::cout << stego_image ;
+    
     requestInfo reqinfo ={.image_id=image_id,
-                .storage_location="",
+                .request_id= request_id,
                 .p_message= stego_image,
                 .operation = SendImage,
                 .rpc_id = 5,
@@ -35,18 +36,21 @@ Message buildImageMsg(int image_id ,string hidden){
 
 void Server::dispatch(Message & msg){
     printf("Request Number: %i\n", msg.getOperation());
+
     int image_id = msg.getImageId();
+    std::string request_id = msg.getRequestId();
+
     std::string username;
     switch (msg.getOperation()){
         case SendImage: { // an image with a specified id
             int image_id = msg.getImageId();
-            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
+            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname, request_id);
             reqReply->sendReply(m);
             break;
         }
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , myName+","+hostname, request_id);
                 reqReply->sendReply(msg);
                 sleep(5);
             }
@@ -55,7 +59,7 @@ void Server::dispatch(Message & msg){
         case SendImages: { // an image with a specified id
         int no_views = 5; //default
             for(int i=0; i<6; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , myName+","+hostname, request_id);
 
                 reqReply->sendReply(msg);
                 sleep(5);
@@ -90,7 +94,7 @@ int Server::serveRequest(){
     if(msg.getMessageType() == Request) // check that msg is indeed a request message
         dispatch(msg);
     else printf("Server recieved a non request message. \n");
-    
+
     return 1;
 }
 

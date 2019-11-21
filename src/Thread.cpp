@@ -7,10 +7,10 @@ const char* port ;
 string h , p ;
 
 void client_thread(int req , int  image_id , string serverName) {
-    cout <<"Who do You want to Connect to (Ip)"; //from Dos
-    cin >> h ;
-    cout <<"Who do You want to Connect to (Port)"; //from Dos
-    cin >> p ;
+    cout << "Who do You want to Connect to (Ip)"; //from Dos
+    cin >> h;
+    cout << "Who do You want to Connect to (Port)"; //from Dos
+    cin >> p;
 
     port = p.c_str() ;
     hostname = h.c_str();

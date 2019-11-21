@@ -6,9 +6,7 @@
 RequestReply::RequestReply(const char *destinationPort, const char *destinationIp, bool isClient, int buff_size) {
 
     port = atoi(destinationPort);
-
     memset(&serverAddr,'\0',sizeof(serverAddr));
-
 
     if(isClient){
 
@@ -52,7 +50,6 @@ RequestReply::RequestReply(const char *destinationPort, const char *destinationI
 
 int RequestReply::sendReq (Message & m){ //send request number
 
-
     int sendStatus = static_cast<int>(sendto(socketfd, (void *)m.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
 
     ///Timeout Check
@@ -67,7 +64,6 @@ int RequestReply::sendReq (Message & m){ //send request number
         }
         else {break;}
     }
-
 
     if(sendStatus<=0) {
         perror("Send Failed with status ");
@@ -166,9 +162,7 @@ int RequestReply::sendReply(Message & m){
 
 int RequestReply::getReply(Message & m) {
 
-
     int buffersize = 0, recv_size = 0, size = 0, read_size = -1, write_size, packet_index = 1, stat;
-
     char recieve_buff[10241], verify = '1';
     FILE *image;
 

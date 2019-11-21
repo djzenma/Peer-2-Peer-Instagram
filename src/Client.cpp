@@ -3,30 +3,31 @@
 #include <iostream>
 using namespace std ;
 
-enum serviceOperations{
-    SendImage = 0,
-    GrantAccess = 1,
-    DecrementView = 2,
-    SendSample = 3,
-    SendImages = 4
-};
-
 
 Client::Client(const char * listen_hostname, const char * listen_port){
-    //std::string path = (std::string)PATH+"client_db.txt";
     buffer = new char [buff_size];
     this->port = listen_port ;
     this->hostname = listen_hostname ;
     std::string serverIp = hostname_to_ip((char *)listen_hostname);
-    //db = new Database(path);
-    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);}
-Message buildRequestMsg(serviceOperations operation, int image_id ){
-    requestInfo reqinfo ={.image_id=image_id,
-            .storage_location="",
+    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);
+    
+}
+
+std::string generateRequestId(Client * c){
+    static int req_num = 0;
+    std::cout <<   std::string(c->hostname) + std::string(c->port)  + to_string(req_num) << std::endl;
+    return std::string(c->hostname) + std::string(c->port) + to_string(req_num++);
+}
+
+Message Client::buildRequestMsg(serviceOperations operation, int image_id ){
+    requestInfo reqinfo = {
+            .image_id=image_id,
+            .request_id= generateRequestId(this),
             .p_message= "",
             .operation = operation,
             .rpc_id = 5,
-            .msg_type = Request };
+            .msg_type = Request
+    };
     Message msg = Message(reqinfo);
     return msg;
 }
@@ -40,6 +41,8 @@ string saveImage(std::string image, int image_id){
     std::string secret_text = stega_decode(temp_loc);
     return secret_text ;
 }
+
+
 
 bool Client::decrementView(std::string image){
     std::string output = stega_decode(image);
@@ -67,12 +70,12 @@ int Client::executePrompt(int req , int image_id , string name ) {
 
             // before get host ip and port
             for (int i=0; i<3; i++){
-                Message m = buildRequestMsg(SendSample, i);
-                int req_status = reqReply->sendReq(m);
+                Message request_msg = buildRequestMsg(SendSample, i);
+                int req_status = reqReply->sendReq(request_msg);
                 if (req_status >= 0) {
                     Message reply_msg = Message();
                     if (reqReply->getReply(reply_msg) >= 0) {
-                        if(reply_msg.getMessageType() == Reply){
+                        if(reply_msg.getMessageType() == Reply && request_msg.getRequestId() == reply_msg.getRequestId()){
                             saveImage(reply_msg.getMessage(), reply_msg.getImageId());
                         }
                         else printf("Client recieved a non-reply message.\n");
@@ -85,11 +88,11 @@ int Client::executePrompt(int req , int image_id , string name ) {
 
             // before get host ip and port
             for (int i=0; i<6; i++){
-                Message m = buildRequestMsg(SendImages, i);
-                int req_status = reqReply->sendReq(m);
+                Message request_msg = buildRequestMsg(SendImages, i);
+                int req_status = reqReply->sendReq(request_msg);
                 if (req_status >= 0){
                     Message reply_msg = Message();
-                    if(reqReply->getReply(reply_msg) >= 0)
+                    if(reqReply->getReply(reply_msg) >= 0 && reply_msg.getRequestId() == request_msg.getRequestId())
                         if(reply_msg.getMessageType() == Reply){
                             saveImage(reply_msg.getMessage(), reply_msg.getImageId());
                         }
@@ -101,13 +104,13 @@ int Client::executePrompt(int req , int image_id , string name ) {
         case 2: //send 1 photo
         {
 
-            Message msg = buildRequestMsg(SendImage, image_id);
-            int req_status = reqReply->sendReq(msg);
+            Message request_msg = buildRequestMsg(SendImage, image_id);
+            int req_status = reqReply->sendReq(request_msg);
 
             if (req_status >= 0){
                 Message reply_msg = Message();
                 if(reqReply->getReply(reply_msg) >= 0){
-                    if(reply_msg.getMessageType() == Reply){
+                    if(reply_msg.getMessageType() == Reply && request_msg.getRequestId() == reply_msg.getRequestId()){
                         std::string hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
                         stringstream ss(hiddenText);
                         string  token [3];
@@ -119,7 +122,7 @@ int Client::executePrompt(int req , int image_id , string name ) {
                         std::string senderName= token[1];
                         std::string senderIp= token[2];
                     }
-                    else printf("Client recieved a non-reply message. \n");   
+                    else printf("Client recieved a non-reply message or request and reply id don't match. \n");   
                 }
 
                 }
@@ -157,26 +160,6 @@ int Client::executePrompt(int req , int image_id , string name ) {
     }
     }
     return 1 ;
-}
-int Client::requestNumber(int req) {
-    requestInfo reqinfo ={.image_id=1,
-                .storage_location="manar",
-                .p_message= "",
-                .operation = req,
-                .rpc_id = 5,
-                .msg_type = Reply };
-
-    Message msg = Message(reqinfo);
-
-    printf("\nSending a Request of index: %i\n", req);
-    return reqReply->sendReq(msg); //sends request number to server
-}
-
-int Client::requestSamples(std::string s ) {
-    printf("Receiving Samples ...\n");
-    Message m = Message();
-    return reqReply->getReply(m) ; // receives photo
-    //reqReply->shutDownFD();
 }
 
 
