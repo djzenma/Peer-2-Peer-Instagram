@@ -7,8 +7,9 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <zconf.h>
-#include "../headers/Communication.h"
+#include<stdio.h>
 
+#include "../headers/Communication.h"
 
 int Communication::sendMsg(const char * IP, const int PORT, char* msg) {
     int sock = 0, valread;

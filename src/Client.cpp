@@ -32,7 +32,7 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
 }
 string saveImage(std::string image, int image_id){
 
-    std::string temp_loc = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc = (std::string)"./images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -72,7 +72,10 @@ int Client::executePrompt(int req , int image_id , string name ) {
                 if (req_status >= 0) {
                     Message reply_msg = Message();
                     if (reqReply->getReply(reply_msg) >= 0) {
-                    saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        if(reply_msg.getMessageType() == Reply){
+                            saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        }
+                        else printf("Client recieved a non-reply message.\n");
                 }
                 }
             }
@@ -87,7 +90,10 @@ int Client::executePrompt(int req , int image_id , string name ) {
                 if (req_status >= 0){
                     Message reply_msg = Message();
                     if(reqReply->getReply(reply_msg) >= 0)
-                        saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        if(reply_msg.getMessageType() == Reply){
+                            saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        }
+                        else printf("Client recieved a non-reply message. \n");
                 }
             }
             break;
@@ -101,23 +107,26 @@ int Client::executePrompt(int req , int image_id , string name ) {
             if (req_status >= 0){
                 Message reply_msg = Message();
                 if(reqReply->getReply(reply_msg) >= 0){
-                    std::string hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
-                    stringstream ss(hiddenText);
-                    string  token [3];
-                    int i =0 ;
-                    while (getline(ss, token[i], ',')) {
-                        i++ ;
+                    if(reply_msg.getMessageType() == Reply){
+                        std::string hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        stringstream ss(hiddenText);
+                        string  token [3];
+                        int i =0 ;
+                        while (getline(ss, token[i], ',')) {
+                            i++ ;
+                        }
+                        int numViews = stoi(token[0]);
+                        std::string senderName= token[1];
+                        std::string senderIp= token[2];
                     }
-                    int numViews = stoi(token[0]);
-                    std::string senderName= token[1];
-                    std::string senderIp= token[2];}
+                    else printf("Client recieved a non-reply message. \n");   
+                }
 
                 }
             break ;
         }
     case 3: //update views when viewing image
     {
-
 
         std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
         std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";

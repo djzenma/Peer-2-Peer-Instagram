@@ -1,4 +1,5 @@
 #include "../headers/Server.h"
+
 #define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (16)/Distributed-Client-master/"
 Server::Server(const char * hostname, const char * port){
     std::string path = (std::string)PATH+"server_db.txt";
@@ -13,8 +14,8 @@ Server::Server(const char * hostname, const char * port){
     constructs image msg given an image id
 */
 Message buildImageMsg(int image_id ,string hidden){
-    std::string path = "/Users/owner/CLionProjects/Distributed-Client/images/mine/" + to_string(image_id)+ ".jpg";
-    std::string temp_path = "/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ "_stego.jpg";
+    std::string path = "./images/mine/" + to_string(image_id)+ ".jpg";
+    std::string temp_path = "./images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
     std::string hidden_text = hidden;
 
@@ -40,7 +41,6 @@ void Server::dispatch(Message & msg){
         case SendImage: { // an image with a specified id
             int image_id = msg.getImageId();
             Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
-
             reqReply->sendReply(m);
             break;
         }
@@ -84,10 +84,13 @@ void Server::dec_count(Message m){
 }
 int Server::serveRequest(){
     Message msg = Message();
-        reqReply->getReq(msg);
-        printf("Data Recieveddddx:%s \n", msg.getMessage().c_str()); // msg received
-
-    dispatch(msg);
+    reqReply->getReq(msg);
+    printf("Data Recievedx:%s \n", msg.getMessage().c_str()); // msg received
+    
+    if(msg.getMessageType() == Request) // check that msg is indeed a request message
+        dispatch(msg);
+    else printf("Server recieved a non request message. \n");
+    
     return 1;
 }
 

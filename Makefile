@@ -9,8 +9,8 @@ SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g
-LIB := -pthread
-INC := -I headers
+LIB := -pthread -ljsoncpp
+INC := -I headers -I /usr/include/jsoncpp
 
 
 all: $(TARGET)

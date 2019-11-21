@@ -158,7 +158,7 @@ int RequestReply::sendReply(Message & m){
         chunks--;
         //Zero out our send buffer
         bzero(send_buffer, sizeof(send_buffer));
-        sleep(1);
+        //sleep(1);
     }
     chunks= 0 ;
     return 1;
