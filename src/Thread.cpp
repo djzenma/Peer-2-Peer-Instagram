@@ -21,7 +21,7 @@ void client_thread(int req , int  image_id , string serverName) {
 }
 
 void  server_thread() {
-    Server* s = new Server("127.0.0.1", "4040"); //needs to connect to client thus gets ip and port from argsv
+    Server* s = new Server("10.40.42.151", "5050"); //needs to connect to client thus gets ip and port from argsv
     while(1) {
             s->serveRequest();
     }

@@ -1,7 +1,7 @@
 #include "../headers/Client.h"
 #define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (16)/Distributed-Client-master/"
 #include <iostream>
-using namespace std ;
+using namespace std;
 
 
 Client::Client(const char * listen_hostname, const char * listen_port){
@@ -33,7 +33,7 @@ Message Client::buildRequestMsg(serviceOperations operation, int image_id ){
 }
 string saveImage(std::string image, int image_id){
 
-    std::string temp_loc = (std::string)"./images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc = std::string(get_current_dir_name()) + (std::string)"/images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -46,7 +46,7 @@ string saveImage(std::string image, int image_id){
 
 bool Client::decrementView(std::string image){
     std::string output = stega_decode(image);
-    std::string tempPath = "./images/stego/temp.jpg";
+    std::string tempPath = std::string(get_current_dir_name()) + "/images/stego/temp.jpg";
     int sep_index = output.find(',');
     int num_views = atoi(output.substr(0, sep_index).c_str());
     FILE * fp1, *fp2;
@@ -131,8 +131,8 @@ int Client::executePrompt(int req , int image_id , string name ) {
     case 3: //update views when viewing image
     {
 
-        std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
-        std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";
+        std::string path = std::string(get_current_dir_name())+ (std::string)"/images/requested/" + to_string(image_id)+ ".jpg";
+        std::string temp_path = std::string(get_current_dir_name()) +(std::string)"/images/stego/" + to_string(image_id)+ ".jpg";
         std::string s = stega_decode(path);
         std::cout<<s<<endl;
 

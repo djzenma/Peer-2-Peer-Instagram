@@ -12,14 +12,6 @@
 using namespace std;
 
 
-enum serviceOperations{
-    SendImage = 0,
-    GrantAccess = 1,
-    DecrementView = 2,
-    SendSample = 3,
-    SendImages = 4
-};
-
 class Server {
 
     private:
