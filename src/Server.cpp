@@ -85,7 +85,7 @@ void Server::dec_count(Message m){
 int Server::serveRequest(){
     Message msg = Message();
         reqReply->getReq(msg);
-        printf("Data Recieveddddx:%s \n", msg.getMessage().c_str()); // msg received
+        printf("Data Recieved:%s \n", msg.getMessage().c_str()); // msg received
 
     dispatch(msg);
     return 1;

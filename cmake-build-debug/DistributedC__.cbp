@@ -89,6 +89,9 @@
 		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/Stego.h">
 			<Option target="DistributedC__"/>
 		</Unit>
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/Thread.h">
+			<Option target="DistributedC__"/>
+		</Unit>
 		<Unit filename="/Users/owner/Desktop/Distributed-Client/headers/utils.h">
 			<Option target="DistributedC__"/>
 		</Unit>
@@ -111,6 +114,9 @@
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Stego.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/Thread.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/Desktop/Distributed-Client/src/base64.cpp">

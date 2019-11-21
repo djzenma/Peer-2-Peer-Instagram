@@ -39,6 +39,17 @@ CMakeFiles/DistributedC__.dir/src/Server.cpp.o: ../src/Server.cpp
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: ../headers/Stego.h
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: ../src/Stego.cpp
 
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/Client.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/Database.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/Message.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/RequestReply.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/Server.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/Stego.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/Thread.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/base64.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../headers/utils.h
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../src/Thread.cpp
+
 CMakeFiles/DistributedC__.dir/src/base64.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/base64.cpp.o: ../src/base64.cpp
 
@@ -53,6 +64,7 @@ CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Message.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/RequestReply.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Server.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Stego.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Thread.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../src/main.cpp

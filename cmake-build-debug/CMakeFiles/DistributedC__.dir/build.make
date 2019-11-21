@@ -161,9 +161,22 @@ CMakeFiles/DistributedC__.dir/src/experiment.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/experiment.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/Desktop/Distributed-Client/src/experiment.cpp -o CMakeFiles/DistributedC__.dir/src/experiment.cpp.s
 
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.o: ../src/Thread.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DistributedC__.dir/src/Thread.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Thread.cpp.o -c /Users/owner/Desktop/Distributed-Client/src/Thread.cpp
+
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Thread.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/Desktop/Distributed-Client/src/Thread.cpp > CMakeFiles/DistributedC__.dir/src/Thread.cpp.i
+
+CMakeFiles/DistributedC__.dir/src/Thread.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Thread.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/Desktop/Distributed-Client/src/Thread.cpp -o CMakeFiles/DistributedC__.dir/src/Thread.cpp.s
+
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: ../src/Stego.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.o -c /Users/owner/Desktop/Distributed-Client/src/Stego.cpp
 
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.i: cmake_force
@@ -176,7 +189,7 @@ CMakeFiles/DistributedC__.dir/src/Stego.cpp.s: cmake_force
 
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../src/DoS.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DistributedC__.dir/src/DoS.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/DistributedC__.dir/src/DoS.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/DoS.cpp.o -c /Users/owner/Desktop/Distributed-Client/src/DoS.cpp
 
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.i: cmake_force
@@ -189,7 +202,7 @@ CMakeFiles/DistributedC__.dir/src/DoS.cpp.s: cmake_force
 
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../src/Communication.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Communication.cpp.o -c /Users/owner/Desktop/Distributed-Client/src/Communication.cpp
 
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.i: cmake_force
@@ -210,6 +223,7 @@ DistributedC___OBJECTS = \
 "CMakeFiles/DistributedC__.dir/src/main.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/base64.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/experiment.cpp.o" \
+"CMakeFiles/DistributedC__.dir/src/Thread.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/Stego.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/DoS.cpp.o" \
 "CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
@@ -225,12 +239,13 @@ DistributedC__: CMakeFiles/DistributedC__.dir/src/utils.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/main.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/base64.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/experiment.cpp.o
+DistributedC__: CMakeFiles/DistributedC__.dir/src/Thread.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/Stego.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/DoS.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/Communication.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/build.make
 DistributedC__: CMakeFiles/DistributedC__.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable DistributedC__"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/owner/Desktop/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable DistributedC__"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DistributedC__.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

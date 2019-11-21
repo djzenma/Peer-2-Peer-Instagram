@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/Server.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
+  "CMakeFiles/DistributedC__.dir/src/Thread.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/experiment.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/main.cpp.o"
