@@ -7,10 +7,10 @@ const char* port ;
 string h , p ;
 
 void client_thread(int req , int  image_id , string serverName) {
-    cout <<"Who do You want to Connect to (Ip)"; //from Dos
-    cin >> h ;
-    cout <<"Who do You want to Connect to (Port)"; //from Dos
-    cin >> p ;
+    cout << "Who do You want to Connect to (Ip)"; //from Dos
+    cin >> h;
+    cout << "Who do You want to Connect to (Port)"; //from Dos
+    cin >> p;
 
     port = p.c_str() ;
     hostname = h.c_str();
@@ -21,7 +21,7 @@ void client_thread(int req , int  image_id , string serverName) {
 }
 
 void  server_thread() {
-    Server* s = new Server("127.0.0.1", "4040"); //needs to connect to client thus gets ip and port from argsv
+    Server* s = new Server("10.40.42.151", "5050"); //needs to connect to client thus gets ip and port from argsv
     while(1) {
             s->serveRequest();
     }

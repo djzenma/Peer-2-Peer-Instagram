@@ -1,38 +1,39 @@
 #include "../headers/Client.h"
 #define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (16)/Distributed-Client-master/"
 #include <iostream>
-using namespace std ;
-
-enum serviceOperations{
-    SendImage = 0,
-    GrantAccess = 1,
-    DecrementView = 2,
-    SendSample = 3,
-    SendImages = 4
-};
+using namespace std;
 
 
 Client::Client(const char * listen_hostname, const char * listen_port){
-    //std::string path = (std::string)PATH+"client_db.txt";
     buffer = new char [buff_size];
     this->port = listen_port ;
     this->hostname = listen_hostname ;
     std::string serverIp = hostname_to_ip((char *)listen_hostname);
-    //db = new Database(path);
-    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);}
-Message buildRequestMsg(serviceOperations operation, int image_id ){
-    requestInfo reqinfo ={.image_id=image_id,
-            .storage_location="",
+    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);
+    
+}
+
+std::string generateRequestId(Client * c){
+    static int req_num = 0;
+    std::cout <<   std::string(c->hostname) + std::string(c->port)  + to_string(req_num) << std::endl;
+    return std::string(c->hostname) + std::string(c->port) + to_string(req_num++);
+}
+
+Message Client::buildRequestMsg(serviceOperations operation, int image_id ){
+    requestInfo reqinfo = {
+            .image_id=image_id,
+            .request_id= generateRequestId(this),
             .p_message= "",
             .operation = operation,
             .rpc_id = 5,
-            .msg_type = Request };
+            .msg_type = Request
+    };
     Message msg = Message(reqinfo);
     return msg;
 }
 string saveImage(std::string image, int image_id){
 
-    std::string temp_loc = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc = std::string(get_current_dir_name()) + (std::string)"/images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -41,9 +42,11 @@ string saveImage(std::string image, int image_id){
     return secret_text ;
 }
 
+
+
 bool Client::decrementView(std::string image){
     std::string output = stega_decode(image);
-    std::string tempPath = "./images/stego/temp.jpg";
+    std::string tempPath = std::string(get_current_dir_name()) + "/images/stego/temp.jpg";
     int sep_index = output.find(',');
     int num_views = atoi(output.substr(0, sep_index).c_str());
     FILE * fp1, *fp2;
@@ -67,12 +70,15 @@ int Client::executePrompt(int req , int image_id , string name ) {
 
             // before get host ip and port
             for (int i=0; i<3; i++){
-                Message m = buildRequestMsg(SendSample, i);
-                int req_status = reqReply->sendReq(m);
+                Message request_msg = buildRequestMsg(SendSample, i);
+                int req_status = reqReply->sendReq(request_msg);
                 if (req_status >= 0) {
                     Message reply_msg = Message();
                     if (reqReply->getReply(reply_msg) >= 0) {
-                    saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        if(reply_msg.getMessageType() == Reply && request_msg.getRequestId() == reply_msg.getRequestId()){
+                            saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        }
+                        else printf("Client recieved a non-reply message.\n");
                 }
                 }
             }
@@ -82,12 +88,15 @@ int Client::executePrompt(int req , int image_id , string name ) {
 
             // before get host ip and port
             for (int i=0; i<6; i++){
-                Message m = buildRequestMsg(SendImages, i);
-                int req_status = reqReply->sendReq(m);
+                Message request_msg = buildRequestMsg(SendImages, i);
+                int req_status = reqReply->sendReq(request_msg);
                 if (req_status >= 0){
                     Message reply_msg = Message();
-                    if(reqReply->getReply(reply_msg) >= 0)
-                        saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                    if(reqReply->getReply(reply_msg) >= 0 && reply_msg.getRequestId() == request_msg.getRequestId())
+                        if(reply_msg.getMessageType() == Reply){
+                            saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        }
+                        else printf("Client recieved a non-reply message. \n");
                 }
             }
             break;
@@ -95,22 +104,26 @@ int Client::executePrompt(int req , int image_id , string name ) {
         case 2: //send 1 photo
         {
 
-            Message msg = buildRequestMsg(SendImage, image_id);
-            int req_status = reqReply->sendReq(msg);
+            Message request_msg = buildRequestMsg(SendImage, image_id);
+            int req_status = reqReply->sendReq(request_msg);
 
             if (req_status >= 0){
                 Message reply_msg = Message();
                 if(reqReply->getReply(reply_msg) >= 0){
-                    std::string hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
-                    stringstream ss(hiddenText);
-                    string  token [3];
-                    int i =0 ;
-                    while (getline(ss, token[i], ',')) {
-                        i++ ;
+                    if(reply_msg.getMessageType() == Reply && request_msg.getRequestId() == reply_msg.getRequestId()){
+                        std::string hiddenText =  saveImage(reply_msg.getMessage(), reply_msg.getImageId());
+                        stringstream ss(hiddenText);
+                        string  token [3];
+                        int i =0 ;
+                        while (getline(ss, token[i], ',')) {
+                            i++ ;
+                        }
+                        int numViews = stoi(token[0]);
+                        std::string senderName= token[1];
+                        std::string senderIp= token[2];
                     }
-                    int numViews = stoi(token[0]);
-                    std::string senderName= token[1];
-                    std::string senderIp= token[2];}
+                    else printf("Client recieved a non-reply message or request and reply id don't match. \n");   
+                }
 
                 }
             break ;
@@ -118,9 +131,8 @@ int Client::executePrompt(int req , int image_id , string name ) {
     case 3: //update views when viewing image
     {
 
-
-        std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
-        std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";
+        std::string path = std::string(get_current_dir_name())+ (std::string)"/images/requested/" + to_string(image_id)+ ".jpg";
+        std::string temp_path = std::string(get_current_dir_name()) +(std::string)"/images/stego/" + to_string(image_id)+ ".jpg";
         std::string s = stega_decode(path);
         std::cout<<s<<endl;
 
@@ -148,26 +160,6 @@ int Client::executePrompt(int req , int image_id , string name ) {
     }
     }
     return 1 ;
-}
-int Client::requestNumber(int req) {
-    requestInfo reqinfo ={.image_id=1,
-                .storage_location="manar",
-                .p_message= "",
-                .operation = req,
-                .rpc_id = 5,
-                .msg_type = Reply };
-
-    Message msg = Message(reqinfo);
-
-    printf("\nSending a Request of index: %i\n", req);
-    return reqReply->sendReq(msg); //sends request number to server
-}
-
-int Client::requestSamples(std::string s ) {
-    printf("Receiving Samples ...\n");
-    Message m = Message();
-    return reqReply->getReply(m) ; // receives photo
-    //reqReply->shutDownFD();
 }
 
 

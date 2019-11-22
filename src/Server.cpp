@@ -1,4 +1,5 @@
 #include "../headers/Server.h"
+
 #define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (16)/Distributed-Client-master/"
 Server::Server(const char * hostname, const char * port){
     std::string path = (std::string)PATH+"server_db.txt";
@@ -12,16 +13,17 @@ Server::Server(const char * hostname, const char * port){
 /*
     constructs image msg given an image id
 */
-Message buildImageMsg(int image_id ,string hidden){
-    std::string path = "/Users/owner/CLionProjects/Distributed-Client/images/mine/" + to_string(image_id)+ ".jpg";
-    std::string temp_path = "/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ "_stego.jpg";
+Message buildImageMsg(int image_id ,string hidden, std::string request_id){
+    std::string path = std::string(get_current_dir_name())+ "/images/mine/" + to_string(image_id)+ ".jpg";
+    std::string temp_path = std::string(get_current_dir_name()) + "/images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
     std::string hidden_text = hidden;
 
     std::string stego_image = stega_encode(path, hidden_text, temp_path);
     std::cout << stego_image ;
+    
     requestInfo reqinfo ={.image_id=image_id,
-                .storage_location="",
+                .request_id= request_id,
                 .p_message= stego_image,
                 .operation = SendImage,
                 .rpc_id = 5,
@@ -34,19 +36,21 @@ Message buildImageMsg(int image_id ,string hidden){
 
 void Server::dispatch(Message & msg){
     printf("Request Number: %i\n", msg.getOperation());
+
     int image_id = msg.getImageId();
+    std::string request_id = msg.getRequestId();
+
     std::string username;
     switch (msg.getOperation()){
         case SendImage: { // an image with a specified id
             int image_id = msg.getImageId();
-            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
-
+            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname, request_id);
             reqReply->sendReply(m);
             break;
         }
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , myName+","+hostname, request_id);
                 reqReply->sendReply(msg);
                 sleep(5);
             }
@@ -55,7 +59,7 @@ void Server::dispatch(Message & msg){
         case SendImages: { // an image with a specified id
         int no_views = 5; //default
             for(int i=0; i<6; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , myName+","+hostname, request_id);
 
                 reqReply->sendReply(msg);
                 sleep(5);
@@ -84,10 +88,13 @@ void Server::dec_count(Message m){
 }
 int Server::serveRequest(){
     Message msg = Message();
-        reqReply->getReq(msg);
-        printf("Data Recieveddddx:%s \n", msg.getMessage().c_str()); // msg received
+    reqReply->getReq(msg);
+    printf("Data Recievedx:%s \n", msg.getMessage().c_str()); // msg received
+    
+    if(msg.getMessageType() == Request) // check that msg is indeed a request message
+        dispatch(msg);
+    else printf("Server recieved a non request message. \n");
 
-    dispatch(msg);
     return 1;
 }
 
