@@ -51,105 +51,6 @@ char* Communication::sendMsg(const char * IP, const int PORT, char* msg) {
 }
 
 
-/* Client listens for image from server
- * get image msg
- */
-int Communication::getImage(Message & m) {
-    int newsockfd;
-    struct sockaddr_in cli_addr;
-    socklen_t clilen;
-
-    reset();
-    // Accept
-    listen(sock,5);
-    puts("Waiting for Image Size...");
-
-    clilen = sizeof(cli_addr);
-
-    newsockfd = accept(sock, (struct sockaddr *) &cli_addr, &clilen);
-    if (newsockfd < 0)
-        perror("ERROR on accept");
-
-    printf("server: got connection from %s port %d\n",
-           inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
-    // End of Accept
-
-    int buffersize = 0, recv_size = 0, size = 0, read_size = -1, write_size, packet_index = 1, stat;
-
-    char recieve_buff[10241], verify = '1';
-    FILE *image;
-
-    //Find the size of the message
-    do {
-        stat = read(newsockfd, &size, sizeof(int));
-    } while (stat < 0);
-
-    printf("Packet received.\n");
-    printf("Packet size: %i\n", stat);
-    printf("Message size: %i\n", size);
-    printf(" \n");
-
-    //Loop while we have not received the entire file yet
-
-    struct timeval timeout = {20, 0};
-
-    fd_set fds;
-    int buffer_fd;
-
-    std::string recieved_msg = "";
-    int index = 1;
-    while (recv_size < size &&  read_size != 0 ) {
-
-        FD_ZERO(&fds);
-        FD_SET(newsockfd, &fds);
-
-        buffer_fd = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
-
-        if (buffer_fd < 0)
-            printf("error: bad file descriptor set.\n");
-
-        if (buffer_fd == 0)
-            printf("error: buffer read timeout expired.\n");
-
-        if (buffer_fd > 0) {
-            do {
-                read_size = read(newsockfd, recieve_buff, 10241);
-            } while (read_size < 0);
-
-            std::string chunked_msg = std::string(recieve_buff, read_size);
-            recieved_msg = recieved_msg + chunked_msg;
-
-            printf("Packet number received: %i\n", index++);
-            printf("Packet size: %i\n", read_size);
-
-            //Increment the total number of bytes read
-            recv_size += read_size;
-            std::cout << "r " << recv_size << std::endl;
-            packet_index++;
-            printf("Total received msg size: %i\n", recv_size);
-            printf(" \n");
-        }
-
-    }
-    std::cout << " recieve size " << recieved_msg.length() << " size :  " << size <<   std::endl;
-    if (recieved_msg.length() >= size && size != 0)
-    {
-        printf("Total Message size: %i\n", recieved_msg.length());
-        m = Message(recieved_msg);
-        std::string temp_loc = "/home/manar/Desktop/Distributed-Client/client2.jpg";
-        std::ofstream outFile;
-        outFile.open(temp_loc);
-        outFile << m.getMessage();
-        outFile.close();
-
-        return 1;
-    }
-    else {
-        printf("Message Not Received!\n");
-        return -1;
-    }
-}
-
 
 /* Initializes Socket to send to arg "ip"
  */
@@ -222,82 +123,6 @@ Message Communication::buildImageMsg(int image_id, std::string owner_ip, std::st
     return msg;
 }
 
-
-
-int Communication::sendImage(Message &m){
-    int packet_index = 1;
-    std::string marshalled = m.marshal();
-    int msg_size = marshalled.length();
-
-    // Divide msg into chunks
-    int chunks = ceil((float)msg_size / sizeof(send_buffer));
-    printf("msg_size %i: , send_buffer %i , chunks: %i \n", msg_size, sizeof(send_buffer), chunks );
-
-    int rem = remainder((float)marshalled.length() , sizeof(send_buffer)) ;
-    printf("Message size after Marshalling : %i, Dividing to : %i\n", msg_size,chunks );
-
-    printf("Sending Message Size\n");
-    stat = write(socketfd, (void *)&msg_size, sizeof(int));
-
-    int index = 0;
-    total_size = 0;
-    while(chunks!=0){
-        std::string chunkedImage;
-        if(chunks == 1){
-            chunkedImage = marshalled.substr(index * sizeof(send_buffer));
-        }
-        else{
-            chunkedImage = marshalled.substr(index * sizeof(send_buffer), sizeof(send_buffer));
-        }
-        printf("lenght : %i: , %i \n", chunkedImage.length(), marshalled.length());
-        strcpy(send_buffer , chunkedImage.c_str());
-
-        //Send data through our socket
-        if (chunks==1 && rem !=0) // last chunk
-            read_size=rem ;
-        else
-            read_size=sizeof(send_buffer);
-
-        stat = write(socketfd, send_buffer, read_size);
-        ///Timeout Check
-        int n = 0;
-        if (stat<=0)
-            n =5;
-        while (stat<=0){
-            std::cout << "I am trying again to send packet"<< std::endl;
-            if (n>0){
-                stat = write(socketfd, send_buffer, read_size);
-                n-- ;
-            }
-            else {break;}
-        }
-        if(stat<=0) {
-            perror("Send Failed with status ");
-            return stat;
-        }
-        else
-            printf("Sent All\n");
-
-        total_size += read_size;
-
-        printf("Packet Number: %i\n", packet_index);
-        printf("Packet Size Sent: %i\n", read_size);
-        printf("Sent: %i of the message\n", total_size);
-        printf(" \n");
-        printf(" \n");
-
-        index++;
-        packet_index++;
-        chunks--;
-        //Zero out our send buffer
-        bzero(send_buffer, sizeof(send_buffer));
-        sleep(0.5);
-    }
-    chunks= 0 ;
-    return 1;
-}
-
-
 // socket creation & binding
 // Returns socketfd, address
 Communication::Transaction Communication::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
@@ -359,7 +184,7 @@ int Communication::listenTx(Communication::Transaction tx, char* req) {
 
 
 // UDP
-int Communication::sendReply(Message & m, std::string destIp){
+int Communication::sendImage(Message &m, std::string destIp){
     int port, socketfd;
     struct sockaddr_in serverAddr, si_other;
 
@@ -458,7 +283,7 @@ int Communication::sendReply(Message & m, std::string destIp){
     return 1;
 }
 
-int Communication::getReply(Message & m, const char * listenerIP) {
+int Communication::getImage(Message &m, const char *listenerIP) {
     int port, socketfd;
     struct sockaddr_in serverAddr;
     socklen_t addr_size;

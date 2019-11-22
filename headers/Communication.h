@@ -46,12 +46,8 @@ public:
     char* sendMsg(const char * IP, int PORT, char* msg);
 
     Message buildImageMsg(int image_id, std::string owner_ip, std::string owner_name);
-    int getImage(Message & m);
-    int sendImage(Message &m);
-
-    // Attempt
-    int sendReply(Message & m, std::string destIp);
-    int getReply(Message & m, const char *listenerIP) ;
+    int getImage(Message &m, const char *listenerIP) ;
+    int sendImage(Message &m, std::string destIp);
 };
 
 

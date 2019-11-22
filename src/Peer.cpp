@@ -48,6 +48,6 @@ void Peer::sendMyImgs(std::string dosIp) {
         Message img = com->buildImageMsg(i, myIp, myName);
         //com->init_imaging_socket(dosIp_char);
         //com->sendImage(img);
-        com->sendReply(img, dosIp);
+        com->sendImage(img, dosIp);
     }
 }

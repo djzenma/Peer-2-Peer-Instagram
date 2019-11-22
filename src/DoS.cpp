@@ -105,7 +105,7 @@ std::vector<Message> DoS::getAllImages(int n, std::string listenerIP) {
     for (int i=0; i<n; i++) {
         Message image;
         //com->getImage(image);
-        com->getReply(image, listenerIP.c_str());
+        com->getImage(image, listenerIP.c_str());
         images.push_back(image);
     }
 
@@ -117,7 +117,7 @@ void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
     com->init_imaging_socket(getIP(com->authTx.address));
     for (int i = 0; i < 3; i++) {
         Message msg = com->buildImageMsg(i, owner_ip, owner_name);
-        com->sendImage(msg);
+        com->sendImage(msg, owner_ip);
         sleep(5);
     }
 }

@@ -14,8 +14,10 @@ Server::Server(const char * hostname, const char * port){
     constructs image msg given an image id
 */
 Message buildImageMsg(int image_id ,string hidden, std::string request_id){
-    std::string path = std::string(get_current_dir_name())+ "/images/mine/" + to_string(image_id)+ ".jpg";
-    std::string temp_path = std::string(get_current_dir_name()) + "/images/stego/" + to_string(image_id)+ "_stego.jpg";
+    char* wd;
+    getwd(wd);
+    std::string path = std::string(wd)+ "/images/mine/" + to_string(image_id)+ ".jpg";
+    std::string temp_path = std::string(wd) + "/images/stego/" + to_string(image_id)+ "_stego.jpg";
     // get hidden text from DB
     std::string hidden_text = hidden;
 

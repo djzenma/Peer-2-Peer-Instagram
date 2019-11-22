@@ -13,6 +13,7 @@ link_directories(/usr/local/Cellar/jsoncpp/1.9.1/lib)
 
 add_executable(DistributedC__
         src/Client.cpp
+        headers/Client.h
         src/Message.cpp
         src/RequestReply.cpp
         src/Server.cpp
