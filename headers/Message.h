@@ -15,6 +15,8 @@ enum MessageType {
 
 struct requestInfo {
     int image_id;
+    std::string owner_ip;
+    std::string owner_name;
     std::string storage_location;
     std::string p_message;           // msg buffer : contain text/image
     int operation;                  // operation id
