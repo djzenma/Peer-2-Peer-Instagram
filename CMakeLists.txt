@@ -30,7 +30,9 @@ add_executable(DistributedC__
         headers/Communication.h
         src/Database.cpp
         src/Peer.cpp
-        headers/Peer.h)
+        headers/Peer.h
+        src/Thread.cpp
+        headers/Thread.h)
 
 #target_link_libraries(DistributedC__)
 #target_link_libraries(DistributedC__ ${JSONCPP_LIBRARIES})
