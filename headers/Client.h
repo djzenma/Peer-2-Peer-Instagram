@@ -185,6 +185,7 @@ private:
     std::string name ;
     int req ;
     int viewPic ;
+    int requestedIndex = 0  ;
     //Database* db;
 
 

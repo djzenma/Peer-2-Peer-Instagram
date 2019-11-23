@@ -109,7 +109,7 @@ int Client::executePrompt(int req , int image_id , string name ) {
                         i++ ;
                     }
                     int numViews = stoi(token[0]);
-                    std::string senderName= token[1];
+                    std::string senderPort= token[1];
                     std::string senderIp= token[2];}
 
                 }

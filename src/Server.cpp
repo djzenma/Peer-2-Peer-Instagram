@@ -7,7 +7,6 @@ Server::Server(const char * hostname, const char * port){
     std::string serverIp = hostname_to_ip((char *)hostname);
     //db = new Database(path);
     reqReply = new RequestReply(port, serverIp.c_str(), false, 1024);
-    myName = "Bassant";
 }
 /*
     constructs image msg given an image id
@@ -35,18 +34,17 @@ Message buildImageMsg(int image_id ,string hidden){
 void Server::dispatch(Message & msg){
     printf("Request Number: %i\n", msg.getOperation());
     int image_id = msg.getImageId();
-    std::string username;
     switch (msg.getOperation()){
         case SendImage: { // an image with a specified id
             int image_id = msg.getImageId();
-            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
+            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+port+","+hostname);
 
             reqReply->sendReply(m);
             break;
         }
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , (string)port+","+hostname);
                 reqReply->sendReply(msg);
                 sleep(5);
             }
@@ -55,7 +53,7 @@ void Server::dispatch(Message & msg){
         case SendImages: { // an image with a specified id
         int no_views = 5; //default
             for(int i=0; i<6; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , (string)port+","+hostname);
 
                 reqReply->sendReply(msg);
                 sleep(5);
