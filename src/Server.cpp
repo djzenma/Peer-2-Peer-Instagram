@@ -11,7 +11,6 @@ Server::Server(const char * hostname, const char * port){
     std::string serverIp = hostname_to_ip((char *)hostname);
     //db = new Database(path);
     reqReply = new RequestReply(port, serverIp.c_str(), false, 1024);
-    myName = "Bassant";
 }
 /*
     constructs image msg given an image id

@@ -22,22 +22,10 @@ void  server_thread(std::string serverName, int port_num) {
     Server* s = new Server("10.40.37.247",to_string(port_num).c_str()); //needs to connect to client thus gets ip and port from argsv
     std::cout<<"port: "<<port_num<<endl;
     port_num = port_num+100;
-    /*if (parent){
-        std::cout<<"entered          "<<endl;
-        int reqNum = -1 ;
-        string serverName;
-        int image_id;
-        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName,false); //server thread
-    }
-    else{
-        Server* q = new Server("127.0.0.1", "6040");
-        */
-    //while(1) {
+
 
             s->serveRequest(serverName);
-    //}
 
-   // s->thread_server(parent);
 }
 
 
