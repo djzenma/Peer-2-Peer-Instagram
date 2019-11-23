@@ -22,7 +22,7 @@ DoS::DoS(const char *LISTEN_IP) {
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 void DoS::runLoginSys() {
     int new_socket;
-    char req[1024] = {0};
+    char req[2000] = {0};
     Credentials credentials;
     std::map<std::string, std::string>::iterator it;
     char *res;
@@ -60,7 +60,7 @@ void DoS::runAuthSys() {
 
     std::cout<<"DoS: Listening for Auth\n";
     while(true) {
-        char req[1024] = {0};
+        char req[2000] = {0};
         // Listening For Authentication
         new_socket = com->listenTx(com->authTx, req);
 
@@ -76,8 +76,12 @@ void DoS::runAuthSys() {
             // Send ok Response
             send(new_socket , "ok" , strlen("ok") , 0);
         }
+        else if(strcmp(req, "sample") == 0){
+            std::cout<<"DoS: Sending number of samples...\n";
+            int n = 2;
+            send(new_socket , "2" , strlen("2") , 0);
+        }
         else {  // Peer Sends all his photos, req = number of photos
-
             std::cout<<"DoS: Num of Images to be received: "<<req<<"\n";
             // Send ok Response (ok send me your photos)
             send(new_socket , "ok" , strlen("ok") , 0);
@@ -105,7 +109,7 @@ std::vector<Message> DoS::getAllImages(int n, std::string listenerIP) {
     for (int i=0; i<n; i++) {
         Message image;
         //com->getImage(image);
-        com->getImage(image, listenerIP.c_str());
+        com->getImage(image);
         images.push_back(image);
     }
 

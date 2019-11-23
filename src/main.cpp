@@ -17,7 +17,7 @@ int main(int argc, char **argv){
         const char* ip = argv[1];
 
 
-        bool client_tst = true;
+        bool client_tst = false;
         if (client_tst) {
             auto peer = new Peer("127.0.0.2", "Mazen");
             peer->authenticate("Mazen", "123", ip);
@@ -35,7 +35,7 @@ int main(int argc, char **argv){
             dos->join();
         }
     }
-        /*
+/*
     else {
         int reqNum = -1 ;
         string serverName;
@@ -71,7 +71,7 @@ int main(int argc, char **argv){
         }
 
     }
-         */
+*/
     return 0;
 }
 

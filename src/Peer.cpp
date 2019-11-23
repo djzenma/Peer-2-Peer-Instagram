@@ -13,7 +13,7 @@ Peer::Peer(std::string ip, std::string name) {
 
 
 
-void Peer::authenticate(std::string username, std::string password, std::string dosIp) {
+std::string Peer::authenticate(std::string username, std::string password, std::string dosIp) {
     std::string cred = username + "/" + password;
 
     char* cred_char = const_cast<char *>(cred.c_str());
@@ -21,19 +21,29 @@ void Peer::authenticate(std::string username, std::string password, std::string 
 
     char* res = com->sendMsg(dosIp_char, AUTH_PORT, cred_char);
     if(strcmp(res, "ok") == 0) {
-        sendMyImgs(dosIp);
+        std::thread sendImagesThread = std::thread(&Peer::sendMyImgs, this, dosIp);
+        //sendMyImgs(dosIp);
     }
+    return res;
 
 }
 
 
-void Peer::login(std::string username, std::string password, std::string dosIp) {
+std::string Peer::login(std::string username, std::string password, std::string dosIp) {
     std::string cred = username + "/" + password;
 
     char* cred_char = const_cast<char *>(cred.c_str());
     const char* dosIp_char = dosIp.c_str();
 
-    com->sendMsg(dosIp_char, LOGIN_PORT, cred_char);
+    char* res = com->sendMsg(dosIp_char, LOGIN_PORT, cred_char);
+    if(strcmp(res, "ok") == 0) {
+        std::thread sendImagesThread = std::thread(&Peer::sendMyImgs, this, dosIp);
+        //sendMyImgs(dosIp);
+        // Get number of samples
+        char* samplesNum = com->sendMsg(dosIp_char, LOGIN_PORT, "samples");
+        getSamples(std::stoi(samplesNum));
+    }
+    return res;
 }
 
 void Peer::sendMyImgs(std::string dosIp) {
@@ -50,4 +60,16 @@ void Peer::sendMyImgs(std::string dosIp) {
         //com->sendImage(img);
         com->sendImage(img, dosIp);
     }
+}
+
+std::vector<Message> Peer::getSamples(int n) {
+    std::vector<Message> images;
+    for (int i=0; i<n; i++) {
+        Message image;
+        //com->getImage(image);
+        com->getImage(image);
+        images.push_back(image);
+    }
+
+    return images;
 }

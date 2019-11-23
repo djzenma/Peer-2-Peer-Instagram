@@ -30,6 +30,7 @@ private:
         std::string user, pass;
     };
 
+    int buf_size = 2000;
     // Communication Module
     Communication *com;
 
@@ -51,6 +52,7 @@ private:
     void sendSamples(std::string owner_ip, std::string owner_name);
 
     std::string getIP(struct sockaddr_in addr);
+
 
 public:
     DoS(const char * LISTEN_IP);

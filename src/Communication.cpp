@@ -283,7 +283,7 @@ int Communication::sendImage(Message &m, std::string destIp){
     return 1;
 }
 
-int Communication::getImage(Message &m, const char *listenerIP) {
+int Communication::getImage(Message &m) {
     int port, socketfd;
     struct sockaddr_in serverAddr;
     socklen_t addr_size;
@@ -319,7 +319,7 @@ int Communication::getImage(Message &m, const char *listenerIP) {
 
     //Loop while we have not received the entire file yet
 
-    struct timeval timeout = {20, 0};
+    struct timeval timeout = {2000, 0};
 
     fd_set fds;
     int buffer_fd;
