@@ -144,14 +144,6 @@ fstream
 Message.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
-/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp
-../headers/Server.h
-/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
-../headers/Thread.h
-/Users/owner/CLionProjects/Distributed-Client/headers/Thread.h
-stdlib.h
--
-
 /Users/owner/CLionProjects/Distributed-Client/src/main.cpp
 string
 -

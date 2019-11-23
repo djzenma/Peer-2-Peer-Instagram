@@ -5,6 +5,7 @@
 const char* hostname ;
 const char* port ;
 //int port_num = 4040;
+string h , p ;
 
 
 void client_thread(int req , int  image_id , string serverName ,string toConnectIp ,string toConnectPort ) {
