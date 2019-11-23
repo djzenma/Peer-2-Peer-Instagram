@@ -3,50 +3,17 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include "../headers/DoS.h"
 
-DoS::DoS(const char *LISTEN_IP, const int AUTH_PORT, const int LOGIN_PORT) {
-    authTx = init_socket(LISTEN_IP, AUTH_PORT);
-    loginTx = init_socket(LISTEN_IP, LOGIN_PORT);
+
+DoS::DoS(const char *LISTEN_IP) {
+    com = new Communication();
+    com->authTx = com->init_socket(LISTEN_IP, AUTH_PORT);
+    com->loginTx = com->init_socket(LISTEN_IP, LOGIN_PORT);
 }
 
 
-// socket creation & binding
-// Returns socketfd, address
-DoS::Transaction DoS::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
-    int server_fd;
-    struct sockaddr_in address;
-    int opt = 1;
-
-    // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-        perror("socket failed");
-        exit(EXIT_FAILURE);
-    }
-
-
-    // Forcefully attaching socket to the port
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
-    }
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = inet_addr(LISTEN_IP);
-    //address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( LISTEN_PORT );
-
-    // Forcefully attaching socket to the port
-    if (bind(server_fd, (struct sockaddr *)&address,
-             sizeof(address))<0) {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
-    }
-
-    Transaction tx;
-    tx.address = address;
-    tx.server_fd = server_fd;
-    return tx;
-}
 
 /*
  * Listen For Login Requests
@@ -60,8 +27,10 @@ void DoS::runLoginSys() {
     std::map<std::string, std::string>::iterator it;
     char *res;
 
+    std::cout<<"DoS: Listening for Login\n";
     while(true) {
-        new_socket = listenTx(loginTx, req);
+
+        new_socket = com->listenTx(com->loginTx, req);
         std::cout<<"DoS: Login request= "<<req<<"\n";
         credentials = getCredentials(req);
 
@@ -78,6 +47,8 @@ void DoS::runLoginSys() {
 }
 #pragma clang diagnostic pop
 
+
+
 /*
  * Listen For Authentication Requests
  */
@@ -85,62 +56,79 @@ void DoS::runLoginSys() {
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 void DoS::runAuthSys() {
     int new_socket;
-    char req[1024] = {0};
     Credentials credentials;
 
+    std::cout<<"DoS: Listening for Auth\n";
     while(true) {
-        new_socket = listenTx(authTx, req);
-        std::cout<<"DoS: Auth request= "<<req<<"\n";
-        credentials = getCredentials(req);
-        db.insert({credentials.user, credentials.pass});
+        char req[1024] = {0};
+        // Listening For Authentication
+        new_socket = com->listenTx(com->authTx, req);
 
-        send(new_socket , "ok" , strlen("ok") , 0 );
-        std::cout<<"DoS: Credentials for "<< credentials.user << " inserted.\n";
+
+        if(!is_number(req)) {   // Authentication request
+            // Got request
+            std::cout<<"DoS: Auth request= "<<req<<"\n";
+            credentials = getCredentials(req);
+
+            // Add peer credentials to db
+            db.insert({credentials.user, credentials.pass});
+
+            // Send ok Response
+            send(new_socket , "ok" , strlen("ok") , 0);
+        }
+        else {  // Peer Sends all his photos, req = number of photos
+
+            std::cout<<"DoS: Num of Images to be received: "<<req<<"\n";
+            // Send ok Response (ok send me your photos)
+            send(new_socket , "ok" , strlen("ok") , 0);
+
+
+            // Receive his photos
+            std::vector<Message> images;
+            images = getAllImages(std::stoi(req), getIP(com->authTx.address));
+
+            // Insert him to the Active users List and save his images
+            activeUsers.insert({credentials.user, images});
+
+            // Send him All Samples
+            std::cout<<"Sending Samples to IP: "<<getIP(com->authTx.address)<<"\n";
+            sendSamples(getIP(com->authTx.address), credentials.user);
+            std::cout<<"DoS: Credentials for "<< credentials.user << " inserted.\n";
+        }
     }
 }
 #pragma clang diagnostic pop
 
 
-/*
- * Listen For Requests
- */
-int DoS::listenTx(DoS::Transaction tx, char* req) {
-    int new_socket, valread;
-    int addrlen = sizeof(tx.address);
-
-    if (listen(tx.server_fd, 3) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-    if ((new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen))<0) {
-        perror("accept");
-        exit(EXIT_FAILURE);
+std::vector<Message> DoS::getAllImages(int n, std::string listenerIP) {
+    std::vector<Message> images;
+    for (int i=0; i<n; i++) {
+        Message image;
+        //com->getImage(image);
+        com->getImage(image, listenerIP.c_str());
+        images.push_back(image);
     }
 
-    valread = read( new_socket , req, 1024);
-    return new_socket;
-}
-
-void DoS::runLoginThread() {
-    loginThread = std::thread(&DoS::runLoginSys, this);
-}
-
-void DoS::runAuthThread() {
-    authThread = std::thread(&DoS::runAuthSys, this);
+    return images;
 }
 
 
-DoS::~DoS() {
-    if (loginThread.joinable())
-        loginThread.join();
-    if (authThread.joinable())
-        authThread.join();
+void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
+    com->init_imaging_socket(getIP(com->authTx.address));
+    for (int i = 0; i < 3; i++) {
+        Message msg = com->buildImageMsg(i, owner_ip, owner_name);
+        com->sendImage(msg, owner_ip);
+        sleep(5);
+    }
 }
 
-void DoS::join() {
-    authThread.join();
-    loginThread.join();
+
+// Return IP from Address
+std::string DoS::getIP(struct sockaddr_in addr) {
+    return inet_ntoa(addr.sin_addr);
 }
+
+
 
 DoS::Credentials DoS::getCredentials(std::string request) {
     std::string delimiter = "/";
@@ -156,4 +144,38 @@ DoS::Credentials DoS::getCredentials(std::string request) {
     credentials.pass = request;
 
     return credentials;
+}
+
+bool DoS::is_number(const std::string& s) {
+    return !s.empty() && std::find_if(s.begin(),
+                                      s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
+}
+
+/*
+ * Only runs the Login thread
+ */
+void DoS::runLoginThread() {
+    loginThread = std::thread(&DoS::runLoginSys, this);
+}
+
+/*
+ * Only runs the Auth thread
+ */
+void DoS::runAuthThread() {
+    authThread = std::thread(&DoS::runAuthSys, this);
+}
+
+
+
+
+DoS::~DoS() {
+    if (loginThread.joinable())
+        loginThread.join();
+    if (authThread.joinable())
+        authThread.join();
+}
+
+void DoS::join() {
+    authThread.join();
+    loginThread.join();
 }

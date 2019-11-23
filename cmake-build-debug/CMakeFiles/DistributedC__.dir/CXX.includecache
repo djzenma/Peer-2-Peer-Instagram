@@ -25,6 +25,22 @@ Message.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
 /Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
+netinet/in.h
+-
+printf.h
+-
+arpa/inet.h
+-
+cstring
+-
+zconf.h
+-
+cstdlib
+-
+cmath
+-
+Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
 /Users/owner/CLionProjects/Distributed-Client/headers/Database.h
 fstream
@@ -55,6 +71,14 @@ zconf.h
 -
 string.h
 -
+Stego.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
+vector
+-
+Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+Communication.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
 
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 cstddef
@@ -67,6 +91,12 @@ cstring
 -
 utils.h
 /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+
+/Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
+string
+-
+Communication.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
 
 /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
 cstdlib
@@ -178,10 +208,6 @@ fstream
 Message.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
-/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp
-../headers/Server.h
-/Users/owner/CLionProjects/Distributed-Client/headers/Server.h
-
 /Users/owner/CLionProjects/Distributed-Client/src/Thread.cpp
 thread
 -
@@ -189,14 +215,14 @@ thread
 /Users/owner/CLionProjects/Distributed-Client/headers/Thread.h
 
 /Users/owner/CLionProjects/Distributed-Client/src/main.cpp
-../headers/DoS.h
-/Users/owner/CLionProjects/Distributed-Client/headers/DoS.h
-string
+iostream
 -
-../headers/Communication.h
-/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
 ../headers/Thread.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Thread.h
+../headers/Peer.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
+../headers/DoS.h
+/Users/owner/CLionProjects/Distributed-Client/headers/DoS.h
 
 /usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
 cstring

@@ -11,15 +11,36 @@ CMakeFiles/DistributedC__.dir/src/Client.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/src/Client.cpp
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
- /Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp
-CMakeFiles/DistributedC__.dir/src/DoS.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/DoS.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+ /Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp
+CMakeFiles/DistributedC__.dir/src/Database.cpp.o
+ /Users/owner/CLionProjects/Distributed-Client/src/Database.cpp
+CMakeFiles/DistributedC__.dir/src/DoS.cpp.o
+ /Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/DoS.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
  /Users/owner/CLionProjects/Distributed-Client/src/DoS.cpp
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
  /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
  /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
  /Users/owner/CLionProjects/Distributed-Client/src/Message.cpp
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o
+ /Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/DoS.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
+ /Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
  /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
@@ -82,6 +103,7 @@ CMakeFiles/DistributedC__.dir/src/main.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/Database.h
  /Users/owner/CLionProjects/Distributed-Client/headers/DoS.h
  /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
+ /Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
  /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
  /Users/owner/CLionProjects/Distributed-Client/headers/Server.h
  /Users/owner/CLionProjects/Distributed-Client/headers/Stego.h

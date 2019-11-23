@@ -82,10 +82,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Client.h">
+			<Option target="DistributedC__"/>
+		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/DoS.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Peer.h">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h">
@@ -103,10 +109,16 @@
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Database.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/DoS.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Message.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp">

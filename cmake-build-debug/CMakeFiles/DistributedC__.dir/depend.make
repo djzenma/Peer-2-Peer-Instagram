@@ -10,15 +10,36 @@ CMakeFiles/DistributedC__.dir/src/Client.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/Client.cpp.o: ../src/Client.cpp
 
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/Communication.h
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/DoS.h
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/Message.h
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/Stego.h
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/base64.h
+CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../src/Communication.cpp
 
+CMakeFiles/DistributedC__.dir/src/Database.cpp.o: ../src/Database.cpp
+
+CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/Communication.h
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/DoS.h
+CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/Message.h
+CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/Stego.h
+CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/base64.h
+CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/DoS.cpp.o: ../src/DoS.cpp
 
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o: ../headers/Message.h
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o: ../src/Message.cpp
+
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/Communication.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/DoS.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/Message.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/Peer.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/Stego.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/base64.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/utils.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../src/Peer.cpp
 
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../headers/Message.h
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../headers/RequestReply.h
@@ -81,6 +102,7 @@ CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Communication.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Database.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/DoS.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Message.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Peer.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/RequestReply.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Server.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Stego.h
