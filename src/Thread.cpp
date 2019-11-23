@@ -4,18 +4,14 @@
 
 const char* hostname ;
 const char* port ;
-string h , p ;
 //int port_num = 4040;
 
 
-void client_thread(int req , int  image_id , string serverName) {
-    cout <<"Who do You want to Connect to (Ip)"; //from Dos
-    cin >> h ;
-    cout <<"Who do You want to Connect to (Port)"; //from Dos
-    cin >> p ;
+void client_thread(int req , int  image_id , string serverName ,string toConnectIp ,string toConnectPort ) {
 
-    port = p.c_str() ;
-    hostname = h.c_str();
+
+    port = toConnectPort.c_str() ;
+    hostname = toConnectIp.c_str();
 
     Client * c = new Client(hostname, port); //always run on local ip
     c->executePrompt( req , image_id , serverName);
@@ -23,11 +19,9 @@ void client_thread(int req , int  image_id , string serverName) {
 }
 
 void  server_thread(std::string serverName, int port_num) {
-    Server* s = new Server("127.0.0.1",to_string(port_num).c_str()); //needs to connect to client thus gets ip and port from argsv
-    std::cout<<"Crystal 1"<<endl;
-    std::cout<<"port"<<port_num<<endl;
+    Server* s = new Server("10.40.37.247",to_string(port_num).c_str()); //needs to connect to client thus gets ip and port from argsv
+    std::cout<<"port: "<<port_num<<endl;
     port_num = port_num+100;
-    std::cout<<port_num<<endl;
     /*if (parent){
         std::cout<<"entered          "<<endl;
         int reqNum = -1 ;
@@ -39,6 +33,7 @@ void  server_thread(std::string serverName, int port_num) {
         Server* q = new Server("127.0.0.1", "6040");
         */
     //while(1) {
+
             s->serveRequest(serverName);
     //}
 
@@ -47,7 +42,7 @@ void  server_thread(std::string serverName, int port_num) {
 
 
 
- Thread::Thread(bool cli , bool first , int req, int image_id  , string serverName, bool parent, int port_num)
+ Thread::Thread(bool cli , bool first , int req, int image_id  , string serverName, int port_num , string toConnectIp ,string toConnectPort )
 {
 if (first) {
 
@@ -56,7 +51,7 @@ if (first) {
 }
 
 if (cli) {
-    std::thread t1(client_thread,  req, image_id  , serverName);
+    std::thread t1(client_thread,  req, image_id  , serverName , toConnectIp , toConnectPort);
     t1.join();
    }
 

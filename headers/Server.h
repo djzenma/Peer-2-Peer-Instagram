@@ -31,7 +31,6 @@ class Server {
         
     public:
         Server(const char * listen_hostname,const char * listen_port);
-        void thread_server(bool parent);
         int serveRequest(std::string serverName);
         ~Server();
 };

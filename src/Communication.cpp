@@ -113,8 +113,8 @@ Message Communication::buildImageMsg(int image_id, std::string owner_ip, std::st
             .storage_location="",
             .p_message= stego_image,
             .operation = 0,
-            .owner_ip = owner_ip,
-            .owner_name = owner_name
+            //.owner_ip = owner_ip,
+            //.owner_name = owner_name
             //.rpc_id = 5,
             //.msg_type = Reply
     };

@@ -2,7 +2,8 @@
 #include "../headers/Thread.h"
 #include <stdlib.h>
 
-#define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (18)/Distributed-Client-master/"
+#define PATH "/Users/owner/CLionProjects/Distributed-Client/"
+
 Server::Server(const char * hostname, const char * port){
     std::string path = (std::string)PATH+"server_db.txt";
     this->port = port ;
@@ -42,14 +43,14 @@ void Server::dispatch(Message & msg){
     switch (msg.getOperation()){
         case SendImage: { // an image with a specified id
             int image_id = msg.getImageId();
-            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+myName+","+hostname);
+            Message m = buildImageMsg(image_id ,  to_string(rand()%10+1)+","+(string)port+","+hostname);
 
             reqReply->sendReply(m);
             break;
         }
         case SendSample :{ // send three samples
             for(int i=0; i<3; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i ,(string) port+","+hostname);
                 reqReply->sendReply(msg);
                 sleep(5);
             }
@@ -58,7 +59,7 @@ void Server::dispatch(Message & msg){
         case SendImages: { // an image with a specified id
         int no_views = 5; //default
             for(int i=0; i<6; i++){
-                Message msg = buildImageMsg(i , myName+","+hostname);
+                Message msg = buildImageMsg(i , (string)port+","+hostname);
 
                 reqReply->sendReply(msg);
                 sleep(5);
@@ -82,32 +83,19 @@ void Server::dispatch(Message & msg){
             }*/
 }
 }
-void Server::thread_server(bool parent){
-    Server* s = new Server("127.0.0.1", "6040"); //needs to connect to client thus gets ip and port from argsv
-    if (parent){
-    std::cout<<"entered          "<<endl;
-    int reqNum = -1 ;
-    string serverName;
-    int image_id;
-    //Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName,false); //server thread
-    }
-    else {
-        while(1) {
-                ;//s->serveRequest( false);
-        }
-    }
-}
+
 int Server::serveRequest(std::string serverName){
     //else{
+        string toConnectIp ;
+        string toConnectPort ;
         int r = rand()%((65535 - 4040) + 1) + 4040;
-        std::cout<<r<<endl;
         Message msg = Message();
         reqReply->getReq(msg);
         std::cout<<"entered          "<<endl;
         int reqNum = msg.getMessageType() ;
         int image_id= msg.getImageId();
-        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName,false, r); //server thread
-        printf("Data Recieveddddx:%s \n", msg.getMessage().c_str()); // msg received
+        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName, r ,  toConnectIp , toConnectPort); //server thread
+        printf("Data Recieved:%s \n", msg.getMessage().c_str()); // msg received
 
     dispatch(msg);
     //}

@@ -1,5 +1,5 @@
 #include "../headers/Client.h"
-#define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (18)/Distributed-Client-master/images/requested/"
+#define PATH "/Users/owner/CLionProjects/Distributed-Client/"
 #include <iostream>
 using namespace std ;
 
@@ -32,7 +32,7 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
 }
 string saveImage(std::string image, int image_id){
 
-    std::string temp_loc = (std::string)PATH + to_string(image_id) + ".jpg";
+    std::string temp_loc ="/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
