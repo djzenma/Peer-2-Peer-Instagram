@@ -16,9 +16,10 @@ private:
 public:
     Peer(std::string ip, std::string name);
 
-    void authenticate(std::string username, std::string password, std::string dosIp);
-    void login(std::string username, std::string password, std::string dosIp);
+    std::string authenticate(std::string username, std::string password, std::string dosIp);
+    std::string login(std::string username, std::string password, std::string dosIp);
     void sendMyImgs(std::string dosIp);
+    std::vector<Message> getSamples(int n);
 };
 
 
