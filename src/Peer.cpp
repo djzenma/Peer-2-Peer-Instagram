@@ -23,6 +23,8 @@ std::string Peer::authenticate(std::string username, std::string password, std::
     if(strcmp(res, "ok") == 0) {
         std::thread sendImagesThread = std::thread(&Peer::sendMyImgs, this, dosIp);
         //sendMyImgs(dosIp);
+        char* samplesNum = com->sendMsg(dosIp_char, AUTH_PORT, "samples");
+        getSamples(std::stoi(samplesNum));
     }
     return res;
 

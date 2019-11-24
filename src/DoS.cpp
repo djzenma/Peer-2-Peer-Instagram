@@ -119,7 +119,7 @@ std::vector<Message> DoS::getAllImages(int n, std::string listenerIP) {
 
 void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
     com->init_imaging_socket(getIP(com->authTx.address));
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 1; i++) {
         Message msg = com->buildImageMsg(i, owner_ip, owner_name);
         com->sendImage(msg, owner_ip);
         sleep(5);
