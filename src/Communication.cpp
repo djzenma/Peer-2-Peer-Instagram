@@ -108,15 +108,16 @@ Message Communication::buildImageMsg(int image_id, std::string owner_ip, std::st
     // get hidden text from DB
     std::string hidden_text = "Secrets";
     std::string stego_image = stega_encode(path, hidden_text, temp_path);
+
     requestInfo reqinfo = {
             .image_id=image_id,
-            .storage_location="",
+            .request_id= "",
+            .owner_ip=owner_ip,
+            .owner_name=owner_name,
             .p_message= stego_image,
             .operation = 0,
-            //.owner_ip = owner_ip,
-            //.owner_name = owner_name
-            //.rpc_id = 5,
-            //.msg_type = Reply
+            .rpc_id = 5,
+            .msg_type = Reply
     };
 
     Message msg = Message(reqinfo);

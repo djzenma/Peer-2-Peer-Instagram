@@ -186,7 +186,7 @@ int RequestReply::getReply(Message & m) {
 
     //Loop while we have not received the entire file yet
 
-    struct timeval timeout = {20, 0};
+    struct timeval timeout = {100000000000, 0};
 
     fd_set fds;
     int buffer_fd;

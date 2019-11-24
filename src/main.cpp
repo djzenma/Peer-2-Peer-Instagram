@@ -1,54 +1,85 @@
+//#include<iostream>
 
 
-#include<iostream>
-
+#include <string>
 #include "../headers/Thread.h"
-#include "../headers/Peer.h"
-#include "../headers/DoS.h"
+
 
 using namespace std;
 
-int main(int argc, char **argv){
 
-    if(argc > 1 &&strcmp(argv[2], "dos") == 0) {// DoS
+string getIp(std::string imageId){
+    string image = "/Users/owner/CLionProjects/Distributed-Client/images/requested/"+imageId+".jpg";
+    std::string output = stega_decode(image);
+    stringstream ss(output);
+    string  token [3];
+    int i =0 ;
+    while (getline(ss, token[i], ',')) {
+        i++ ;
+    }
+    int numViews = stoi(token[0]);
+    std::string senderPort= token[1];
+    std::string senderIp= token[2];
+    return senderIp;
+
+}
+
+string getPort(std::string imageId){
+    string image = "/Users/owner/CLionProjects/Distributed-Client/images/requested/"+imageId+".jpg";
+    std::string output = stega_decode(image);
+    stringstream ss(output);
+    string  token [3];
+    int i =0 ;
+    while (getline(ss, token[i], ',')) {
+        i++ ;
+    }
+    int numViews = stoi(token[0]);
+    std::string senderPort= token[1];
+    std::string senderIp= token[2];
+    return senderPort;
+
+}
+
+int main(int argc,char **argv){
+
+
+    if(argc > 1 &&strcmp(argv[1], "dos") == 0)
+    {// DoS
         /*
-         * argv[1] = DOS_IP
+         * argv[1] = Auth Port, argv[2] = Login Port, argv[3] = IP
          */
-        const char* ip = argv[1];
-
-
-        bool client_tst = false;
+        /*
+        const char* auth_port = argv[1];
+        const char* login_port = argv[2];
+        const char* ip = argv[3];
+        bool client_tst = true;
         if (client_tst) {
-            auto peer = new Peer("127.0.0.2", "Mazen");
-            peer->authenticate("Mazen", "123", ip);
-
-            /*
             auto com = new Communication();
-            com->sendMsg(ip, AUTH_PORT, "Mazen/123");
-            com->sendMsg(ip, LOGIN_PORT, "Mazen/123");*/
-
+            com->sendMsg(ip, stoi(auth_port), "Mazen/123");
+            com->sendMsg(ip, stoi(login_port), "Mazen/123");
         }
         else {
-            auto dos = new DoS(ip);
+            auto dos = new DoS(ip, stoi(auth_port), stoi(login_port));
             dos->runAuthThread();
-            //dos->runLoginThread();
+            dos->runLoginThread();
             dos->join();
-        }
-    }
-/*
-    else {
+        }*/
+    } else
+    {
         int reqNum = -1 ;
         string serverName;
         int image_id;
+        string toConnectIp = "127.0.0.1" ;
+        string toConnectPort = "4040" ;
+        int num_views = 0;
 
-        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName); //server thread
+
+        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,true,4040 ,  toConnectIp , toConnectPort , 0); //server thread
 
         while (1)
         {
             reqNum = -1 ;
             bool cli = false ;
-            string h , p ;
-
 
             cout << "Do You want a Client Thread? ";
             cin >> cli;
@@ -61,17 +92,17 @@ int main(int argc, char **argv){
                     cin >> image_id;
                 }
                 else {
-                    cout << "Enter User Requested ";
-                    cin >> serverName;
+                    cout << "Which Picture would you like to update views for ? ";
+                    cin >> image_id;
+                    cout << "Enter Number of views: ";
+                    cin >> num_views;
                 }
-                Thread * thrd = new Thread(true , false ,  reqNum , image_id ,  serverName ); //client thread
+                Thread * thrd = new Thread(true , false ,  reqNum , image_id ,false,4040 ,  toConnectIp , toConnectPort , num_views); //client thread
 
             }
 
         }
 
     }
-*/
     return 0;
 }
-

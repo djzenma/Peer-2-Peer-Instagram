@@ -1,3 +1,4 @@
+
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
@@ -15,7 +16,9 @@ enum MessageType {
 
 struct requestInfo {
     int image_id;
-    std::string storage_location;
+    std::string request_id;
+    std::string owner_ip;
+    std::string owner_name;
     std::string p_message;           // msg buffer : contain text/image
     int operation;                  // operation id
     int rpc_id;                    // Unique request id
@@ -32,7 +35,7 @@ class Message{
         int operation;
         int rpc_id;
         int image_id;
-        std::string storage_location;
+        std::string request_id;
 
     protected:
         std::string serialize();
@@ -51,7 +54,7 @@ class Message{
         int getOperation();
         int getRPCId();
         int getImageId();
-        std::string getStorageLocation();
+        std::string getRequestId();
 
         // setters
         void setOperation (int operation);

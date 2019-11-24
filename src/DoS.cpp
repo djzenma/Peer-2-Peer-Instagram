@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 #include "../headers/DoS.h"
 
 
