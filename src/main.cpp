@@ -71,10 +71,10 @@ int main(int argc,char **argv){
         int image_id;
         string toConnectIp = "127.0.0.1" ;
         string toConnectPort = "4040" ;
-        //srand(time(0));
-        //int r = rand()%((65535 - 4040) + 1) + 4040;
+        int num_views = 0;
 
-        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName,true,4040 ,  toConnectIp , toConnectPort); //server thread
+
+        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,true,4040 ,  toConnectIp , toConnectPort , 0); //server thread
 
         while (1)
         {
@@ -92,10 +92,12 @@ int main(int argc,char **argv){
                     cin >> image_id;
                 }
                 else {
-                    cout << "Enter User Requested ";
-                    cin >> serverName;
+                    cout << "Which Picture would you like to update views for ? ";
+                    cin >> image_id;
+                    cout << "Enter Number of views: ";
+                    cin >> num_views;
                 }
-                Thread * thrd = new Thread(true , false ,  reqNum , image_id ,  serverName,false,4040 ,  toConnectIp , toConnectPort); //client thread
+                Thread * thrd = new Thread(true , false ,  reqNum , image_id ,false,4040 ,  toConnectIp , toConnectPort , num_views); //client thread
 
             }
 

@@ -10,14 +10,15 @@ Server* ptr;
 //int port_num = 4040;
 
 
-void client_thread(int req , int  image_id , string serverName ,string toConnectIp ,string toConnectPort) {
+
+void client_thread(int req , int  image_id  ,string toConnectIp ,string toConnectPort, int num_views) {
+
     port = toConnectPort.c_str() ;
     hostname = toConnectIp.c_str();
 
 
-
     Client * c = new Client(hostname, port); //always run on local ip
-    c->executePrompt( req , image_id , serverName);
+    c->executePrompt( req , image_id , num_views);
 
 }
 
@@ -47,8 +48,8 @@ void  server_thread(std::string serverName, int port_num) {
 
 
 
-Thread::Thread(bool cli , bool first , int req, int image_id  , string serverName, bool parent, int port_num,  string toConnectIp ,string toConnectPort )
-{
+Thread::Thread(bool cli , bool first , int req, int image_id  ,  bool parent, int port_num,  string toConnectIp ,string toConnectPort, int num_views )
+    {
 //if parent create server object
     //if child method thread at method
     if (parent)
@@ -57,14 +58,13 @@ Thread::Thread(bool cli , bool first , int req, int image_id  , string serverNam
 
     }
     if (first) {
-        std::thread t1(&Server::serveRequest,ptr, serverName);
+        std::thread t1(&Server::serveRequest,ptr);
         t1.detach();
     }
 
-    if (cli) {
-        std::thread t1(client_thread,  req, image_id  , serverName  , toConnectIp , toConnectPort);
-        t1.join();
-    }
 
-
+if (cli) {
+    std::thread t1(client_thread,  req, image_id   , toConnectIp , toConnectPort,num_views);
+    t1.join();
+   }
 }

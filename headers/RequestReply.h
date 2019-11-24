@@ -1,4 +1,3 @@
-
 #ifndef REQUESTREPLY_H
 #define REQUESTREPLY_H
 

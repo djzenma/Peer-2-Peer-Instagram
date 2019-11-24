@@ -4,7 +4,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/DistributedC__.dir/src/Database.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/DoS.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
-  "CMakeFiles/DistributedC__.dir/src/Peer.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/Server.cpp.o"
   "CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"

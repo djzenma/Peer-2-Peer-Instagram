@@ -23,6 +23,17 @@
 #include <fstream>
 #include "Message.h"
 
+
+enum serviceOperations{
+    SendImage = 0,
+    GrantAccess = 1,
+    DecrementView = 2,
+    SendSample = 3,
+    SendImages = 4,
+    ViewAccess = 5,
+};
+
+
 template< typename T >
 std::string int_to_hex( T i ) {
     std::stringstream stream;
