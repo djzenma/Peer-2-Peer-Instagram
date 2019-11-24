@@ -70,31 +70,33 @@ void Server::dispatch(Message & msg){
         }
         case GrantAccess :
             break;
-            /*case DecrementView :{
-                //add in db
-                string t = msg.getMessage();
-                db->updateCount(image_id, username, atoi(t.c_str()));
-
-                    break;
-            }
-                default:
-                    break;
-            }*/
+//            case DecrementView :{
+//                //add in db
+//                string t = msg.getMessage();
+//                db->updateCount(image_id, username, atoi(t.c_str()));
+//
+//                    break;
+//            }
+//                default:
+//                    break;
+//            }
 }
 }
-
 int Server::serveRequest(std::string serverName){
+    string toConnectIp;
+    string toConnectPort;
     //else{
-        string toConnectIp ;
-        string toConnectPort ;
-        int r = rand()%((65535 - 4040) + 1) + 4040;
-        Message msg = Message();
-        reqReply->getReq(msg);
-        std::cout<<"entered          "<<endl;
-        int reqNum = msg.getMessageType() ;
-        int image_id= msg.getImageId();
-        Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName, r ,  toConnectIp , toConnectPort); //server thread
-        printf("Data Recieved:%s \n", msg.getMessage().c_str()); // msg received
+    //int r = rand()%((65535 - 4040) + 1) + 4040;
+    //std::cout<<r<<endl;
+    Message msg = Message();
+    reqReply->getReq(msg);
+    std::cout<<"entered          "<<endl;
+    int reqNum = msg.getMessageType() ;
+    int image_id= msg.getImageId();
+    std::cout<<"Creating thread"<<endl;
+    Thread * thrd = new Thread(false , true ,  reqNum ,image_id,  serverName,false, 4040 , toConnectIp , toConnectPort ); //server thread
+    //thrd.detatch();
+    printf("Data Recieveddddx:%s \n", msg.getMessage().c_str()); // msg received
 
     dispatch(msg);
     //}

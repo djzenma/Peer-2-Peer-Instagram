@@ -32,7 +32,7 @@ Message buildRequestMsg(serviceOperations operation, int image_id ){
 }
 string saveImage(std::string image, int image_id){
 
-    std::string temp_loc ="/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id) + ".jpg";
+    std::string temp_loc =(std::string)PATH +"images/requested/" + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -119,8 +119,8 @@ int Client::executePrompt(int req , int image_id , string name ) {
     {
 
 
-        std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
-        std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";
+        std::string path = (std::string)PATH +"images/requested/" + to_string(image_id)+ ".jpg";
+        std::string temp_path = (std::string)PATH +"images/stego/" + to_string(image_id)+ ".jpg";
         std::string s = stega_decode(path);
         std::cout<<s<<endl;
 
