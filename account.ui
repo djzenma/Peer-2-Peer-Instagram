@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Account</class>
+ <widget class="QWidget" name="Account">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>768</width>
+    <height>587</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#scrollAreaWidgetContents
+{
+background:url(&quot;/Users/ayashaker/Desktop/hardwood-1851071__340.jpg&quot;);
+}
+QToolButton
+{
+background:red;
+}</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>-1</x>
+     <y>520</y>
+     <width>771</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame
+{
+background:rgb(81,119,128);
+}
+</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButton_7">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>1</y>
+      <width>141</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QPushButton
+{
+background:rgb(81,119,128);
+border-radius:60px;
+color:black;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string notr="true">Home Page</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../glyph-28-512.png</normaloff>
+      <normalon>../glyph-28-512.png</normalon>../glyph-28-512.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>3000</width>
+      <height>50</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true"/>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>0</y>
+      <width>141</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QPushButton
+{
+background-image:url(&quot;/Users/ayashaker/Desktop/glyph-28-512.png&quot;);
+background:rgb(81,119,128);
+
+border-radius:60px;
+color:black;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>My Profile</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../Unknown-1.png</normaloff>../Unknown-1.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_9">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>0</y>
+      <width>141</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QPushButton
+{
+background:rgb(81,119,128);
+border-radius:60px;
+color:black;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>Requests</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_10">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>141</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QPushButton
+{
+background-image:url(&quot;/Users/ayashaker/Desktop/glyph-28-512.png&quot;);
+background:rgb(81,119,128);
+
+border-radius:60px;
+color:black;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>Pictures I can View</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../Unknown-1.png</normaloff>../Unknown-1.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_18">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>20</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QPushButton
+{
+background:rgb(81,119,128);
+border-radius:60px;
+color:black;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>Profile I can view</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>771</width>
+     <height>521</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QScrollArea
+{
+background:url(&quot;/Users/ayashaker/Desktop/hardwood-1851071__340.jpg&quot;);
+}</string>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>769</width>
+      <height>519</height>
+     </rect>
+    </property>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>771</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame
+{
+background:rgb(81,119,128);
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>10</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 30pt &quot;American Typewriter&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Username</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Signup">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>10</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Signout</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>70</y>
+       <width>241</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>241</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>70</y>
+       <width>241</width>
+       <height>180</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>241</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>70</y>
+       <width>241</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>241</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>290</y>
+       <width>241</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>241</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>290</y>
+       <width>241</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>241</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>500</x>
+       <y>290</y>
+       <width>241</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>241</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Signup_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>260</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View Info</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Signup_3">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>260</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View Info</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Signup_4">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>260</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View Info</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Signup_5">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>480</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View Info</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Signup_6">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>480</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View Info</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Signup_7">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>480</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background:rgb(214,182,151);
+border-radius:60px;
+color:white;
+}
+QPushButton:hover
+{
+background:argb(214,182,151);
+border-radius:60px;
+color:white;
+}</string>
+     </property>
+     <property name="text">
+      <string>View Info</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <zorder>scrollArea</zorder>
+  <zorder>frame</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
