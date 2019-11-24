@@ -3,21 +3,12 @@
 
 #include <iostream>
 #include "RequestReply.h"
-#include "utils.h"
 #include <string>
 #include <cstring>
-#include "Message.h"
+#include "Database.h"
 
 using namespace std;
 
-
-enum serviceOperations{
-    SendImage = 0,
-    GrantAccess = 1,
-    DecrementView = 2,
-    SendSample = 3,
-    SendImages = 4
-};
 
 class Server {
 
@@ -27,7 +18,9 @@ class Server {
         const char * hostname;
         RequestReply * reqReply;
         string myName ;
+        Database * db;
         void dispatch(Message & m);
+        void updateCount(int image_id, int num_views);
         
     public:
         Server(const char * listen_hostname,const char * listen_port);

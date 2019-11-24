@@ -16,7 +16,7 @@ private:
 
 
 public:
-    Thread(bool cli, bool first , int req , int image_id , string serverName, int por_num , string toConnectIp ,string toConnectPort );
+    Thread(bool cli, bool first , int req , int image_id , string serverName, int por_num , string toConnectIp ,string toConnectPort, int num_views );
     ~Thread();
 };
 #endif
