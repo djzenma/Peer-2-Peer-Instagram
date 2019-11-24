@@ -12,7 +12,7 @@ Message::Message(requestInfo req_info){
     message_type = req_info.msg_type;
     // resource attributes
     image_id = req_info.image_id;
-    request_id = req_info.request_id;
+    storage_location = req_info.storage_location;
 }
 
 Message::Message(std::string & marshalled_base64){
@@ -25,16 +25,14 @@ Message::Message(std::string & marshalled_base64){
 void Message::deserialize(std::string decoded){
 
     std::string msg_decoded;
-    std::cout << msg_decoded << std::endl;
 
     message_type  = static_cast<MessageType>(decoded[0] - '0');
     message_size  = hex_to_int(decoded.substr(3, 16));
     operation = hex_to_int(decoded.substr(21, 8 ));
     rpc_id = hex_to_int(decoded.substr(31, 8 ));
     image_id = hex_to_int(decoded.substr(41, 8 ));
-    request_id = decoded.substr( 49, decoded.substr(49).find(";"));
-    std::cout << "request_ id :  " << request_id << std::endl;
-    msg_decoded = decoded.substr(49+request_id.length()+1);
+    storage_location = hex_to_int(decoded.substr( 49, decoded.substr(49).find(";")));
+    msg_decoded = decoded.substr(49+storage_location.length());
     message = msg_decoded;
 }
 
@@ -50,7 +48,7 @@ std::string Message::serialize(){
     // type: 1 byte | size: 2 bytes + 16 bytes  | operation : 2 bytes + 16 bytes
     // | rpc_id : 2 bytes + 16 bytes | img_id: 2 bytes + 8 bytes | storage_location | message
 
-    std::string to_encode = mtype + size_str + op_str + rpc_str + img_id + request_id + ";" + message;
+    std::string to_encode = mtype + size_str + op_str + rpc_str + img_id + storage_location + ";" + message;
     std::cout << "encoded: " << to_encode << std::endl;
     std::cout << "msg: " << message << std::endl;
     return to_encode;
@@ -99,8 +97,8 @@ int Message::getImageId(){
     return image_id;
 }
 
-std::string Message::getRequestId(){
-    return request_id;
+std::string Message::getStorageLocation(){
+    return storage_location;
 }
 
 Message::~Message(){
@@ -114,6 +112,6 @@ std::ostream& operator<< (std::ostream& stream, const Message& msg) {
            << ", RPC_ID: " << msg.rpc_id
            << ", Message: " << msg.message
            << ", Image ID: " << msg.image_id
-           << ", Request ID: " << msg.request_id << std::endl;
+           << ", Storage Location: " << msg.storage_location << std::endl;
     return stream;
 }

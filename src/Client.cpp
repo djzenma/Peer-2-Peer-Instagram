@@ -1,6 +1,16 @@
 #include "../headers/Client.h"
+#define PATH "/mnt/d/college/Semester 12-- Fall 2019/CSCE 4411 - Fund of Dist Sys/project/Distributed-Client-master (18)/Distributed-Client-master/images/requested/"
 #include <iostream>
 using namespace std ;
+
+enum serviceOperations{
+    SendImage = 0,
+    GrantAccess = 1,
+    DecrementView = 2,
+    SendSample = 3,
+    SendImages = 4
+};
+
 
 Client::Client(const char * listen_hostname, const char * listen_port){
     //std::string path = (std::string)PATH+"client_db.txt";
@@ -8,24 +18,11 @@ Client::Client(const char * listen_hostname, const char * listen_port){
     this->port = listen_port ;
     this->hostname = listen_hostname ;
     std::string serverIp = hostname_to_ip((char *)listen_hostname);
-    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);
-    
-    std::string path = std::string(get_current_dir_name())+"/images/DB.json";
-    db = new Database(path);
-}
-
-std::string generateRequestId(Client * c){
-    static int req_num = 0;
-    std::cout <<   std::string(c->hostname) + std::string(c->port)  + to_string(req_num) << std::endl;
-    return std::string(c->hostname) + std::string(c->port) + to_string(req_num++);
-}
-
-Message Client::buildRequestMsg(serviceOperations operation, int image_id ){
-    requestInfo reqinfo = {
-            .image_id=image_id,
-            .request_id= generateRequestId(this),
-            .owner_ip=hostname,
-            .owner_name=name,
+    //db = new Database(path);
+    reqReply = new RequestReply(listen_port,  serverIp.c_str(), true, 1024);}
+Message buildRequestMsg(serviceOperations operation, int image_id ){
+    requestInfo reqinfo ={.image_id=image_id,
+            .storage_location="",
             .p_message= "",
             .operation = operation,
             .rpc_id = 5,
@@ -34,9 +31,8 @@ Message Client::buildRequestMsg(serviceOperations operation, int image_id ){
     return msg;
 }
 string saveImage(std::string image, int image_id){
-    // char* wd;
-    // getwd(wd);
-    std::string temp_loc = std::string(get_current_dir_name()) + (std::string)"/images/requested/" + to_string(image_id) + ".jpg";
+
+    std::string temp_loc = (std::string)PATH + to_string(image_id) + ".jpg";
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
@@ -47,9 +43,7 @@ string saveImage(std::string image, int image_id){
 
 bool Client::decrementView(std::string image){
     std::string output = stega_decode(image);
-    // char* wd;
-    // getwd(wd);
-    std::string tempPath =std::string(get_current_dir_name())  + "/images/stego/temp.jpg";
+    std::string tempPath = "./images/stego/temp.jpg";
     int sep_index = output.find(',');
     int num_views = atoi(output.substr(0, sep_index).c_str());
     FILE * fp1, *fp2;
@@ -64,18 +58,11 @@ bool Client::decrementView(std::string image){
     else return false;
 }
 
-void Client::updateCount(int image_id, std::string user_name, int updated_count){
-    db->updateCount(image_id, user_name, updated_count);
-    Message msg = buildRequestMsg(ViewAccess, image_id);
-    msg.setMessage(to_string(updated_count), to_string(updated_count).length()+1);
-    reqReply->sendReq(msg);
-}
-
-int Client::executePrompt(int req , int image_id , string name, int num_views = 0 ) {
+int Client::executePrompt(int req , int image_id , string name ) {
 
     switch (req) {
 
-        case 0: // request samples from a srepecific user
+        case 0: // request samples from a specific user
         {
 
             // before get host ip and port
@@ -130,10 +117,10 @@ int Client::executePrompt(int req , int image_id , string name, int num_views = 
         }
     case 3: //update views when viewing image
     {
-        // char* wd;
-        // getwd(wd);
-        std::string path = std::string(get_current_dir_name()) + (std::string)"/images/requested/" + to_string(image_id)+ ".jpg";
-        std::string temp_path = std::string(get_current_dir_name())  +(std::string)"/images/stego/" + to_string(image_id)+ ".jpg";
+
+
+        std::string path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/requested/" + to_string(image_id)+ ".jpg";
+        std::string temp_path = (std::string)"/Users/owner/CLionProjects/Distributed-Client/images/stego/" + to_string(image_id)+ ".jpg";
         std::string s = stega_decode(path);
         std::cout<<s<<endl;
 
@@ -159,12 +146,28 @@ int Client::executePrompt(int req , int image_id , string name, int num_views = 
          }
         break ;
     }
-    case 4:{
-        updateCount(image_id, name, num_views);
-        break;
-    }
     }
     return 1 ;
+}
+int Client::requestNumber(int req) {
+    requestInfo reqinfo ={.image_id=1,
+                .storage_location="manar",
+                .p_message= "",
+                .operation = req,
+                .rpc_id = 5,
+                .msg_type = Reply };
+
+    Message msg = Message(reqinfo);
+
+    printf("\nSending a Request of index: %i\n", req);
+    return reqReply->sendReq(msg); //sends request number to server
+}
+
+int Client::requestSamples(std::string s ) {
+    printf("Receiving Samples ...\n");
+    Message m = Message();
+    return reqReply->getReply(m) ; // receives photo
+    //reqReply->shutDownFD();
 }
 
 
