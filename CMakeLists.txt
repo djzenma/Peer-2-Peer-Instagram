@@ -30,6 +30,7 @@ add_executable(DistributedC__
         src/Thread.cpp
         src/DoS.cpp
         src/Database.cpp
+        src/Peer.cpp
         headers/Thread.h headers/utils.h src/Stego.cpp headers/Stego.h src/DoS.cpp headers/DoS.h headers/Communication.h headers/DoS.h headers/Database.h)
 
 #target_link_libraries(DistributedC__ jsoncpp_lib)

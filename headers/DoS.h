@@ -37,7 +37,7 @@ private:
 
     // Communication Module
     Communication *com;
-    int auth_socket, login_socket;
+    int new_socket, login_socket;
 
     // Threads
     std::thread loginThread;

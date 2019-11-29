@@ -85,7 +85,7 @@ Message Communication::buildImageMsg(int image_id, std::string owner_ip, std::st
 
 // socket creation & binding
 // Returns socketfd, address
-int Communication::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
+Communication::Transaction Communication::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
     int server_fd;
     struct sockaddr_in address;
     int opt = 1;
@@ -114,25 +114,26 @@ int Communication::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
         exit(EXIT_FAILURE);
     }
 
-
-    return server_fd;
+    Transaction tx;
+    tx.address = address;
+    tx.server_fd = server_fd;
+    return tx;
 }
 
 
 /*
  * Listen For Requests
  */
-int Communication::listenTx(int socket_fd, sockaddr_in address, char* req) {
+int Communication::listenTx(Transaction tx, char* req) {
     int new_socket, valread;
-    int addrlen = sizeof(address);
+    int addrlen = sizeof(tx.address);
 
-    // Start Listen for incoming connections
-    if (listen(socket_fd, 3) < 0) {
+    if (listen(tx.server_fd, 3) < 0) {
         perror("listen");
         exit(EXIT_FAILURE);
     }
 
-    if ((new_socket = accept(socket_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0) {
+    if ((new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen))<0) {
         perror("accept");
         exit(EXIT_FAILURE);
     }

@@ -11,8 +11,8 @@
 DoS::DoS(const char *dosIp) {
     this->dosIp = dosIp;
     com = new Communication();
-    auth_fd = com->init_socket(dosIp, AUTH_PORT);
-    login_fd = com->init_socket(dosIp, LOGIN_PORT);
+    com->authTx = com->init_socket(dosIp, AUTH_PORT);
+    com->loginTx = com->init_socket(dosIp, LOGIN_PORT);
 }
 
 
@@ -33,7 +33,7 @@ void DoS::runLoginSys() {
     std::cout<<"DoS: Listening for Login\n";
     while(true) {
 
-        login_socket = com->listenTx(login_fd, peerAddress, req);
+        login_socket = com->listenTx(com->loginTx, req);
         std::cout<<"DoS: Login request= "<<req<<"\n";
         credentials = getCredentials(req);
 
@@ -61,19 +61,20 @@ void DoS::runLoginSys() {
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 void DoS::runAuthSys() {
     Credentials credentials;
-    sockaddr_in peerAddress;
 
     std::cout<<"DoS: Listening for Auth...\n";
     while(true) {
+        sockaddr_in peerAddress = sockaddr_in();
         char req[2000] = {0};
+
         // Listening For Authentication
-        auth_socket = com->listenTx(auth_fd, peerAddress, req);
-        std::cout<<"DoS: Peer IP: "<<getIP(peerAddress)<<"\n";
+        new_socket = com->listenTx(com->authTx, req);
+        std::cout<<"DoS: Peer IP: "<<getIP(com->authTx.address)<<"\n";
 
         if(strcmp(req, "samples") == 0) {   // 3. Send peer number of samples to be sent, then send them
             std::cout << "DoS: Sending number of samples...\n";
             int n = 2;
-            send(auth_socket, "2", strlen("2"), 0);
+            send(new_socket, "2", strlen("2"), 0);
 
             // Send him All Samples
             std::string peerIp = getIP(peerAddress);
@@ -89,12 +90,12 @@ void DoS::runAuthSys() {
             db.insert({credentials.user, credentials.pass});
 
             // Send ok Response
-            send(auth_socket , "ok" , strlen("ok") , 0);
+            send(new_socket , "ok" , strlen("ok") , 0);
         }
         else {  // 2. Peer Sends all his photos, req = number of photos
             std::cout<<"DoS: Num of Images to be received: "<<req<<"\n";
             // Send ok Response (ok send me your photos)
-            send(auth_socket , "ok" , strlen("ok") , 0);
+            send(new_socket , "ok" , strlen("ok") , 0);
 
 
             // Receive his photos
