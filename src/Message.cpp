@@ -51,8 +51,8 @@ std::string Message::serialize(){
     // | rpc_id : 2 bytes + 16 bytes | img_id: 2 bytes + 8 bytes | storage_location | message
 
     std::string to_encode = mtype + size_str + op_str + rpc_str + img_id + request_id + ";" + message;
-    std::cout << "encoded: " << to_encode << std::endl;
-    std::cout << "msg: " << message << std::endl;
+    //std::cout << "encoded: " << to_encode << std::endl;
+    //std::cout << "msg: " << message << std::endl;
     return to_encode;
 }
 

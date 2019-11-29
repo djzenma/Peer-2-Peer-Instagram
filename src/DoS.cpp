@@ -74,10 +74,10 @@ void DoS::runAuthSys() {
         if(strcmp(req, "samples") == 0) {   // 3. Send peer number of samples to be sent, then send them
             std::cout << "DoS: Sending number of samples...\n";
             int n = 2;
-            send(new_socket, "2", strlen("2"), 0);
+            send(new_socket, "1", strlen("1"), 0);
 
             // Send him All Samples
-            std::string peerIp = getIP(peerAddress);
+            std::string peerIp = getIP(com->authTx.address);
             std::cout << "Sending Samples to IP: " << peerIp << "\n";
             sendSamples(peerIp, credentials.user);
         }
@@ -96,7 +96,6 @@ void DoS::runAuthSys() {
             std::cout<<"DoS: Num of Images to be received: "<<req<<"\n";
             // Send ok Response (ok send me your photos)
             send(new_socket , "ok" , strlen("ok") , 0);
-
 
             // Receive his photos
             std::string peerIp = getIP(peerAddress);
@@ -133,6 +132,7 @@ void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
         Message msg = com->buildImageMsg(i, owner_ip, owner_name);
         com->sendImage(msg, owner_ip, PEER_IMAGES_PORT);
     }
+    std::cout<<"DoS: Samples Sent!\n";
 }
 
 

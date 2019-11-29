@@ -32,7 +32,7 @@ std::string Peer::authenticate(std::string username, std::string password) {
         //std::thread sendImagesThread = std::thread(&Peer::sendMyImgs, this);
         sendMyImgs();
         char* samplesNum = com->comMsg(dosIp_char, AUTH_PORT, "samples", SEND_RECEIVE);
-        getSamples(std::stoi(samplesNum));
+        std::vector<Message> samples = getSamples(std::stoi(samplesNum));
     }
     return res;
 

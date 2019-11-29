@@ -18,10 +18,7 @@
 #include "Communication.h"
 
 
-/*
- * PORTs Interface:
- * 4040
- */
+
 class DoS {
 private:
 

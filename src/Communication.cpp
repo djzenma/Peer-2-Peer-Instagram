@@ -59,7 +59,6 @@ int Communication::init_imaging_socket(std::string dest_ip) {
     constructs image msg given an image id
 */
 Message Communication::buildImageMsg(int image_id, std::string owner_ip, std::string owner_name) {
-    // TODO
     std::string path =
             "../images/mine/" + std::to_string(image_id) + ".jpg";
     std::string temp_path =
@@ -133,7 +132,8 @@ int Communication::listenTx(Transaction tx, char* req) {
         exit(EXIT_FAILURE);
     }
 
-    if ((new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen))<0) {
+    new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen);
+    if (new_socket < 0) {
         perror("accept");
         exit(EXIT_FAILURE);
     }
@@ -327,12 +327,11 @@ int Communication::getImage(Message &m, const int receivingPort) {
         }
 
     }
-    std::cout << " recieve size " << recieved_msg.length() << " size :  " << size <<   std::endl;
-    if (recieved_msg.length() >= size && size != 0)
-    {
+    std::cout << "Received size: " << recieved_msg.length() << ", size : " << size <<   std::endl;
+    if (recieved_msg.length() >= size && size != 0) {
         printf("Total Message size: %i\n", recieved_msg.length());
         m = Message(recieved_msg);
-        std::string temp_loc = "/home/manar/Desktop/Distributed-Client/client2.jpg";
+        std::string temp_loc = "../images/samples/" + std::to_string(m.getImageId()) +".jpg";
         std::ofstream outFile;
         outFile.open(temp_loc);
         outFile << m.getMessage();
@@ -350,7 +349,8 @@ int Communication::getImage(Message &m, const int receivingPort) {
  * Resets socket. Only used for comMsg
  */
 void Communication::reset(){
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if ( sock < 0) {
         printf("\n Socket creation error \n");
     }
 }
