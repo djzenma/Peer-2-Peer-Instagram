@@ -10,47 +10,6 @@ Communication::Communication() {
     reset();
 }
 
-void Communication::reset(){
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("\n Socket creation error \n");
-    }
-}
-
-
-/* From Client To Server
- * Send text msg
- * Returns Response
- */
-char* Communication::sendMsg(const char * IP, const int PORT, char* msg) {
-    int valread;
-    struct sockaddr_in serv_addr;
-    char buffer[1024] = {0};
-
-    reset();
-    // Destination
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = inet_addr(IP);
-    serv_addr.sin_port = htons(PORT);
-
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    if(inet_pton(AF_INET, IP, &serv_addr.sin_addr) <= 0) {
-        printf("\nInvalid address/ Address not supported \n");
-        return "";
-    }
-
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\nConnection Failed \n");
-        return "";
-    }
-
-    send(sock , msg , strlen(msg) , 0);
-    printf("Com: Sent Message\n");
-    valread = read( sock , buffer, 1024);
-    printf("Com: Response: %s\n", buffer);
-    return buffer;
-}
-
-
 
 /* Initializes Socket to send to arg "ip"
  */
@@ -126,7 +85,7 @@ Message Communication::buildImageMsg(int image_id, std::string owner_ip, std::st
 
 // socket creation & binding
 // Returns socketfd, address
-Communication::Transaction Communication::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
+int Communication::init_socket(const char *LISTEN_IP, const int LISTEN_PORT) {
     int server_fd;
     struct sockaddr_in address;
     int opt = 1;
@@ -155,44 +114,48 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
         exit(EXIT_FAILURE);
     }
 
-    Communication::Transaction tx;
-    tx.address = address;
-    tx.server_fd = server_fd;
-    return tx;
-}
 
+    return server_fd;
+}
 
 
 /*
  * Listen For Requests
  */
-int Communication::listenTx(Communication::Transaction tx, char* req) {
+int Communication::listenTx(int socket_fd, sockaddr_in address, char* req) {
     int new_socket, valread;
-    int addrlen = sizeof(tx.address);
+    int addrlen = sizeof(address);
 
-    if (listen(tx.server_fd, 3) < 0) {
+    // Start Listen for incoming connections
+    if (listen(socket_fd, 3) < 0) {
         perror("listen");
         exit(EXIT_FAILURE);
     }
-    if ((new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen))<0) {
+
+    if ((new_socket = accept(socket_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0) {
         perror("accept");
         exit(EXIT_FAILURE);
     }
 
-    valread = read( new_socket , req, 1024);
+    valread = read( new_socket, req, 1024);
     return new_socket;
 }
 
 
-// UDP
-int Communication::sendImage(Message &m, std::string destIp){
+/* All Below functions use only UDP
+ */
+
+/*
+ * Sends Message m to destination IP
+ */
+int Communication::sendImage(Message &m, std::string destIp, int destPort){
     int port, socketfd;
     struct sockaddr_in serverAddr, si_other;
 
 
     // Construct
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(AUTH_PORT);
+    serverAddr.sin_port = htons(destPort);
     serverAddr.sin_addr.s_addr = inet_addr(destIp.c_str());
 
     socketfd = socket(AF_INET,SOCK_DGRAM,0);
@@ -284,14 +247,17 @@ int Communication::sendImage(Message &m, std::string destIp){
     return 1;
 }
 
-int Communication::getImage(Message &m) {
-    int port, socketfd;
+/*
+ * Listens for upcoming images
+ */
+int Communication::getImage(Message &m, const int receivingPort) {
+    int socketfd;
     struct sockaddr_in serverAddr;
     socklen_t addr_size;
 
-    // Construct
+    // Construct receiver address
     serverAddr.sin_family=AF_INET;
-    serverAddr.sin_port=htons(AUTH_PORT);
+    serverAddr.sin_port=htons(receivingPort);   // TODO:: Check if port is necessary
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
     socketfd = socket(AF_INET,SOCK_DGRAM,0);
@@ -377,4 +343,59 @@ int Communication::getImage(Message &m) {
         printf("Message Not Received!\n");
         return -1;
     }
+}
+
+/*
+ * Resets socket. Only used for comMsg
+ */
+void Communication::reset(){
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+    }
+}
+
+
+/* From Client To Server
+ * Send text msg or Receive (send=false)
+ * Returns Response
+ */
+char* Communication::comMsg(const char *destIP, const int destPort, char *msg, const int send_receive) {
+    int valread;
+    struct sockaddr_in serv_addr;
+    char buffer[1024] = {0};
+
+    reset();
+    // Destination
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = inet_addr(destIP);
+    serv_addr.sin_port = htons(destPort);
+
+    // Convert IPv4 and IPv6 addresses from text to binary form
+    if(inet_pton(AF_INET, destIP, &serv_addr.sin_addr) <= 0) {
+        printf("\nInvalid address/ Address not supported \n");
+        return "";
+    }
+
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("\nConnection Failed \n");
+        return "";
+    }
+
+    switch (send_receive) {
+        case SEND: // Send
+            send(sock , msg , strlen(msg) , 0);
+            printf("Com: Sent Message\n");
+            return "";
+        case RECEIVE: // Receive
+            valread = read( sock , buffer, 1024);
+            printf("Com: Response: %s\n", buffer);
+            return buffer;
+        case SEND_RECEIVE: // Send and Receive
+            send(sock , msg , strlen(msg) , 0);
+            printf("Com: Sent Message\n");
+            valread = read( sock , buffer, 1024);
+            printf("Com: Response: %s\n", buffer);
+            return buffer;
+    }
+
 }

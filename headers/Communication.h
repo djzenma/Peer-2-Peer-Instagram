@@ -41,15 +41,15 @@ public:
     Transaction loginTx;
 
     void reset();
-    Transaction init_socket(const char *LISTEN_IP, int LISTEN_PORT);
+    int init_socket(const char *LISTEN_IP, int LISTEN_PORT);
     int init_imaging_socket(std::string dest_ip);
-    int listenTx(Communication::Transaction tx, char* req);
+    int listenTx(int socket_fd, sockaddr_in address, char* req);
 
-    char* sendMsg(const char * IP, int PORT, char* msg);
+    char* comMsg(const char *destIP, const int destPort, char *msg, int send);
 
     Message buildImageMsg(int image_id, std::string owner_ip, std::string owner_name);
-    int getImage(Message &m) ;
-    int sendImage(Message &m, std::string destIp);
+    int getImage(Message &m, int receivingPort) ;
+    int sendImage(Message &m, std::string destIp, int destPort);
 };
 
 

@@ -30,9 +30,14 @@ private:
         std::string user, pass;
     };
 
-    int buf_size = 2000;
+
+    // DoS IP, auth_fd, login_fd
+    const char *dosIp;
+    int auth_fd, login_fd;
+
     // Communication Module
     Communication *com;
+    int auth_socket, login_socket;
 
     // Threads
     std::thread loginThread;
@@ -40,7 +45,7 @@ private:
 
     // Database
     std::map<std::string, std::string> db;
-    std::map<std::string, std::vector<Message>> activeUsers;
+    std::map<std::string, std::string> activeUsers;
 
 
     std::vector<Message> getAllImages(int n, std::string fromIp);
@@ -69,7 +74,12 @@ public:
 enum PORTS {
     AUTH_PORT = 4040,
     LOGIN_PORT = 4041,
-    PEER_RECEIVE_SAMPLE_PORT = 5050
+    PEER_IMAGES_PORT = 5050
+};
+enum FLAGS {
+    SEND = 0,
+    RECEIVE = 1,
+    SEND_RECEIVE = 2
 };
 
 #endif //DISTRIBUTEDC_DOS_H

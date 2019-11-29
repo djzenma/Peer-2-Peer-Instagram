@@ -8,10 +8,11 @@
 #include "../headers/DoS.h"
 
 
-DoS::DoS(const char *LISTEN_IP) {
+DoS::DoS(const char *dosIp) {
+    this->dosIp = dosIp;
     com = new Communication();
-    com->authTx = com->init_socket(LISTEN_IP, AUTH_PORT);
-    com->loginTx = com->init_socket(LISTEN_IP, LOGIN_PORT);
+    auth_fd = com->init_socket(dosIp, AUTH_PORT);
+    login_fd = com->init_socket(dosIp, LOGIN_PORT);
 }
 
 
@@ -27,11 +28,12 @@ void DoS::runLoginSys() {
     Credentials credentials;
     std::map<std::string, std::string>::iterator it;
     char *res;
+    sockaddr_in peerAddress;
 
     std::cout<<"DoS: Listening for Login\n";
     while(true) {
 
-        new_socket = com->listenTx(com->loginTx, req);
+        login_socket = com->listenTx(login_fd, peerAddress, req);
         std::cout<<"DoS: Login request= "<<req<<"\n";
         credentials = getCredentials(req);
 
@@ -42,7 +44,7 @@ void DoS::runLoginSys() {
             res = const_cast<char *>("refused");
         }
 
-        send(new_socket , res , strlen(res) , 0);
+        send(login_socket , res , strlen(res) , 0);
         std::cout<<"DoS: sent: "<<res<<"\n";
     }
 }
@@ -51,22 +53,34 @@ void DoS::runLoginSys() {
 
 
 /*
- * Listen For Authentication Requests
+ * Listen For Authentication Requests. Steps:
+ * 1. Peer Authenticates
+ * 2. Peer sends all his photos and Gets all Samples
  */
 #pragma clang diagnostic push   // Ignore Infinite Loop
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 void DoS::runAuthSys() {
-    int new_socket;
     Credentials credentials;
+    sockaddr_in peerAddress;
 
-    std::cout<<"DoS: Listening for Auth\n";
+    std::cout<<"DoS: Listening for Auth...\n";
     while(true) {
         char req[2000] = {0};
         // Listening For Authentication
-        new_socket = com->listenTx(com->authTx, req);
+        auth_socket = com->listenTx(auth_fd, peerAddress, req);
+        std::cout<<"DoS: Peer IP: "<<getIP(peerAddress)<<"\n";
 
+        if(strcmp(req, "samples") == 0) {   // 3. Send peer number of samples to be sent, then send them
+            std::cout << "DoS: Sending number of samples...\n";
+            int n = 2;
+            send(auth_socket, "2", strlen("2"), 0);
 
-        if(!is_number(req)) {   // Authentication request
+            // Send him All Samples
+            std::string peerIp = getIP(peerAddress);
+            std::cout << "Sending Samples to IP: " << peerIp << "\n";
+            sendSamples(peerIp, credentials.user);
+        }
+        else if(!is_number(req)) {   // 1. Authentication request
             // Got request
             std::cout<<"DoS: Auth request= "<<req<<"\n";
             credentials = getCredentials(req);
@@ -75,30 +89,22 @@ void DoS::runAuthSys() {
             db.insert({credentials.user, credentials.pass});
 
             // Send ok Response
-            send(new_socket , "ok" , strlen("ok") , 0);
+            send(auth_socket , "ok" , strlen("ok") , 0);
         }
-        else if(strcmp(req, "sample") == 0){
-            std::cout<<"DoS: Sending number of samples...\n";
-            int n = 2;
-            send(new_socket , "2" , strlen("2") , 0);
-        }
-        else {  // Peer Sends all his photos, req = number of photos
+        else {  // 2. Peer Sends all his photos, req = number of photos
             std::cout<<"DoS: Num of Images to be received: "<<req<<"\n";
             // Send ok Response (ok send me your photos)
-            send(new_socket , "ok" , strlen("ok") , 0);
+            send(auth_socket , "ok" , strlen("ok") , 0);
 
 
             // Receive his photos
+            std::string peerIp = getIP(peerAddress);
             std::vector<Message> images;
-            images = getAllImages(std::stoi(req), getIP(com->authTx.address));
+            images = getAllImages(std::stoi(req), peerIp);
 
-            // Insert him to the Active users List and save his images
-            activeUsers.insert({credentials.user, images});
-
-            // Send him All Samples
-            std::cout<<"Sending Samples to IP: "<<getIP(com->authTx.address)<<"\n";
-            sendSamples(getIP(com->authTx.address), credentials.user);
-            std::cout<<"DoS: Credentials for "<< credentials.user << " inserted.\n";
+            // Insert him to the Active users List and save his IP
+            activeUsers.insert({credentials.user, peerIp});
+            std::cout<<"DoS: User "<< credentials.user << " added to the active list.\n";
         }
     }
 }
@@ -106,24 +112,25 @@ void DoS::runAuthSys() {
 
 
 std::vector<Message> DoS::getAllImages(int n, std::string listenerIP) {
+    std::cout<<"DoS: Receiving Peer's " <<n<<" Images...\n";
     std::vector<Message> images;
     for (int i=0; i<n; i++) {
         Message image;
-        //com->getImage(image);
-        com->getImage(image);
+        com->getImage(image, AUTH_PORT);
         images.push_back(image);
     }
-
+    std::cout<<"DoS: Peer Images Received!\n";
     return images;
 }
 
 
 void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
-    com->init_imaging_socket(getIP(com->authTx.address));
+    //com->init_imaging_socket(getIP(com->authTx.address));
+    std::cout<<"DoS: Sending Samples to the Peer...\n";
     for (int i = 0; i < 1; i++) {
+        sleep(1);
         Message msg = com->buildImageMsg(i, owner_ip, owner_name);
-        com->sendImage(msg, owner_ip);
-        sleep(5);
+        com->sendImage(msg, owner_ip, PEER_IMAGES_PORT);
     }
 }
 

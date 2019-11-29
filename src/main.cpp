@@ -3,6 +3,8 @@
 
 #include <string>
 #include "../headers/Thread.h"
+#include "../headers/DoS.h"
+#include "../headers/Peer.h"
 
 
 using namespace std;
@@ -43,28 +45,26 @@ string getPort(std::string imageId){
 int main(int argc,char **argv){
 
 
-    if(argc > 1 &&strcmp(argv[1], "dos") == 0)
+    if(argc > 1 && strcmp(argv[2], "dos") == 0)
     {// DoS
         /*
          * argv[1] = Auth Port, argv[2] = Login Port, argv[3] = IP
          */
-        /*
-        const char* auth_port = argv[1];
-        const char* login_port = argv[2];
-        const char* ip = argv[3];
+        const char* dosIp = argv[1];
         bool client_tst = true;
         if (client_tst) {
-            auto com = new Communication();
-            com->sendMsg(ip, stoi(auth_port), "Mazen/123");
-            com->sendMsg(ip, stoi(login_port), "Mazen/123");
+            auto peer = new Peer("127.0.0.1", "Mazen", dosIp);
+            peer->authenticate("Mazen", "123");
         }
         else {
-            auto dos = new DoS(ip, stoi(auth_port), stoi(login_port));
+            auto dos = new DoS(dosIp);
             dos->runAuthThread();
-            dos->runLoginThread();
+            //dos->runLoginThread();
             dos->join();
-        }*/
-    } else
+        }
+    }
+
+    /*else
     {
         int reqNum = -1 ;
         string serverName;
@@ -103,6 +103,6 @@ int main(int argc,char **argv){
 
         }
 
-    }
+    }*/
     return 0;
 }
