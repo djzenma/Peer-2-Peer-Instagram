@@ -45,7 +45,7 @@ private:
     std::map<std::string, std::string> activeUsers;
 
 
-    std::vector<Message> getAllImages(int n, std::string fromIp);
+    std::vector<Message> getAllImages(int n);
 
     // Helper functions
     Credentials getCredentials(std::string request);

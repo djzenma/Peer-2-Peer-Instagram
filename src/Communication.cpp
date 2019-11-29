@@ -106,7 +106,6 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
     //address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons( LISTEN_PORT );
 
-    //bind(server_fd, (struct sockaddr *)&address, sizeof(address));
     // Forcefully attaching socket to the port
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
         perror("bind failed");

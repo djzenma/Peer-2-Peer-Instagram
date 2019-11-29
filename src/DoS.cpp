@@ -55,7 +55,8 @@ void DoS::runLoginSys() {
 /*
  * Listen For Authentication Requests. Steps:
  * 1. Peer Authenticates
- * 2. Peer sends all his photos and Gets all Samples
+ * 2. Peer sends all his photos
+ * 3. Peer requests number of samples, DoS sends them
  */
 #pragma clang diagnostic push   // Ignore Infinite Loop
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
@@ -64,7 +65,6 @@ void DoS::runAuthSys() {
 
     std::cout<<"DoS: Listening for Auth...\n";
     while(true) {
-        sockaddr_in peerAddress = sockaddr_in();
         char req[2000] = {0};
 
         // Listening For Authentication
@@ -98,9 +98,9 @@ void DoS::runAuthSys() {
             send(new_socket , "ok" , strlen("ok") , 0);
 
             // Receive his photos
-            std::string peerIp = getIP(peerAddress);
+            std::string peerIp = getIP(com->authTx.address);
             std::vector<Message> images;
-            images = getAllImages(std::stoi(req), peerIp);
+            images = getAllImages(std::stoi(req));
 
             // Insert him to the Active users List and save his IP
             activeUsers.insert({credentials.user, peerIp});
@@ -111,7 +111,7 @@ void DoS::runAuthSys() {
 #pragma clang diagnostic pop
 
 
-std::vector<Message> DoS::getAllImages(int n, std::string listenerIP) {
+std::vector<Message> DoS::getAllImages(int n) {
     std::cout<<"DoS: Receiving Peer's " <<n<<" Images...\n";
     std::vector<Message> images;
     for (int i=0; i<n; i++) {
