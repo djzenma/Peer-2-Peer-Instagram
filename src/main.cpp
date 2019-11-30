@@ -51,10 +51,23 @@ int main(int argc,char **argv){
          * argv[1] = Auth Port, argv[2] = Login Port, argv[3] = IP
          */
         const char* dosIp = argv[1];
-        bool client_tst = true;
-        if (client_tst) {
+        bool auth_test = false;
+        bool p2p_test = true;
+        bool p1_test = false;
+
+        if (auth_test) {
             auto peer = new Peer("127.0.0.1", "Mazen", dosIp);
             peer->authenticate("Mazen", "123");
+        }
+        else if(p2p_test) {
+            if(p1_test) {
+                auto peer1 = new Peer("127.0.0.1", "Mazen", dosIp);
+                peer1->join();
+            }
+            else {
+                auto peer2 = new Peer("10.40.47.9", "Ibrahim", dosIp);
+                peer2->requestImageFromPeer(0, const_cast<char *>("127.0.0.1"));
+            }
         }
         else {
             auto dos = new DoS(dosIp);

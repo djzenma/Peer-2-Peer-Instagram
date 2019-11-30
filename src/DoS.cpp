@@ -116,7 +116,7 @@ std::vector<Message> DoS::getAllImages(int n) {
     std::vector<Message> images;
     for (int i=0; i<n; i++) {
         Message image;
-        com->getImage(image, AUTH_PORT);
+        com->getImage(image, AUTH_PORT, dosIp);
         images.push_back(image);
     }
     std::cout<<"DoS: Peer Images Received!\n";

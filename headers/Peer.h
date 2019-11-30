@@ -7,19 +7,30 @@
 
 
 #include <string>
+#include <thread>
 #include "Communication.h"
 
 class Peer {
 private:
     Communication *com;
     std::string myIp, myName, dosIp;
+    std::thread msgIdThread;
+
+    void runMsgIdThread();
+    void runMsgIdSys();
 public:
-    Peer(std::string myIp, std::string myName, std::string dosIp);
+    Peer(const char *myIp, std::string myName, std::string dosIp);
 
     std::string authenticate(std::string username, std::string password);
     std::string login(std::string username, std::string password);
-    void sendMyImgs();
-    std::vector<Message> getSamples(int n);
+    void sendMyProfile(bool toDoS, std::string destIp);
+    std::vector<Message> getSamplesFromDoS(int n);
+    Message requestImageFromPeer(int imgId, const char *destPeerIp);
+
+    std::string getMyIP();
+    std::string getMyName();
+
+    void join();
 };
 
 

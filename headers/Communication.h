@@ -39,6 +39,8 @@ public:
 
     Transaction authTx;
     Transaction loginTx;
+    Transaction msgIdTx;
+
 
     void reset();
     Transaction init_socket(const char *LISTEN_IP, const int LISTEN_PORT);
@@ -48,7 +50,7 @@ public:
     char* comMsg(const char *destIP, const int destPort, char *msg, int send_receive);
 
     Message buildImageMsg(int image_id, std::string owner_ip, std::string owner_name);
-    int getImage(Message &m, int receivingPort) ;
+    int getImage(Message &m, int receivingPort, std::string receiverIP);
     int sendImage(Message &m, std::string destIp, int destPort);
 };
 

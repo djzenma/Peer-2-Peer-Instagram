@@ -61,3 +61,8 @@ void copyImage(std::string src, std::string dst){
     outfile.close();
     ifs.close();
 }
+
+// Return IP from Address
+std::string getIP(struct sockaddr_in addr) {
+    return inet_ntoa(addr.sin_addr);
+}

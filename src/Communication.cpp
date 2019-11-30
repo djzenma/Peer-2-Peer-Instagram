@@ -136,7 +136,7 @@ int Communication::listenTx(Transaction tx, char* req) {
         perror("accept");
         exit(EXIT_FAILURE);
     }
-
+    std::cout<<"Peer: IP "<<getIP(tx.address)<<"\n";
     valread = read( new_socket, req, 1024);
     return new_socket;
 }
@@ -250,22 +250,27 @@ int Communication::sendImage(Message &m, std::string destIp, int destPort){
 /*
  * Listens for upcoming images
  */
-int Communication::getImage(Message &m, const int receivingPort) {
+int Communication::getImage(Message &m, const int receivingPort, std::string receiverIP) {
     int socketfd;
     struct sockaddr_in serverAddr;
     socklen_t addr_size;
 
+    std::cout<<"Hello: "<<receiverIP<<"\n";
     // Construct receiver address
     serverAddr.sin_family=AF_INET;
-    serverAddr.sin_port=htons(receivingPort);   // TODO:: Check if port is necessary
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port=htons(receivingPort);
+    serverAddr.sin_addr.s_addr = inet_addr(receiverIP.c_str());
+    //serverAddr.sin_addr.s_addr = INADDR_ANY;
+    //serverAddr.sin_addr.s_addr = htonl(std::stoi(receiverIP));
 
     socketfd = socket(AF_INET,SOCK_DGRAM,0);
 
     if (bind(socketfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == 0)
         printf("\nSuccessfully binded!\n");
-    else
-        printf("\nBinding Failed!\n");
+    else {
+        perror("\nBinding Failed!\n");
+        exit(EXIT_FAILURE);
+    }
 
     // **
 

@@ -71,7 +71,8 @@ public:
 enum PORTS {
     AUTH_PORT = 4040,
     LOGIN_PORT = 4041,
-    PEER_IMAGES_PORT = 5050
+    PEER_IMAGES_PORT = 5050,
+    PEER_IMAGES_ID_PORT = 5050
 };
 enum FLAGS {
     SEND = 0,

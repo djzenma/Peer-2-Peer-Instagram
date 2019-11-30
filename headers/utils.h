@@ -50,4 +50,6 @@ std::string decode64(const std::string &val);
 
 std::string hostname_to_ip(char * hostname);
 void copyImage(std::string src, std::string dst);
+// Return IP from Address
+std::string getIP(struct sockaddr_in addr);
 #endif
