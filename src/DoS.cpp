@@ -32,8 +32,8 @@ void DoS::runLoginSys() {
 
     std::cout<<"DoS: Listening for Login\n";
     while(true) {
-
-        login_socket = com->listenTx(com->loginTx, req);
+        Message msg;
+        login_socket = com->listenTx(com->loginTx, msg);
         std::cout<<"DoS: Login request= "<<req<<"\n";
         credentials = getCredentials(req);
 
@@ -44,7 +44,8 @@ void DoS::runLoginSys() {
             res = const_cast<char *>("refused");
         }
 
-        send(login_socket , res , strlen(res) , 0);
+        sendto(com->loginTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->loginTx.address, sizeof(com->loginTx.address));
+        //send(login_socket , res , strlen(res) , 0);
         std::cout<<"DoS: sent: "<<res<<"\n";
     }
 }
@@ -66,15 +67,16 @@ void DoS::runAuthSys() {
     std::cout<<"DoS: Listening for Auth...\n";
     while(true) {
         char req[2000] = {0};
-
+        Message msg;
         // Listening For Authentication
-        new_socket = com->listenTx(com->authTx, req);
+        new_socket = com->listenTx(com->authTx, msg);
         std::cout<<"DoS: Peer IP: "<<getIP(com->authTx.address)<<"\n";
 
         if(strcmp(req, "samples") == 0) {   // 3. Send peer number of samples to be sent, then send them
             std::cout << "DoS: Sending number of samples...\n";
             int n = 2;
-            send(new_socket, "1", strlen("1"), 0);
+            sendto(com->authTx.server_fd, "1", strlen("1"), 0, (struct sockaddr*)&com->authTx.address, sizeof(com->authTx.address));
+            //send(new_socket, "1", strlen("1"), 0);
 
             // Send him All Samples
             std::string peerIp = getIP(com->authTx.address);
@@ -90,12 +92,14 @@ void DoS::runAuthSys() {
             db.insert({credentials.user, credentials.pass});
 
             // Send ok Response
-            send(new_socket , "ok" , strlen("ok") , 0);
+            sendto(com->authTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->authTx.address, sizeof(com->authTx.address));
+            //send(new_socket , "ok" , strlen("ok") , 0);
         }
         else {  // 2. Peer Sends all his photos, req = number of photos
             std::cout<<"DoS: Num of Images to be received: "<<req<<"\n";
             // Send ok Response (ok send me your photos)
-            send(new_socket , "ok" , strlen("ok") , 0);
+            sendto(com->authTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->authTx.address, sizeof(com->authTx.address));
+            //send(new_socket , "ok" , strlen("ok") , 0);
 
             // Receive his photos
             std::string peerIp = getIP(com->authTx.address);
