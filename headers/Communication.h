@@ -45,7 +45,7 @@ public:
     void reset();
     Transaction init_socket(const char *LISTEN_IP, const int LISTEN_PORT);
     int init_imaging_socket(std::string dest_ip);
-    int listenTx(Transaction tx ,  Message & msg);
+    int listenTx(Transaction tx , char * req);
 
     char* comMsg(const char *destIP, const int destPort, char *msg, int send_receive);
 

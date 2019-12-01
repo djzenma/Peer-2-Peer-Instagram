@@ -32,8 +32,8 @@ void DoS::runLoginSys() {
 
     std::cout<<"DoS: Listening for Login\n";
     while(true) {
-        Message msg;
-        login_socket = com->listenTx(com->loginTx, msg);
+        //Message msg;
+        login_socket = com->listenTx(com->loginTx, req);
         std::cout<<"DoS: Login request= "<<req<<"\n";
         credentials = getCredentials(req);
 
@@ -67,9 +67,9 @@ void DoS::runAuthSys() {
     std::cout<<"DoS: Listening for Auth...\n";
     while(true) {
         char req[2000] = {0};
-        Message msg;
+        //Message msg;
         // Listening For Authentication
-        new_socket = com->listenTx(com->authTx, msg);
+        new_socket = com->listenTx(com->authTx, req);
         std::cout<<"DoS: Peer IP: "<<getIP(com->authTx.address)<<"\n";
 
         if(strcmp(req, "samples") == 0) {   // 3. Send peer number of samples to be sent, then send them

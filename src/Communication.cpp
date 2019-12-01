@@ -103,9 +103,10 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
     }
 
     address.sin_family = AF_INET;
-    //address.sin_addr.s_addr = inet_addr(LISTEN_IP); //TODO
-    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_addr.s_addr = inet_addr(LISTEN_IP); //TODO
+    //address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons( LISTEN_PORT );
+
 
     // Forcefully attaching socket to the port
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
@@ -123,10 +124,10 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
 /*
  * Listen For Requests
  */
-int Communication::listenTx(Transaction tx, Message & msg) {
-    int stat ;
-    char* req;
-    int addrlen = sizeof(tx.address);
+int Communication::listenTx(Transaction tx, char * req) {
+    ssize_t stat;
+    struct sockaddr_in cliaddr;
+    int addrlen = sizeof(cliaddr);
 //    int new_socket, valread;
 //
 //    if (listen(tx.server_fd, 3) < 0) {
@@ -142,12 +143,13 @@ int Communication::listenTx(Transaction tx, Message & msg) {
 //    std::cout<<"Peer: IP "<<getIP(tx.address)<<"\n";
 //    valread = read( new_socket, req, 1024);
 
+
     do {
-        stat = recvfrom(tx.server_fd, req, 1024,0, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen);
+        stat = recvfrom(tx.server_fd, req, strlen(req),0, (struct sockaddr *)&cliaddr, (socklen_t*)&addrlen);
     } while (stat < 0);
 
-    std::string marshalled = std::string(req);
-    msg = Message(marshalled);
+    //std::string marshalled = std::string(req);
+    //msg = Message(marshalled);
 
     return stat;
 }
@@ -364,7 +366,7 @@ int Communication::getImage(Message &m, const int receivingPort, std::string rec
  * Resets socket. Only used for comMsg
  */
 void Communication::reset(){
-    sock = socket(AF_INET, SOCK_STREAM, 0);
+    sock = socket(AF_INET, SOCK_DGRAM, 0);
     if ( sock < 0) {
         printf("\n Socket creation error \n");
     }
@@ -377,9 +379,9 @@ void Communication::reset(){
  */
 char* Communication::comMsg(const char *destIP, const int destPort, char *msg, const int send_receive) {
     int valread;
-    struct sockaddr_in serv_addr;
+    struct sockaddr_in serv_addr, cli_addr;
     char buffer[1024] = {0};
-    socklen_t addr_size = sizeof(serv_addr);
+    socklen_t addr_size = sizeof(cli_addr);
 
 
     reset();
@@ -401,12 +403,13 @@ char* Communication::comMsg(const char *destIP, const int destPort, char *msg, c
     }*/
 
 
-    Message* m = new Message();
-    m->setMessage(msg, strlen(msg));
-    int sendStat, recStat;
+    //essage* m = new Message();
+    //m->setMessage(msg_str, strlen(msg_str));
+    int sendStat;
+    ssize_t recStat;
     switch (send_receive) {
         case SEND: // Send
-            sendStat = static_cast<int>(sendto(socketfd, (void *)m->marshal().c_str(), strlen(msg), 0, (struct sockaddr*)& serv_addr, sizeof(serv_addr)));
+            sendStat = static_cast<int>(sendto(sock, (void *)msg, strlen(msg), 0, (struct sockaddr*)& serv_addr, sizeof(serv_addr)));
             //send(sock , msg , strlen(msg) , 0);
             printf("Com: Sent Message\n");
             return "";
@@ -415,13 +418,18 @@ char* Communication::comMsg(const char *destIP, const int destPort, char *msg, c
             printf("Com: Response: %s\n", buffer);
             return buffer;
         case SEND_RECEIVE: // Send and Receive
-            sendStat = static_cast<int>(sendto(socketfd, (void *)m->marshal().c_str(), strlen(msg), 0, (struct sockaddr*)& serv_addr, sizeof(serv_addr)));
+            sendStat = static_cast<int>(sendto(sock, (void *)msg, strlen(msg), 0, (struct sockaddr*)& serv_addr, sizeof(serv_addr)));
             //send(sock , msg , strlen(msg) , 0);
             printf("Com: Sent Message\n");
 
-            do {
-                recStat = recvfrom(socketfd, buffer, sizeof(buffer),0,(struct sockaddr*)&serv_addr, &addr_size);
-            } while (recStat < 0);
+            try {
+                do {
+                    recStat = recvfrom(sock, buffer, sizeof(buffer),0,(struct sockaddr*)&cli_addr, &addr_size);
+                } while (recStat < 0);
+            } catch (std::exception& e) {
+                std::cout<<e.what()<<"\n";
+            }
+
             //valread = read( sock , buffer, 1024);
             printf("Com: Response: %s\n", buffer);
             return buffer;
