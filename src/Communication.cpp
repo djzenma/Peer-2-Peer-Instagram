@@ -90,7 +90,7 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
     int opt = 1;
 
     // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+    if ((server_fd = socket(AF_INET, SOCK_DGRAM, 0)) == 0) {
         perror("socket failed");
         exit(EXIT_FAILURE);
     }
@@ -101,9 +101,10 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
+
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = inet_addr(LISTEN_IP);
-    //address.sin_addr.s_addr = INADDR_ANY;
+    //address.sin_addr.s_addr = inet_addr(LISTEN_IP); //TODO
+    address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons( LISTEN_PORT );
 
     // Forcefully attaching socket to the port
@@ -122,23 +123,33 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
 /*
  * Listen For Requests
  */
-int Communication::listenTx(Transaction tx, char* req) {
-    int new_socket, valread;
+int Communication::listenTx(Transaction tx, Message & msg) {
+    int stat ;
+    char* req;
     int addrlen = sizeof(tx.address);
+//    int new_socket, valread;
+//
+//    if (listen(tx.server_fd, 3) < 0) {
+//        perror("listen");
+//        exit(EXIT_FAILURE);
+//    }
+//
+//    new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen);
+//    if (new_socket < 0) {
+//        perror("accept");
+//        exit(EXIT_FAILURE);
+//    }
+//    std::cout<<"Peer: IP "<<getIP(tx.address)<<"\n";
+//    valread = read( new_socket, req, 1024);
 
-    if (listen(tx.server_fd, 3) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
+    do {
+        stat = recvfrom(tx.server_fd, req, 1024,0, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen);
+    } while (stat < 0);
 
-    new_socket = accept(tx.server_fd, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen);
-    if (new_socket < 0) {
-        perror("accept");
-        exit(EXIT_FAILURE);
-    }
-    std::cout<<"Peer: IP "<<getIP(tx.address)<<"\n";
-    valread = read( new_socket, req, 1024);
-    return new_socket;
+    std::string marshalled = std::string(req);
+    msg = Message(marshalled);
+
+    return stat;
 }
 
 

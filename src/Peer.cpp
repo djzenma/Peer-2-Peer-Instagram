@@ -138,16 +138,18 @@ void Peer::runMsgIdThread() {
  */
 #pragma clang diagnostic push   // Ignore Infinite Loop
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
+
 void Peer::runMsgIdSys() {
     int new_socket;
 
     std::cout<<"Peer: Listening for Msg ID requests...\n";
     while(true) {
         char req[2000] = {0};
-
+        Message msg;
         // Listening For Msg ID requests
-        new_socket = com->listenTx(com->msgIdTx, req);
-        send(new_socket , "ok" , strlen("ok") , 0);
+        com->listenTx(com->msgIdTx, msg);
+        std::cout<<"Peer: Requested Peer IP: "<<getIP(com->msgIdTx.address)<<std::endl;
+        sendto(com->msgIdTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->msgIdTx.address, sizeof(com->msgIdTx.address));
 
         // Send him the requested ID
         std::string peerIp = getIP(com->msgIdTx.address);

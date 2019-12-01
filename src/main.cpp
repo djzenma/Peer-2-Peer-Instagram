@@ -65,8 +65,8 @@ int main(int argc,char **argv){
                 peer1->join();
             }
             else {
-                auto peer2 = new Peer("10.40.47.9", "Ibrahim", dosIp);
-                peer2->requestImageFromPeer(0, const_cast<char *>("127.0.0.1"));
+                auto peer2 = new Peer("10.40.33.157", "Bassant", dosIp);
+                peer2->requestImageFromPeer(0, const_cast<char *>("10.40.35.216"));
             }
         }
         else {
