@@ -53,7 +53,7 @@ int main(int argc,char **argv){
         const char* dosIp = argv[1];
         bool auth_test = false;
         bool p2p_test = true;
-        bool p1_test = true;
+        bool p1_test = false;
 
         if (auth_test) {
             auto peer = new Peer("127.0.0.1", "Mazen", dosIp);

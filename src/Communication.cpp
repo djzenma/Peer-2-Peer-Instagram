@@ -379,6 +379,8 @@ char* Communication::comMsg(const char *destIP, const int destPort, char *msg, c
     int valread;
     struct sockaddr_in serv_addr;
     char buffer[1024] = {0};
+    socklen_t addr_size = sizeof(serv_addr);
+
 
     reset();
     // Destination
@@ -392,14 +394,20 @@ char* Communication::comMsg(const char *destIP, const int destPort, char *msg, c
         return "";
     }
 
+    /*
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("\nConnection Failed \n");
         return "";
-    }
+    }*/
 
+
+    Message* m = new Message();
+    m->setMessage(msg, strlen(msg));
+    int sendStat, recStat;
     switch (send_receive) {
         case SEND: // Send
-            send(sock , msg , strlen(msg) , 0);
+            sendStat = static_cast<int>(sendto(socketfd, (void *)m->marshal().c_str(), strlen(msg), 0, (struct sockaddr*)& serv_addr, sizeof(serv_addr)));
+            //send(sock , msg , strlen(msg) , 0);
             printf("Com: Sent Message\n");
             return "";
         case RECEIVE: // Receive
@@ -407,9 +415,14 @@ char* Communication::comMsg(const char *destIP, const int destPort, char *msg, c
             printf("Com: Response: %s\n", buffer);
             return buffer;
         case SEND_RECEIVE: // Send and Receive
-            send(sock , msg , strlen(msg) , 0);
+            sendStat = static_cast<int>(sendto(socketfd, (void *)m->marshal().c_str(), strlen(msg), 0, (struct sockaddr*)& serv_addr, sizeof(serv_addr)));
+            //send(sock , msg , strlen(msg) , 0);
             printf("Com: Sent Message\n");
-            valread = read( sock , buffer, 1024);
+
+            do {
+                recStat = recvfrom(socketfd, buffer, sizeof(buffer),0,(struct sockaddr*)&serv_addr, &addr_size);
+            } while (recStat < 0);
+            //valread = read( sock , buffer, 1024);
             printf("Com: Response: %s\n", buffer);
             return buffer;
     }
