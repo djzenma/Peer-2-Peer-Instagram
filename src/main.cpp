@@ -53,7 +53,7 @@ int main(int argc,char **argv){
         const char* dosIp = argv[1];
         bool auth_test = false;
         bool p2p_test = true;
-        bool p1_test = false;
+        bool p1_test = true;
 
         if (auth_test) {
             auto peer = new Peer("127.0.0.1", "Mazen", dosIp);
@@ -61,7 +61,7 @@ int main(int argc,char **argv){
         }
         else if(p2p_test) {
             if(p1_test) {
-                auto peer1 = new Peer("127.0.0.1", "Mazen", dosIp);
+                auto peer1 = new Peer("10.40.35.216", "Mazen", dosIp);
                 peer1->join();
             }
             else {
