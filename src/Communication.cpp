@@ -144,7 +144,7 @@ Communication::Transaction Communication::listenTx(Transaction tx, char * req) {
 //    valread = read( new_socket, req, 1024);
 
     do {
-        stat = recvfrom(tx.server_fd, req, strlen(req),0, (struct sockaddr *)&cliaddr, (socklen_t*)&addrlen);
+        stat = recvfrom(tx.server_fd, req, strlen(req),0, (struct sockaddr *)&tx.address, (socklen_t*)&addrlen);
     } while (stat <= 0);
 
     //std::string marshalled = std::string(req);

@@ -9,15 +9,19 @@
 #include <string>
 #include <thread>
 #include "Communication.h"
+#include "RequestReply.h"
 
 class Peer {
 private:
     Communication *com;
     std::string myIp, myName, dosIp;
     std::thread msgIdThread;
+    RequestReply* reqReplyListener;
 
     void runMsgIdThread();
     void runMsgIdSys();
+
+    void sendMsg(std::string destIp, const char *destPort, Message m);
 public:
     Peer(const char *myIp, std::string myName, std::string dosIp);
 

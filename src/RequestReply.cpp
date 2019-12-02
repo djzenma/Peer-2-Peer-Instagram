@@ -77,6 +77,20 @@ int RequestReply::sendReq (Message & m){ //send request number
     return sendStatus;
 }
 
+int RequestReply::getReq(Message & msg , struct sockaddr_in& sendingIp ) {
+    addr_size = sizeof(serverAddr);
+
+    do {
+         stat = recvfrom(socketfd,read_buffer, buff_size,0,(struct sockaddr*)&serverAddr, &addr_size);
+
+    } while (stat < 0);
+    sendingIp =  serverAddr;
+    std::string marshalled = std::string(read_buffer);
+    msg = Message(marshalled);
+
+    return stat;
+}
+
 int RequestReply::getReq(Message & msg) {
     addr_size = sizeof(serverAddr);
 
@@ -244,6 +258,7 @@ int RequestReply::getReply(Message & m) {
         return -1;
     }
 }
+
 void RequestReply::shutDownFD() {
     shutdown(socketfd , SHUT_RDWR);
 }

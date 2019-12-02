@@ -52,4 +52,6 @@ std::string hostname_to_ip(char * hostname);
 void copyImage(std::string src, std::string dst);
 // Return IP from Address
 std::string getIP(struct sockaddr_in addr);
+int getPort(sockaddr_in sa);
+
 #endif

@@ -113,7 +113,7 @@ int Server::serveRequest(){
     string toConnectPort ;
     int r = rand()%((65535 - 4040) + 1) + 4040;
     Message msg = Message();
-    reqReply->getReq(msg);
+    reqReply->getReq(msg );
     std::cout<<"entered          "<<endl;
     int reqNum = msg.getMessageType() ;
     int image_id= msg.getImageId();

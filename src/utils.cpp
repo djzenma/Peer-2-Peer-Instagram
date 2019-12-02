@@ -64,5 +64,11 @@ void copyImage(std::string src, std::string dst){
 
 // Return IP from Address
 std::string getIP(struct sockaddr_in addr) {
+    //std::cout<<"ssssss"<<inet_ntoa(addr.sin_addr)<<"\n";
     return inet_ntoa(addr.sin_addr);
+}
+
+// get port, IPv4
+int getPort(sockaddr_in sa) {
+    return ntohs(sa.sin_port);
 }

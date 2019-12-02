@@ -33,7 +33,7 @@ void Message::deserialize(std::string decoded){
     rpc_id = hex_to_int(decoded.substr(31, 8 ));
     image_id = hex_to_int(decoded.substr(41, 8 ));
     request_id = decoded.substr( 49, decoded.substr(49).find(";"));
-    std::cout << "request_ id :  " << request_id << std::endl;
+    //std::cout << "request_ id :  " << request_id << std::endl;
     msg_decoded = decoded.substr(49+request_id.length()+1);
     message = msg_decoded;
 }

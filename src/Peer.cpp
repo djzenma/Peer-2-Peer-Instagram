@@ -11,7 +11,12 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
     this->dosIp = dosIp;
     com = new Communication();
 
-    com->msgIdTx = com->init_socket(myIp, PEER_IMAGES_ID_PORT);
+    //com->msgIdTx = com->init_socket(myIp, PEER_IMAGES_ID_PORT);
+    std::stringstream ss;
+    ss << PEER_IMAGES_ID_PORT;
+
+    const char *port = ss.str().c_str();
+    reqReplyListener = new RequestReply(port, myIp, false, 1024);
     runMsgIdThread();
 }
 
@@ -145,11 +150,21 @@ void Peer::runMsgIdSys() {
     std::cout<<"Peer: Listening for Msg ID requests...\n";
     while(true) {
         char req[2000] = {0};
-        Message msg;
+        Message msg, okMsg;
+        okMsg.setMessage("ok", sizeof("ok"));
+        sockaddr_in sender;
+
         // Listening For Msg ID requests
-        com->msgIdTx = com->listenTx(com->msgIdTx, req);
-        std::cout<<"Peer: Requested Peer IP: "<<getIP(com->msgIdTx.address)<<std::endl;
-        sendto(com->msgIdTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->msgIdTx.address, sizeof(com->msgIdTx.address));
+        reqReplyListener->getReq(msg, sender);
+        //com->msgIdTx = com->listenTx(com->msgIdTx, req);
+        std::cout<<"Peer: Requested Peer IP: ";//<<" Port: "<<reinterpret_cast<const char *>(sender.sin_port)<<std::endl;
+        std::string senderIp = getIP(sender);
+        std::cout<<senderIp;
+        int senderPort = getPort(sender);
+        std::cout<<" Port"<<senderPort<<"\n";
+
+        //sendto(com->msgIdTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->msgIdTx.address, sizeof(com->msgIdTx.address));
+        sendMsg(getIP(sender), reinterpret_cast<const char *>(sender.sin_port), okMsg);
 
         // Send him the requested ID
         std::string peerIp = getIP(com->msgIdTx.address);
@@ -161,6 +176,11 @@ void Peer::runMsgIdSys() {
     }
 }
 #pragma clang diagnostic pop
+
+void Peer::sendMsg(std::string destIp, const char *destPort, Message m) {
+    RequestReply* reqReplySender = new RequestReply(destPort,  destIp.c_str(), true, 1024);
+    reqReplySender->sendReq(m);
+}
 
 void Peer::join() {
     if (msgIdThread.joinable())

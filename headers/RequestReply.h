@@ -34,6 +34,7 @@ class RequestReply {
         
         int sendReply(Message & m); //sends the image
         int getReply(Message & m); //gets the image
+        int getReq(Message & m, struct sockaddr_in& sendingIp); //gets reqnum
         int getReq(Message & m); //gets reqnum
         int sendReq(Message& m); //sends reqnum
 
