@@ -52,7 +52,7 @@ int main(int argc,char **argv){
          */
         const char* dosIp = argv[1];
         bool auth_test = false;
-        bool p2p_test = true;
+        bool p2p_test = false;
         bool p1_test = true;
 
         if (auth_test) {

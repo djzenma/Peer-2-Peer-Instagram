@@ -157,29 +157,31 @@ void Peer::runMsgIdSys() {
         // Listening For Msg ID requests
         reqReplyListener->getReq(msg, sender);
         //com->msgIdTx = com->listenTx(com->msgIdTx, req);
-        std::cout<<"Peer: Requested Peer IP: ";//<<" Port: "<<reinterpret_cast<const char *>(sender.sin_port)<<std::endl;
+        std::cout<<"Peer: Requested Peer IP: ";
         std::string senderIp = getIP(sender);
         std::cout<<senderIp;
         int senderPort = getPort(sender);
         std::cout<<" Port"<<senderPort<<"\n";
 
         //sendto(com->msgIdTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->msgIdTx.address, sizeof(com->msgIdTx.address));
-        sendMsg(getIP(sender), reinterpret_cast<const char *>(sender.sin_port), okMsg);
+        sendMsg(senderIp, reinterpret_cast<const char *>(senderPort), okMsg);
 
         // Send him the requested ID
-        std::string peerIp = getIP(com->msgIdTx.address);
-        std::cout << "Peer: Sending The requested image with ID "<<req<<" to IP: " << peerIp << "\n";
-        Message imgMsg = com->buildImageMsg(std::stoi(req), peerIp, myName);
-        com->sendImage(imgMsg, peerIp, PEER_IMAGES_PORT);
-        std::cout << "Peer "<<myName<<": Finished Sending The requested image with ID "<<req<<" to IP: " << peerIp << "\n";
+        std::cout << "Peer: Sending The requested image with ID "<<req<<" to IP: " << senderIp << "\n";
+        Message imgMsg = com->buildImageMsg(std::stoi(req), senderIp, myName);
+        com->sendImage(imgMsg, senderIp, PEER_IMAGES_PORT);
+        std::cout << "Peer "<<myName<<": Finished Sending The requested image with ID "<<req<<" to IP: " << senderIp << "\n";
 
     }
 }
 #pragma clang diagnostic pop
 
 void Peer::sendMsg(std::string destIp, const char *destPort, Message m) {
+    std::cout<<"Sending Msg1.."<<destPort<<"\n";
     RequestReply* reqReplySender = new RequestReply(destPort,  destIp.c_str(), true, 1024);
+    std::cout<<"Sending Msg2.."<<"\n";
     reqReplySender->sendReq(m);
+    std::cout<<"Sending Msg3.."<<"\n";
 }
 
 void Peer::join() {
