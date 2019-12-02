@@ -90,18 +90,18 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
     int opt = 1;
 
     // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_DGRAM, 0)) == 0) {
+    if ((server_fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("socket failed");
         exit(EXIT_FAILURE);
     }
 
-
+/*
     // Forcefully attaching socket to the port
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
-
+*/
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(LISTEN_IP); //TODO
     //address.sin_addr.s_addr = INADDR_ANY;
@@ -124,7 +124,7 @@ Communication::Transaction Communication::init_socket(const char *LISTEN_IP, con
 /*
  * Listen For Requests
  */
-int Communication::listenTx(Transaction tx, char * req) {
+Communication::Transaction Communication::listenTx(Transaction tx, char * req) {
     ssize_t stat;
     struct sockaddr_in cliaddr;
     int addrlen = sizeof(cliaddr);
@@ -143,15 +143,14 @@ int Communication::listenTx(Transaction tx, char * req) {
 //    std::cout<<"Peer: IP "<<getIP(tx.address)<<"\n";
 //    valread = read( new_socket, req, 1024);
 
-
     do {
         stat = recvfrom(tx.server_fd, req, strlen(req),0, (struct sockaddr *)&cliaddr, (socklen_t*)&addrlen);
-    } while (stat < 0);
+    } while (stat <= 0);
 
     //std::string marshalled = std::string(req);
     //msg = Message(marshalled);
-
-    return stat;
+    tx.address = cliaddr;
+    return tx;
 }
 
 

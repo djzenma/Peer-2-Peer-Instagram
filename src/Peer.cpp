@@ -147,7 +147,7 @@ void Peer::runMsgIdSys() {
         char req[2000] = {0};
         Message msg;
         // Listening For Msg ID requests
-        com->listenTx(com->msgIdTx, req);
+        com->msgIdTx = com->listenTx(com->msgIdTx, req);
         std::cout<<"Peer: Requested Peer IP: "<<getIP(com->msgIdTx.address)<<std::endl;
         sendto(com->msgIdTx.server_fd, "ok", strlen("ok"), 0, (struct sockaddr*)&com->msgIdTx.address, sizeof(com->msgIdTx.address));
 
