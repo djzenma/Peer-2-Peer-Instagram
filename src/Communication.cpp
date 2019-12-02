@@ -424,7 +424,7 @@ char* Communication::comMsg(const char *destIP, const int destPort, char *msg, c
             try {
                 do {
                     recStat = recvfrom(sock, buffer, sizeof(buffer),0,(struct sockaddr*)&cli_addr, &addr_size);
-                } while (recStat < 0);
+                } while (recStat <= 0);
             } catch (std::exception& e) {
                 std::cout<<e.what()<<"\n";
             }
