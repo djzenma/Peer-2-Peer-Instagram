@@ -72,6 +72,9 @@ class Message{
         void setIP (std::string ip);
         void setMessageSize(size_t message_size);
 
+        // BUILD ACK msg
+        static Message buildAckMsg(Message & m);
+
         ~Message();
 
         friend std::ostream& operator<< (std::ostream& stream, const Message& msg);

@@ -18,7 +18,7 @@ RequestReply::RequestReply(const char * IP){
             printf("\nBinding Failed!\n");
 
 
-    if(socketfd  <0) {
+    if(socketfd<0) {
         perror("socket failed");
     }
     buff_size = BUFF_SIZE; // check if this laptop issue
@@ -34,13 +34,25 @@ void RequestReply::send(argsSend a)
 
     for (int i=0; i<a.packets.size();i++)
     {
-        //printf("Sending Packet %d: \n ", i);
-        int res = static_cast<int>(sendto(socketfd, (void *)a.packets[i].marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+        printf("Sending Packet %d: \n ", i);
         int num_retries = NUM_RETRIES;
-        while(res < 0 && num_retries != 0){ // retry sending the packet if failed
-            std::cout << "Retrying again  " << std::endl; 
-            res = static_cast<int>(sendto(socketfd, (void *)a.packets[i].marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+        bool recieved = false;
+
+        do {
+            int res = static_cast<int>(sendto(socketfd, (void *)a.packets[i].marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+
+            if(res < 0)
+                printf("Failed to send packet %d", i);
+            sleep(0.5);
+            // RECIEVE ACK
+            recieved = recieveACK(a.packets[i]);
+            std::cout << "Recieved Ack: " << recieved << std::endl;
             num_retries--;
+        } while(num_retries != 0 && !recieved);
+
+        if(!recieved){
+            printf("Failed Sending Message \n");
+            break;
         }
     }
     a.res = 1;
@@ -50,12 +62,12 @@ std::string RequestReply::sendMessage(Message & m, const char* IP){
     a.IP=IP;
     a.isEmpty = false;
     
-    m.setIP(std::string(IP));
+    m.setIP(std::string(inet_ntoa(serverAddr.sin_addr)));
 
     std::vector<Message> packets = createPackets(m);
     a.packets= packets;
    
-    sendThread = std::thread(&RequestReply::send,this,a);
+    sendThread = std::thread(&RequestReply::send, this, a);
     sendThread.join();
     if(a.res >=0){
         return "ok";
@@ -71,18 +83,38 @@ void RequestReply::rec()
     addr_size = sizeof(serverAddr);
     do {
          stat = recv(socketfd,read_buffer, buff_size,0);
-        // std::cout<<"Receive stat "<< stat<<std::endl;
+         //std::cout<<"Receive stat "<< stat<<std::endl;
            
          if(stat >= 0){
             std::string marshalled = std::string(read_buffer);
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-            //std::cout <<  "Received: " << recieved_msg.getRequestId() << std::endl;
-            std::cout << "Received Packet: " << recieved_msg.getPacketIndex()
-                      << "from : " << recieved_msg.getTotalPackets() << std::endl;
+            // std::cout << "Received: " << recieved_msg.getRequestId() << std::endl;
+            // std::cout << "Received Packet: " << recieved_msg.getPacketIndex()
+            //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
 
+            if(recieved_msg.getMessageType()==ACK){ // recieved an aknowledgment for a message I sent.
+                printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
+                ack_lock.lock();
+                acks[recieved_msg.getRequestId()] = recieved_msg;
+                ack_lock.unlock();
+                continue;
+            }
+            /*
+                SEND ACK
+            */
+
+            Message ack_msg = Message::buildAckMsg(recieved_msg);
+            printf("Sending an ACK MSG with: %s", ack_msg.getRequestId().c_str());
+
+            serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
+            int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+
+            /*
+                INSERT RECIEVED MSG IN BUFFER
+            */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
                 printf("Msg doesn't exist \n");
                 chunked_msgs[msg_id].push_back(recieved_msg);
@@ -113,14 +145,24 @@ void RequestReply::rec()
                 }
                 else{
                     std::cout << "Packet is dropped or packets out of order"  <<std::endl; 
-                }
-                
+                }  
             }
-           
-           
          }
 
-        } while (true);
+    } while (true);
+}
+
+bool RequestReply::recieveACK(Message & packet){
+    std::string ack_id = packet.getRequestId() + std::to_string(packet.getPacketIndex()) + std::to_string(packet.getTotalPackets());
+    bool recieved = false;
+
+    ack_lock.lock();
+    if(acks.count(ack_id) > 0){
+        recieved = true;  
+        acks.erase(ack_id);  
+    }   
+    ack_lock.unlock();
+    return recieved;
 }
 //recv from all in buff
 //get form buff ip
@@ -160,7 +202,7 @@ int RequestReply::recRequest(Message & m){
         return 0;
     }
 
-   // printf("Pending Messages : %d\n", rec_buffer.size());
+    printf("Pending Messages : %d\n", rec_buffer.size());
 
     for (int i=0; i< rec_buffer.size(); i++){
         if(rec_buffer[i].getMessageType()==Request){

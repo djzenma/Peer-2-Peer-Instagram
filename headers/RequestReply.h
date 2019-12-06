@@ -44,8 +44,10 @@ class RequestReply {
         std::vector<Message> rec_buffer;
         std::thread sendThread, recThread;
         std::mutex mlock;
+        std::mutex ack_lock;
 
         std::map<std::string, std::vector<Message>> chunked_msgs; // <request_id, message>
+        std::map<std::string, Message> acks;
         std::vector<Message> createPackets(Message& m);
 
     public:
@@ -58,7 +60,8 @@ class RequestReply {
         void rec();
         int recReply(Message & m, std::string request_id);
         int recRequest(Message & m);
-
+        
+        bool recieveACK(Message & packet);
         void shutDownFD();
 
 

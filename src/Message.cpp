@@ -1,7 +1,7 @@
 #include "../headers/Message.h"
 #include "../headers/utils.h"
 
-Message::Message(): message_type(Request), operation(0), packet_index(0), message_size(0), message(""), request_id(""), IP(""),image_id(0) {
+Message::Message(): message_type(Request), operation(0), packet_index(0), total_packets(0), message_size(0), message(""), request_id(""), IP(""),image_id(0) {
 
 }
   
@@ -122,6 +122,17 @@ std::string Message::getRequestId(){
 std::string Message::getIP(){
     return IP;
 }
+
+Message Message::buildAckMsg(Message & m){
+    Message ack_msg  = Message();
+    ack_msg.setMessageType(ACK);
+    ack_msg.setRequestId(m.getRequestId()+ std::to_string(m.getPacketIndex()) + std::to_string(m.getTotalPackets()));
+    ack_msg.setPacketIndex(m.getPacketIndex());
+    ack_msg.setTotalPacket(m.getTotalPackets());
+    ack_msg.setIP(m.getIP());
+    return ack_msg;
+}
+
 Message::~Message(){
 
 }
@@ -134,6 +145,7 @@ std::ostream& operator<< (std::ostream& stream, const Message& msg) {
            << ", Total Packets: " << msg.total_packets
            << ", Message: " << msg.message
            << ", Image ID: " << msg.image_id
+           << ", Sender IP: " << msg.IP
            << ", Request ID: " << msg.request_id << std::endl;
     return stream;
 }
