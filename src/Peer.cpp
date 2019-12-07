@@ -59,7 +59,6 @@ void Peer::dispatch(Message  msg){
             int image_id = msg.getImageId();
             int num_views = rand()%10+1;
             Message msg = Image::buildImageMsg(image_id , std::to_string(num_views)+","+username+","+sender_ip, request_id);
-            msg.setMessage("HI", 2);
             rrp->sendMessage(msg, sender_ip.c_str());
             std::tuple<std::string, int> userInfo(username, num_views); //add to db
             db->insertUser(image_id, userInfo);

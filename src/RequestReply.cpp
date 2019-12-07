@@ -6,6 +6,7 @@
 RequestReply::RequestReply(const char * IP){
 
     port = 4040;
+    myIP = IP;
     memset(&serverAddr,'\0',sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
@@ -43,11 +44,14 @@ void RequestReply::send(argsSend a)
 
             if(res < 0)
                 printf("Failed to send packet %d", i);
-            sleep(0.5);
-            // RECIEVE ACK
-            recieved = recieveACK(a.packets[i]);
-            std::cout << "Recieved Ack: " << recieved << std::endl;
-            num_retries--;
+            else {
+                sleep(1);
+                // RECIEVE ACK
+                recieved = recieveACK(a.packets[i]);
+                std::cout << "Recieved Ack: " << recieved << std::endl;
+                num_retries--;
+            }    
+            
         } while(num_retries != 0 && !recieved);
 
         if(!recieved){
@@ -62,7 +66,7 @@ std::string RequestReply::sendMessage(Message & m, const char* IP){
     a.IP=IP;
     a.isEmpty = false;
     
-    m.setIP(std::string(inet_ntoa(serverAddr.sin_addr)));
+    m.setIP(myIP);
 
     std::vector<Message> packets = createPackets(m);
     a.packets= packets;
@@ -116,13 +120,14 @@ void RequestReply::rec()
                 INSERT RECIEVED MSG IN BUFFER
             */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
-                printf("Msg doesn't exist \n");
                 chunked_msgs[msg_id].push_back(recieved_msg);
                 // check if the first packet is the last one 
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()){
                     printf("Inserting in Buffer \n");
+                    std::string marshalled = recieved_msg.getMessage();
+                    Message complete = Message(marshalled);
                     mlock.lock();
-                    rec_buffer.push_back(recieved_msg);
+                    rec_buffer.push_back(complete);
                     mlock.unlock();
                 }
             }
@@ -155,7 +160,7 @@ void RequestReply::rec()
 bool RequestReply::recieveACK(Message & packet){
     std::string ack_id = packet.getRequestId() + std::to_string(packet.getPacketIndex()) + std::to_string(packet.getTotalPackets());
     bool recieved = false;
-
+    printf("Searching for : %s: ", ack_id);
     ack_lock.lock();
     if(acks.count(ack_id) > 0){
         recieved = true;  
@@ -178,9 +183,7 @@ int RequestReply::recReply(Message & m, std::string request_id){
     printf("Pending Messages : %d\n", rec_buffer.size());
 
     for (int i=0; i< rec_buffer.size(); i++){
-        std::cout << rec_buffer[i] << std::endl;
         if(rec_buffer[i].getRequestId() == request_id && rec_buffer[i].getMessageType()==Reply){
-            std::cout << rec_buffer[i] << std::endl;
             m = rec_buffer[i];
             rec_buffer.erase(rec_buffer.begin() + i);
             mlock.unlock();
@@ -206,7 +209,6 @@ int RequestReply::recRequest(Message & m){
 
     for (int i=0; i< rec_buffer.size(); i++){
         if(rec_buffer[i].getMessageType()==Request){
-            std::cout << rec_buffer[i] << std::endl;
             m = rec_buffer[i];
             rec_buffer.erase(rec_buffer.begin() + i);
             mlock.unlock();

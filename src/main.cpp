@@ -20,7 +20,7 @@ int main(int argc,char **argv){
     // std::cout << text << std::endl; 
     std::cout << argv[0] << std::endl;
     if(strcmp(argv[1], "Server")==0){
-        Peer p("127.0.0.1", "Manar", "127.0.0.1");
+        Peer p("10.40.57.51", "Manar", "127.0.0.1");
         p.serveRequst();
     } else {
         Peer p("10.40.55.183", "Manar", "127.0.0.1");

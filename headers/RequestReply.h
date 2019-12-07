@@ -37,7 +37,7 @@ class RequestReply {
         struct hostent *server;
         long stat, packet_index, read_size = -1,total_size = 0  ,size ;
         char  read_buffer[BUFF_SIZE];
-
+        const char * myIP;
 
         argsSend a;
         
