@@ -23,7 +23,7 @@
 #include <fstream>
 #include "Message.h"
 
-#define PATH "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/"
+#define PATH "/Users/owner/CLionProjects/Distributed-Client/"
 
 enum serviceOperations{
     SendImage = 0,

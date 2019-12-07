@@ -37,7 +37,7 @@ void RequestReply::send(argsSend a)
 
     for (int i=0; i<a.packets.size();i++)
     {
-        std::cout << "Sending Packet %d: \n " << a.packets[i] << std::endl;
+        std::cout << "Sending Packet %d: \n " << a.packets[i].getPacketIndex() << std::endl;
         int num_retries = NUM_RETRIES;
         bool recieved = false;
 
@@ -93,7 +93,7 @@ void RequestReply::rec()
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-             std::cout << "Received Packet: \n" << recieved_msg << std::endl;
+             std::cout << "Received Packet: \n" << recieved_msg.getPacketIndex() << std::endl;
             //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
 
