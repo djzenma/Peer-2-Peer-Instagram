@@ -16,17 +16,20 @@ int Peer::requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerI
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl; 
     if(strcmp(send_res.c_str(), "ok") == 0){
         Message reply_msg;
-        //sleep(6);
-        while (true)
+        int reply= 0 ;
+       // for (int i=0 ;i< 50 && !reply ;i++)
+       while(1 && !reply)
         {
-            rrp->recReply(reply_msg, m.getRequestId());
+            sleep(1);
+            reply = rrp->recReply(reply_msg, m.getRequestId());
         }
         
-        if(rrp->recReply(reply_msg, m.getRequestId()) == 0){
+        if(!reply){
             printf("Timeout! Didn't recieve a reply \n");
             return -1;
         }
         else{
+            saveImage(reply_msg.getMessage(), 7);
             imgMsg = reply_msg;
             return -1;    
         }
