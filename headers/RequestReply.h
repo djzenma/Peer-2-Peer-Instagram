@@ -16,7 +16,7 @@
 #include "Message.h"
 
 #define NUM_RETRIES 5
-#define BUFF_SIZE 1024
+#define BUFF_SIZE 60000
 
 struct argsSend{
     std::vector<Message> packets;
@@ -46,7 +46,7 @@ class RequestReply {
         std::mutex mlock;
         std::mutex ack_lock;
 
-        std::map<std::string, std::vector<Message>> chunked_msgs; // <request_id, message>
+        std::map<std::string, std::pair<int, std::vector<Message>>> chunked_msgs; // <request_id, message>
         std::map<std::string, Message> acks;
         std::vector<Message> createPackets(Message& m);
 

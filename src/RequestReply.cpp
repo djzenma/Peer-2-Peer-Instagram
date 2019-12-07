@@ -37,15 +37,15 @@ void RequestReply::send(argsSend a)
 
     for (int i=0; i<a.packets.size();i++)
     {
-        std::cout << "Sending Packet %d: \n " << a.packets[i] << std::endl;
+        std::cout << "Sending Packet %d: \n " << a.packets[i].getPacketIndex() << std::endl;
         int num_retries = NUM_RETRIES;
         bool recieved = false;
 
         std::string packet = a.packets[i].marshal();
 
         do {
-            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
-
+            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+            //sleep(3);
             if(res < 0)
                 printf("Failed to send packet %d", i);
             else recieved = true;
@@ -93,7 +93,7 @@ void RequestReply::rec()
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-             std::cout << "Received Packet: \n" << recieved_msg << std::endl;
+             std::cout << "Received Packet: \n" << recieved_msg.getRequestId() << std::endl;
             //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
 
@@ -118,8 +118,9 @@ void RequestReply::rec()
                 INSERT RECIEVED MSG IN BUFFER
             */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
-                chunked_msgs[msg_id] = std::vector<Message>(recieved_msg.getTotalPackets());
-                chunked_msgs[msg_id][recieved_msg.getPacketIndex()-1] =recieved_msg;
+                chunked_msgs[msg_id].first = 1;
+                chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
+                chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()-1] =recieved_msg;
                 // check if the first packet is the last one 
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()){
                     printf("Inserting in Buffer \n");
@@ -131,17 +132,20 @@ void RequestReply::rec()
                 }
             }
             else{ // if it exists
-                chunked_msgs[msg_id][recieved_msg.getPacketIndex()-1] =recieved_msg;
+                chunked_msgs[msg_id].first++;
+                chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()-1] =recieved_msg;
                 printf("inserting chunk \n");
-                if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()){ // if recieved packet is the last one
+                if(chunked_msgs[msg_id].first == recieved_msg.getTotalPackets()){ // if recieved packet is the last one
                     std::string marshalled = "";
-                    for(int i=0; i< chunked_msgs[msg_id].size(); i++){
-                        if(!chunked_msgs[msg_id][i].getRequestId().empty())
-                            marshalled = marshalled + chunked_msgs[msg_id][i].getMessage();
-                        else printf("Dropped Packet :  %d \n", i);
+                    for(int i=0; i<chunked_msgs[msg_id].second.size(); i++){
+                        if(!chunked_msgs[msg_id].second[i].getRequestId().empty())
+                            marshalled = marshalled + chunked_msgs[msg_id].second[i].getMessage();
+                        else{
+                            printf("Dropped Packet :  %d \n", i+1);
+                        } 
                     }
                     Message complete = Message(marshalled);
-                    std::cout << "Complete: " << complete << std::endl;
+                    std::cout << "Complete: " << complete.getRequestId() << std::endl;
                     mlock.lock();
                     printf("Inserting complete msg \n");
                     rec_buffer.push_back(complete);
@@ -223,14 +227,14 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
 
     int index = 0;
     int send_buff = buff_size - 114;
-    std::string marshalled = m.marshal(); 
-    int msg_size = marshalled.length();
+    std::string to_chunk = m.getMessage(); 
+    int msg_size = to_chunk.length();
     int num_packets =  ceil((float) msg_size/ (send_buff));
     
     printf("msg_size %i: , send_buffer %i , packets: %i \n", msg_size, send_buff, num_packets );
 
     while (index != num_packets-1){
-        std::string msg = marshalled.substr(index++ * send_buff, buff_size);
+        std::string msg = to_chunk.substr(index++ * send_buff, buff_size);
         Message packet = m;
         packet.setMessage(msg, msg.length()); 
         packet.setPacketIndex(index);  // packet number
@@ -238,7 +242,7 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
         packets.push_back(packet);
     }
 
-    std::string msg = marshalled.substr(index * send_buff);
+    std::string msg = to_chunk.substr(index * send_buff);
 
     Message packet = m;
     packet.setMessage(msg, msg.length()); 
