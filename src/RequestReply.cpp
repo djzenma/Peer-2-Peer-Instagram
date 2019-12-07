@@ -41,8 +41,10 @@ void RequestReply::send(argsSend a)
         int num_retries = NUM_RETRIES;
         bool recieved = false;
 
+        std::string packet = a.packets[i].marshal();
+
         do {
-            int res = static_cast<int>(sendto(socketfd, (void *)a.packets[i].marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
 
             if(res < 0)
                 printf("Failed to send packet %d", i);
