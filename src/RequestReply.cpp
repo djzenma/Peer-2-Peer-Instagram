@@ -37,7 +37,7 @@ void RequestReply::send(argsSend a)
 
     for (int i=0; i<a.packets.size();i++)
     {
-        printf("Sending Packet %d: \n ", a.packets[i].getPacketIndex());
+        std::cout << "Sending Packet %d: \n " << a.packets[i] << std::endl;
         int num_retries = NUM_RETRIES;
         bool recieved = false;
 
@@ -91,7 +91,7 @@ void RequestReply::rec()
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-            // std::cout << "Received Packet: " << recieved_msg.getPacketIndex()
+             std::cout << "Received Packet: \n" << recieved_msg << std::endl;
             //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
 
@@ -134,12 +134,14 @@ void RequestReply::rec()
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()){ // if recieved packet is the last one
                     std::string marshalled = "";
                     for(int i=0; i< chunked_msgs[msg_id].size(); i++){
-                        marshalled = marshalled + chunked_msgs[msg_id][i].getMessage();
+                        if(!chunked_msgs[msg_id][i].getRequestId().empty())
+                            marshalled = marshalled + chunked_msgs[msg_id][i].getMessage();
+                        else printf("Dropped Packet :  %d \n", i);
                     }
                     Message complete = Message(marshalled);
                     std::cout << "Complete: " << complete << std::endl;
                     mlock.lock();
-                    printf("inserting complete msg \n");
+                    printf("Inserting complete msg \n");
                     rec_buffer.push_back(complete);
                     mlock.unlock();
                 }
@@ -218,15 +220,15 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
     std::vector<Message> packets;
 
     int index = 0;
-
+    int send_buff = buff_size - 114;
     std::string marshalled = m.marshal(); 
     int msg_size = marshalled.length();
-    int num_packets =  ceil((float) msg_size/ buff_size);
+    int num_packets =  ceil((float) msg_size/ (send_buff));
     
-    printf("msg_size %i: , send_buffer %i , packets: %i \n", msg_size, buff_size, num_packets );
+    printf("msg_size %i: , send_buffer %i , packets: %i \n", msg_size, send_buff, num_packets );
 
     while (index != num_packets-1){
-        std::string msg = marshalled.substr(index++ * buff_size, buff_size);
+        std::string msg = marshalled.substr(index++ * send_buff, buff_size);
         Message packet = m;
         packet.setMessage(msg, msg.length()); 
         packet.setPacketIndex(index);  // packet number
@@ -234,7 +236,7 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
         packets.push_back(packet);
     }
 
-    std::string msg = marshalled.substr(index * buff_size);
+    std::string msg = marshalled.substr(index * send_buff);
 
     Message packet = m;
     packet.setMessage(msg, msg.length()); 

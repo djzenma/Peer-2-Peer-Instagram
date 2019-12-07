@@ -16,7 +16,12 @@ int Peer::requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerI
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl; 
     if(strcmp(send_res.c_str(), "ok") == 0){
         Message reply_msg;
-        sleep(6);
+        //sleep(6);
+        while (true)
+        {
+            rrp->recReply(reply_msg, m.getRequestId());
+        }
+        
         if(rrp->recReply(reply_msg, m.getRequestId()) == 0){
             printf("Timeout! Didn't recieve a reply \n");
             return -1;
@@ -64,9 +69,9 @@ void Peer::dispatch(Message  msg){
             for(int i=0; i<1024; i++){
                  hi = hi + "A";
             }
-            hi = hi + ";;;";
-            
-            msg.setMessage(hi, hi.length());
+            hi = hi + "BBBBBBBBBBB";
+
+            msg.setMessage(hi, hi.length()+1);
             rrp->sendMessage(msg, sender_ip.c_str());
             std::tuple<std::string, int> userInfo(username, num_views); //add to db
             db->insertUser(image_id, userInfo);
