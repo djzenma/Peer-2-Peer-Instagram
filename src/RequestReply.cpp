@@ -32,10 +32,12 @@ RequestReply::RequestReply(const char * IP){
 void RequestReply::send(argsSend a)
 {
     serverAddr.sin_addr.s_addr = inet_addr(a.IP);
+    // Message ack_msg = Message::buildAckMsg(a.packets[0]);
+    // a.packets.push_back(ack_msg);
 
     for (int i=0; i<a.packets.size();i++)
     {
-        printf("Sending Packet %d: \n ", i);
+        printf("Sending Packet %d: \n ", a.packets[i].getPacketIndex());
         int num_retries = NUM_RETRIES;
         bool recieved = false;
 
@@ -45,7 +47,6 @@ void RequestReply::send(argsSend a)
             if(res < 0)
                 printf("Failed to send packet %d", i);
             else recieved = true;
-            
             num_retries--;
             
         } while(num_retries != 0 && !recieved);
@@ -90,7 +91,6 @@ void RequestReply::rec()
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-            // std::cout << "Received: " << recieved_msg.getRequestId() << std::endl;
             // std::cout << "Received Packet: " << recieved_msg.getPacketIndex()
             //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
@@ -129,25 +129,20 @@ void RequestReply::rec()
                 }
             }
             else{ // if it exists
-                if (chunked_msgs[msg_id].back().getPacketIndex() == recieved_msg.getPacketIndex()-1){
-                    chunked_msgs[msg_id].push_back(recieved_msg);
-                    printf("inserting chunk \n");
-                    if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()-1){ // if recieved packet is the last one
-                        std::string marshalled = "";
-                        for(int i=0; i< chunked_msgs[msg_id].size(); i++){
-                            marshalled = marshalled + chunked_msgs[msg_id][i].getMessage();
-                        }
-                        Message complete = Message(marshalled);
-
-                        mlock.lock();
-                        printf("inserting complete msg \n");
-                        rec_buffer.push_back(complete);
-                        mlock.unlock();
+                chunked_msgs[msg_id][recieved_msg.getPacketIndex()-1] =recieved_msg;
+                printf("inserting chunk \n");
+                if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()){ // if recieved packet is the last one
+                    std::string marshalled = "";
+                    for(int i=0; i< chunked_msgs[msg_id].size(); i++){
+                        marshalled = marshalled + chunked_msgs[msg_id][i].getMessage();
                     }
+                    Message complete = Message(marshalled);
+                    std::cout << "Complete: " << complete << std::endl;
+                    mlock.lock();
+                    printf("inserting complete msg \n");
+                    rec_buffer.push_back(complete);
+                    mlock.unlock();
                 }
-                else{
-                    std::cout << "Packet is dropped or packets out of order"  <<std::endl; 
-                }  
             }
          }
 

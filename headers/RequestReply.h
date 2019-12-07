@@ -16,7 +16,7 @@
 #include "Message.h"
 
 #define NUM_RETRIES 5
-#define BUFF_SIZE 60000
+#define BUFF_SIZE 1024
 
 struct argsSend{
     std::vector<Message> packets;

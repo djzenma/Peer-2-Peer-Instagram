@@ -11,6 +11,7 @@ Message::Message(requestInfo req_info){
     message_size = req_info.p_message.length()+1;
     operation = req_info.operation;
     packet_index = req_info.packet_index;
+    total_packets = 0;
     message_type = req_info.msg_type;
     // resource attributes
     image_id = req_info.image_id;
@@ -126,7 +127,7 @@ std::string Message::getIP(){
 Message Message::buildAckMsg(Message & m){
     Message ack_msg  = Message();
     ack_msg.setMessageType(ACK);
-    ack_msg.setRequestId(m.getRequestId()+ std::to_string(m.getPacketIndex()) + std::to_string(m.getTotalPackets()));
+    ack_msg.setRequestId(m.getRequestId() + std::to_string(m.getTotalPackets()));
     ack_msg.setPacketIndex(m.getPacketIndex());
     ack_msg.setTotalPacket(m.getTotalPackets());
     ack_msg.setIP(m.getIP());
