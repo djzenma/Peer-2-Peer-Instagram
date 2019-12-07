@@ -44,13 +44,9 @@ void RequestReply::send(argsSend a)
 
             if(res < 0)
                 printf("Failed to send packet %d", i);
-            else {
-                sleep(1);
-                // RECIEVE ACK
-                recieved = recieveACK(a.packets[i]);
-                std::cout << "Recieved Ack: " << recieved << std::endl;
-                num_retries--;
-            }    
+            else recieved = true;
+            
+            num_retries--;
             
         } while(num_retries != 0 && !recieved);
 
@@ -99,28 +95,29 @@ void RequestReply::rec()
             //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
 
-            if(recieved_msg.getMessageType()==ACK){ // recieved an aknowledgment for a message I sent.
-                printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
-                ack_lock.lock();
-                acks[recieved_msg.getRequestId()] = recieved_msg;
-                ack_lock.unlock();
-                continue;
-            }
+            // if(recieved_msg.getMessageType()==ACK){ // recieved an aknowledgment for a message I sent.
+            //     printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
+            //     ack_lock.lock();
+            //     acks[recieved_msg.getRequestId()] = recieved_msg;
+            //     ack_lock.unlock();
+            //     continue;
+            // }
             /*
                 SEND ACK
             */
 
-            Message ack_msg = Message::buildAckMsg(recieved_msg);
-            printf("Sending an ACK MSG with: %s", ack_msg.getRequestId().c_str());
+            // Message ack_msg = Message::buildAckMsg(recieved_msg);
+            // printf("Sending an ACK MSG with: %s", ack_msg.getRequestId().c_str());
 
-            serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
-            int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+            // serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
+            // int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
 
             /*
                 INSERT RECIEVED MSG IN BUFFER
             */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
-                chunked_msgs[msg_id].push_back(recieved_msg);
+                chunked_msgs[msg_id] = std::vector<Message>(recieved_msg.getTotalPackets());
+                chunked_msgs[msg_id][recieved_msg.getPacketIndex()-1] =recieved_msg;
                 // check if the first packet is the last one 
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()){
                     printf("Inserting in Buffer \n");
