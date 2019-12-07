@@ -44,8 +44,8 @@ void RequestReply::send(argsSend a)
         std::string packet = a.packets[i].marshal();
 
         do {
-            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
-            //sleep(3);
+            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+
             if(res < 0)
                 printf("Failed to send packet %d", i);
             else recieved = true;
@@ -93,7 +93,7 @@ void RequestReply::rec()
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-             std::cout << "Received Packet: \n" << recieved_msg.getRequestId() << std::endl;
+             std::cout << "Received Packet: \n" << recieved_msg.getPacketIndex() << std::endl;
             //           << "from : " << recieved_msg.getTotalPackets() << std::endl;
 
 
@@ -135,14 +135,14 @@ void RequestReply::rec()
                 chunked_msgs[msg_id].first++;
                 chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()-1] =recieved_msg;
                 printf("inserting chunk \n");
-                if(chunked_msgs[msg_id].first == recieved_msg.getTotalPackets()){ // if recieved packet is the last one
+                if(chunked_msgs[msg_id].first  == recieved_msg.getTotalPackets()){ // if recieved packet is the last one
                     std::string marshalled = "";
                     for(int i=0; i<chunked_msgs[msg_id].second.size(); i++){
                         if(!chunked_msgs[msg_id].second[i].getRequestId().empty())
                             marshalled = marshalled + chunked_msgs[msg_id].second[i].getMessage();
                         else{
                             printf("Dropped Packet :  %d \n", i+1);
-                        } 
+                        }
                     }
                     Message complete = Message(marshalled);
                     std::cout << "Complete: " << complete.getRequestId() << std::endl;
@@ -227,11 +227,14 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
 
     int index = 0;
     int send_buff = buff_size - 114;
-    std::string to_chunk = m.getMessage(); 
+    std::string to_chunk = m.getMessage();
     int msg_size = to_chunk.length();
     int num_packets =  ceil((float) msg_size/ (send_buff));
     
     printf("msg_size %i: , send_buffer %i , packets: %i \n", msg_size, send_buff, num_packets );
+
+    if (num_packets==0)
+        num_packets=1 ;
 
     while (index != num_packets-1){
         std::string msg = to_chunk.substr(index++ * send_buff, buff_size);

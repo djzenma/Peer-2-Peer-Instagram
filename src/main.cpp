@@ -21,9 +21,9 @@ int main(int argc,char **argv){
         Peer p("10.40.60.233", "Manar", "127.0.0.1");
         p.serveRequst();
     } else {
-        Peer p("127.0.0.1", "Manar", "127.0.0.1");
+        Peer p("10.40.60.233", "Manar", "127.0.0.1");
         Message imgMsg;
-        p.requestImageFromPeer(imgMsg,4, "10.40.60.233");
+        p.requestImageFromPeer(imgMsg,4, "10.40.57.51");
     }
 
     return 0;

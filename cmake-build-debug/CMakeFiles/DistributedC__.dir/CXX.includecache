@@ -168,9 +168,13 @@ fstream
 Message.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
-/Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp
+/Users/owner/CLionProjects/Distributed-Client/src/main.cpp
+string
+-
 ../headers/Peer.h
 /Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
+../headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
 /usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
 cstring
