@@ -4,17 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Client.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/Database.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Database.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/DoS.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/DoS.cpp.o"
+  "/Users/owner/CLionProjects/Distributed-Client/src/Image.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Image.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/Message.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
+  "/Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Peer.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Server.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Thread.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Thread.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/experiment.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/experiment.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/main.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/main.cpp.o"
   "/Users/owner/CLionProjects/Distributed-Client/src/utils.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/utils.cpp.o"
   )

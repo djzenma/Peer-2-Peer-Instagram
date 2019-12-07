@@ -1,4 +1,4 @@
-#include "Peer.h"
+#include "../headers/Peer.h"
 
 Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
     this->myIp = myIp;

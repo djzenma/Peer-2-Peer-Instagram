@@ -17,7 +17,6 @@ int main(int argc,char **argv){
     // std::string stego_image = stega_encode(path, hidden_text, temp_path);
     // std::string text = stega_decode(temp_path);
 
-
     if(strcmp(argv[1], "Server")==0){
         Peer p("10.40.57.51", "Manar", "127.0.0.1");
         p.serveRequst();
