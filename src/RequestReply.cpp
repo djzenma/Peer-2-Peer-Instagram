@@ -154,7 +154,7 @@ void RequestReply::rec()
 bool RequestReply::recieveACK(Message & packet){
     std::string ack_id = packet.getRequestId() + std::to_string(packet.getPacketIndex()) + std::to_string(packet.getTotalPackets());
     bool recieved = false;
-    printf("Searching for : %s: ", ack_id);
+    printf("Searching for : %s: ", ack_id.c_str());
     ack_lock.lock();
     if(acks.count(ack_id) > 0){
         recieved = true;  

@@ -18,19 +18,16 @@ LINK_DIRECTORIES(/usr/local/Cellar/jsoncpp/1.9.1/lib)
 
 
 add_executable(DistributedC__
-        src/Client.cpp
         src/Message.cpp
         src/RequestReply.cpp
-        src/Server.cpp
+        src/Peer.cpp
         src/utils.cpp
         src/main.cpp
+        src/Image.cpp
         src/base64.cpp
-        src/experiment.cpp
         src/Communication.cpp
-        src/Thread.cpp
-        src/DoS.cpp
         src/Database.cpp
-        headers/Thread.h headers/utils.h src/Stego.cpp headers/Stego.h src/DoS.cpp headers/DoS.h headers/Communication.h headers/DoS.h headers/Database.h)
+        headers/utils.h headers/Peer.h headers/Image.h src/Stego.cpp headers/Stego.h  headers/Communication.h  headers/Database.h)
 
 #target_link_libraries(DistributedC__ jsoncpp_lib)
 

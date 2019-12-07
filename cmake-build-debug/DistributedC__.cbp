@@ -88,19 +88,16 @@
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Database.h">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/DoS.h">
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Image.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Peer.h">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/Thread.h">
-			<Option target="DistributedC__"/>
-		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/headers/utils.h">
-			<Option target="DistributedC__"/>
-		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Client.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp">
@@ -109,28 +106,22 @@
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Database.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/DoS.cpp">
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Image.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Message.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp">
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Server.cpp">
+		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/Thread.cpp">
-			<Option target="DistributedC__"/>
-		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp">
-			<Option target="DistributedC__"/>
-		</Unit>
-		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/experiment.cpp">
 			<Option target="DistributedC__"/>
 		</Unit>
 		<Unit filename="/Users/owner/CLionProjects/Distributed-Client/src/main.cpp">
