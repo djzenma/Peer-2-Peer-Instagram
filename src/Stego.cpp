@@ -1,5 +1,7 @@
 #include "../headers/Stego.h"
 
+
+#define DOCKER "docker run -it --rm -v "$(pwd):/src" bartimar/steghide"
 #define COVER_PATH "images/stego/cover.jpeg"
 #define SECRET_TEXT_PATH "images/stego/temp/secret.txt"
 #define EXTRACTED_IMAGE_PATH "images/stego/temp/extracted.jpeg"
@@ -42,8 +44,8 @@ std::string stega_encode(std::string image_file, std::string secret_msg, std::st
     std::ofstream outfile (SECRET_TEXT_PATH);
     outfile << secret_msg << std::endl;
 
-    std::string str = "steghide embed -ef "; 
-    std::string text_cmd = "steghide embed -ef ";
+    std::string str =  " steghide embed -ef "; 
+    std::string text_cmd =  "steghide embed -ef ";
     text_cmd = text_cmd + PATH + SECRET_TEXT_PATH + " -cf " + image_file + " -sf " + stego_image;
     text_cmd = text_cmd + " -p " + PASS_PHRASE + " -f";
     

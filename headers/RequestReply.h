@@ -16,11 +16,11 @@
 #include "Message.h"
 
 #define NUM_RETRIES 5
-#define BUFF_SIZE 60000
+#define BUFF_SIZE 65000
 
 struct argsSend{
     std::vector<Message> packets;
-    const char * IP;
+    std::string IP;
     int res;
     bool isEmpty;
 };
@@ -37,7 +37,8 @@ class RequestReply {
         struct hostent *server;
         long stat, packet_index, read_size = -1,total_size = 0  ,size ;
         char  read_buffer[BUFF_SIZE];
-        const char * myIP;
+        
+        std::string myIP;
 
         argsSend a;
         
@@ -61,7 +62,7 @@ class RequestReply {
         int recReply(Message & m, std::string request_id);
         int recRequest(Message & m);
         
-        bool recieveACK(Message & packet);
+        bool recieveACK(std::string ack_id, Message & ack_msg);
         void shutDownFD();
 
 

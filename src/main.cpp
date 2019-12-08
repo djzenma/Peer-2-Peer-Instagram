@@ -18,12 +18,12 @@ int main(int argc,char **argv){
     // std::string text = stega_decode(temp_path);
 
     if(strcmp(argv[1], "Server")==0){
-        Peer p("10.40.60.233", "Manar", "127.0.0.1");
+        Peer p("10.40.32.170", "Manar", "127.0.0.1");
         p.serveRequst();
     } else {
-        Peer p("10.40.60.233", "Manar", "127.0.0.1");
+        Peer p("127.0.0.1", "Manar", "127.0.0.1");
         Message imgMsg;
-        p.requestImageFromPeer(imgMsg,4, "10.40.57.51");
+        p.requestImageFromPeer(imgMsg, 4, "10.40.32.170");
     }
 
     return 0;

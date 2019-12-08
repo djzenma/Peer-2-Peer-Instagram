@@ -20,7 +20,6 @@ Message::Message(requestInfo req_info){
 }
 Message::Message(std::string & marshalled_base64){
     std::string decoded = decode64(marshalled_base64);
-    std::string msg_decoded;
     deserialize(decoded);
 }
 
@@ -127,7 +126,7 @@ std::string Message::getIP(){
 Message Message::buildAckMsg(Message & m){
     Message ack_msg  = Message();
     ack_msg.setMessageType(ACK);
-    ack_msg.setRequestId(m.getRequestId() + std::to_string(m.getTotalPackets()));
+    ack_msg.setRequestId(m.getRequestId());
     ack_msg.setPacketIndex(m.getPacketIndex());
     ack_msg.setTotalPacket(m.getTotalPackets());
     ack_msg.setIP(m.getIP());
