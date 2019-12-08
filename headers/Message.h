@@ -12,7 +12,8 @@
 enum MessageType {
     Request,
     Reply,
-    ACK
+    ACK,
+    ACKReply
 };
 
 struct requestInfo {

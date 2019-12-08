@@ -73,7 +73,7 @@ void RequestReply::send(argsSend a)
     bool reciever_ack_recieved = false;
 
     int ack_num_retires= NUM_RETRIES;
-    bool packets_dropped = true;
+    bool dropped_packets = true;
 
     do{
     
@@ -110,7 +110,7 @@ void RequestReply::send(argsSend a)
         }
 
         if(packets_to_resend.size() == 0)
-            packets_dropped = false;
+            dropped_packets = false;
 
         for (int i=0; i<packets_to_resend.size();i++){
             std::string packet = a.packets[packets_to_resend[i]].marshal();
@@ -138,7 +138,7 @@ void RequestReply::send(argsSend a)
         break;
     }
 
-    }while(packets_dropped);
+    }while(dropped_packets);
   
     a.res = 1;
 }
@@ -177,35 +177,31 @@ void RequestReply::rec()
             
              std::cout << "Received Packet: \n" << recieved_msg.getPacketIndex() << std::endl;
 
-
-            if(recieved_msg.getMessageType()==ACK){ // recieved an aknowledgment for a message I sent.
-                std::string ack_id = recieved_msg.getRequestId();
-                printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
+            if(recieved_msg.getMessageType() == ACKReply){
                 ack_lock.lock();
                 acks[recieved_msg.getRequestId()] = recieved_msg;
                 ack_lock.unlock();
-
+            }
+            
+            if(recieved_msg.getMessageType()==ACK){ // recieved an aknowledgment for a message I sent.
+                std::string ack_id = recieved_msg.getRequestId();
+                printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
+            
                 std::string dropped = "";
 
                 for(int i=0; i<chunked_msgs[msg_id].second.size(); i++){
                     if(chunked_msgs[msg_id].second[i].getRequestId().empty())
                         dropped = dropped + std::to_string(i+1);
                 }
+
                 Message my_ack = Message::buildAckMsg(recieved_msg);
+                my_ack.setMessageType(ACKReply);
+                my_ack.setIP(myIP);
                 my_ack.setMessage(dropped, dropped.length());
                 serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
                 int res = static_cast<int>(sendto(socketfd, (void *)my_ack.marshal().c_str(), my_ack.marshal().length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
                 continue;
             }
-            /*
-                SEND ACK
-            */
-
-            // Message ack_msg = Message::buildAckMsg(recieved_msg);
-            // printf("Sending an ACK MSG with: %s", ack_msg.getRequestId().c_str());
-
-            // serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
-            // int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), buff_size, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
 
             /*
                 INSERT RECIEVED MSG IN BUFFER
