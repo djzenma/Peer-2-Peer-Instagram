@@ -15,7 +15,7 @@
 #include <map>
 #include "Message.h"
 
-#define NUM_RETRIES 5
+#define NUM_RETRIES 8
 #define BUFF_SIZE 65000
 
 struct argsSend{

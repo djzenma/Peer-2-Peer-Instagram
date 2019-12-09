@@ -4,22 +4,22 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Database.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Database.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Image.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Image.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Message.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Peer.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/base64.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/main.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/main.cpp.o"
-  "/Users/owner/CLionProjects/Distributed-Client/src/utils.cpp" "/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/utils.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Communication.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Database.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Database.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Image.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Image.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Message.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Peer.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Peer.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/RequestReply.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Stego.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/base64.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/main.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/main.cpp.o"
+  "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/utils.cpp" "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/src/utils.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/local/Cellar/jsoncpp/1.9.1/include"
+  "/usr/include/jsoncpp"
   )
 
 # Targets to which this target links.

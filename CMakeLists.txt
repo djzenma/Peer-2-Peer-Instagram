@@ -10,8 +10,8 @@ set(CMAKE_CXX_STANDARD 11)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(JSONCPP jsoncpp)
 link_libraries(${JSONCPP_LIBRARIES})
-INCLUDE_DIRECTORIES(/usr/local/Cellar/jsoncpp/1.9.1/include)
-LINK_DIRECTORIES(/usr/local/Cellar/jsoncpp/1.9.1/lib)
+INCLUDE_DIRECTORIES(/usr/include/jsoncpp)
+LINK_DIRECTORIES(/usr/include/jsoncpp)
 
 #get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
 #include_directories(${JSON_INC_PATH})
@@ -25,11 +25,14 @@ add_executable(DistributedC__
         src/main.cpp
         src/Image.cpp
         src/base64.cpp
-        src/Communication.cpp
+        src/Communication.cpp#find_package(PkgConfig REQUIRED)
+#pkg_check_modules(JSONCPP jsoncpp)
+#link_libraries(${JSONCPP_LIBRARIES})
+#include_directories(/usr/local/Cellar/jsoncpp/1.9.1/include/json)
         src/Database.cpp
         headers/utils.h headers/Peer.h headers/Image.h src/Stego.cpp headers/Stego.h  headers/Communication.h  headers/Database.h)
 
 #target_link_libraries(DistributedC__ jsoncpp_lib)
 
 #target_link_libraries(DistributedC__ ${JSONCPP_LIBRARIES})
-target_link_libraries(DistributedC__ ${JSONCPP_LIBRARIES})
+target_link_libraries(DistributedC__ ${JSONCPP_LIBRARIES} pthread)
