@@ -5,7 +5,8 @@
 #include "Message.h"
 #include "Stego.h"
 
-#define PATH "/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/"
+
+#define PATH "/Users/owner/CLionProjects/Distributed-Client/"
 
 
 class Image{

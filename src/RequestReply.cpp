@@ -31,7 +31,7 @@ RequestReply::RequestReply(const char * IP, const int PORT){
 void RequestReply::send(argsSend a)
 {
     std::ofstream out;
-    out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/debug.txt");
+    out.open(" /Users/owner/CLionProjects/Distributed-Client/images/debug.txt");
 
     serverAddr.sin_addr.s_addr = inet_addr(a.IP.c_str());
     serverAddr.sin_port = htons(a.port);
@@ -90,7 +90,7 @@ void RequestReply::send(argsSend a)
                 /*
                     wait for ack
                 */
-                for (int i=0 ; i<10 && !reciever_ack_recieved ;i++){
+                for (int i=0 ; i<5 && !reciever_ack_recieved ;i++){
                     printf("Wating for an ack \n");
                     sleep(1);
                     reciever_ack_recieved = recieveACK(ack_msg.getRequestId(),reciever_ack);
@@ -177,7 +177,7 @@ void RequestReply::rec()
     //call rec thread in constructor - to always listen
    //place stuff in vector
     std::ofstream out;
-    out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/rec.txt");
+    out.open(" /Users/owner/CLionProjects/Distributed-Client/images/rec.txt");
 
     addr_size = sizeof(serverAddr);
     do {
@@ -206,13 +206,13 @@ void RequestReply::rec()
             
                 std::string dropped = "";
 
-                for(int i=0; i<chunked_msgs[msg_id].second.size(); i++){
+                for(int i=0; i<chunked_msgs[msg_id].second.size() && dropped.length() < BUFF_SIZE-3000 ; i++){
                     if(chunked_msgs[msg_id].second[i].getRequestId().empty())
                         dropped = dropped  + "," +  std::to_string(i);
                 }
                 dropped = dropped + ",";
 
-                if(strcmp(dropped.c_str(), "") == 0){
+                if(strcmp(dropped.c_str(), ",") == 0){
                     chunked_msgs.erase(msg_id);
                 }
 
@@ -221,7 +221,13 @@ void RequestReply::rec()
                 my_ack.setIP(myIP);
                 my_ack.setMessage(dropped, dropped.length());
                 serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
-                int res = static_cast<int>(sendto(socketfd, (void *)my_ack.marshal().c_str(), my_ack.marshal().length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+                int num_retries = NUM_RETRIES;
+                int res;
+                do {
+                     res = static_cast<int>(sendto(socketfd, (void *) my_ack.marshal().c_str(),my_ack.marshal().length() + 1, 0, (struct sockaddr *) &serverAddr,sizeof(serverAddr)));
+                     num_retries -- ;
+                }while(res <0 && num_retries != 0);
+                printf("hnnaaa");
                 continue;
             }
 
@@ -229,16 +235,21 @@ void RequestReply::rec()
                 INSERT RECIEVED MSG IN BUFFER
             */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
-                printf("insering \n");
-                chunked_msgs[msg_id].first = 1;
-                chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
-                chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] =recieved_msg;
                 // check if the first packet is the last one 
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()-1){
+                    std::string packet_marshalled = recieved_msg.getMessage();
+                    Message complete = Message (packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    rec_buffer.push_back(recieved_msg);
+                    rec_buffer.push_back(complete);
                     mlock.unlock();
+                }
+                else
+                {
+                    printf("insering \n");
+                    chunked_msgs[msg_id].first = 1;
+                    chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
+                    chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] =recieved_msg;
                 }
             }
             else{ // if it exists

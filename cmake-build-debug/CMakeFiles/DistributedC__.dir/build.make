@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/manar/CLion-2019.3.1/clion-2019.3.1/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
 
 # The command to remove a file.
-RM = /home/manar/CLion-2019.3.1/clion-2019.3.1/bin/cmake/linux/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets
+CMAKE_SOURCE_DIR = /Users/owner/CLionProjects/Distributed-Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/DistributedC__.dir/depend.make
@@ -59,133 +59,133 @@ include CMakeFiles/DistributedC__.dir/flags.make
 
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Message.cpp.o: ../src/Message.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Message.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Message.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/DistributedC__.dir/src/Message.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Message.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Message.cpp
 
 CMakeFiles/DistributedC__.dir/src/Message.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Message.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Message.cpp > CMakeFiles/DistributedC__.dir/src/Message.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Message.cpp > CMakeFiles/DistributedC__.dir/src/Message.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/Message.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Message.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Message.cpp -o CMakeFiles/DistributedC__.dir/src/Message.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Message.cpp -o CMakeFiles/DistributedC__.dir/src/Message.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../src/RequestReply.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/RequestReply.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp
 
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/RequestReply.cpp > CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp > CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/RequestReply.cpp -o CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp -o CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../src/Peer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/DistributedC__.dir/src/Peer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Peer.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Peer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/DistributedC__.dir/src/Peer.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Peer.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp
 
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Peer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Peer.cpp > CMakeFiles/DistributedC__.dir/src/Peer.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp > CMakeFiles/DistributedC__.dir/src/Peer.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Peer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Peer.cpp -o CMakeFiles/DistributedC__.dir/src/Peer.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Peer.cpp -o CMakeFiles/DistributedC__.dir/src/Peer.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/utils.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/utils.cpp.o: ../src/utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/DistributedC__.dir/src/utils.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/utils.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/DistributedC__.dir/src/utils.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/utils.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/utils.cpp
 
 CMakeFiles/DistributedC__.dir/src/utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/utils.cpp > CMakeFiles/DistributedC__.dir/src/utils.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/utils.cpp > CMakeFiles/DistributedC__.dir/src/utils.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/utils.cpp -o CMakeFiles/DistributedC__.dir/src/utils.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/utils.cpp -o CMakeFiles/DistributedC__.dir/src/utils.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/DistributedC__.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/main.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/DistributedC__.dir/src/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/main.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/main.cpp
 
 CMakeFiles/DistributedC__.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/main.cpp > CMakeFiles/DistributedC__.dir/src/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/main.cpp > CMakeFiles/DistributedC__.dir/src/main.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/main.cpp -o CMakeFiles/DistributedC__.dir/src/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/main.cpp -o CMakeFiles/DistributedC__.dir/src/main.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/Image.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Image.cpp.o: ../src/Image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/DistributedC__.dir/src/Image.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Image.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Image.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/DistributedC__.dir/src/Image.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Image.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Image.cpp
 
 CMakeFiles/DistributedC__.dir/src/Image.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Image.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Image.cpp > CMakeFiles/DistributedC__.dir/src/Image.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Image.cpp > CMakeFiles/DistributedC__.dir/src/Image.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/Image.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Image.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Image.cpp -o CMakeFiles/DistributedC__.dir/src/Image.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Image.cpp -o CMakeFiles/DistributedC__.dir/src/Image.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/base64.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/base64.cpp.o: ../src/base64.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/base64.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/base64.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/DistributedC__.dir/src/base64.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/base64.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/base64.cpp
 
 CMakeFiles/DistributedC__.dir/src/base64.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/base64.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/base64.cpp > CMakeFiles/DistributedC__.dir/src/base64.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/base64.cpp > CMakeFiles/DistributedC__.dir/src/base64.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/base64.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/base64.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/base64.cpp -o CMakeFiles/DistributedC__.dir/src/base64.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/base64.cpp -o CMakeFiles/DistributedC__.dir/src/base64.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../src/Communication.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Communication.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Communication.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/DistributedC__.dir/src/Communication.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Communication.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp
 
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Communication.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Communication.cpp > CMakeFiles/DistributedC__.dir/src/Communication.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp > CMakeFiles/DistributedC__.dir/src/Communication.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/Communication.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Communication.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Communication.cpp -o CMakeFiles/DistributedC__.dir/src/Communication.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Communication.cpp -o CMakeFiles/DistributedC__.dir/src/Communication.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/Database.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Database.cpp.o: ../src/Database.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DistributedC__.dir/src/Database.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Database.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Database.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DistributedC__.dir/src/Database.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Database.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Database.cpp
 
 CMakeFiles/DistributedC__.dir/src/Database.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Database.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Database.cpp > CMakeFiles/DistributedC__.dir/src/Database.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Database.cpp > CMakeFiles/DistributedC__.dir/src/Database.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/Database.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Database.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Database.cpp -o CMakeFiles/DistributedC__.dir/src/Database.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Database.cpp -o CMakeFiles/DistributedC__.dir/src/Database.cpp.s
 
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: CMakeFiles/DistributedC__.dir/flags.make
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o: ../src/Stego.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.o -c /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Stego.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DistributedC__.dir/src/Stego.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.o -c /Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp
 
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DistributedC__.dir/src/Stego.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Stego.cpp > CMakeFiles/DistributedC__.dir/src/Stego.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp > CMakeFiles/DistributedC__.dir/src/Stego.cpp.i
 
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DistributedC__.dir/src/Stego.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Stego.cpp -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/owner/CLionProjects/Distributed-Client/src/Stego.cpp -o CMakeFiles/DistributedC__.dir/src/Stego.cpp.s
 
 # Object files for target DistributedC__
 DistributedC___OBJECTS = \
@@ -215,7 +215,7 @@ DistributedC__: CMakeFiles/DistributedC__.dir/src/Database.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/src/Stego.cpp.o
 DistributedC__: CMakeFiles/DistributedC__.dir/build.make
 DistributedC__: CMakeFiles/DistributedC__.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable DistributedC__"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable DistributedC__"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DistributedC__.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -228,6 +228,6 @@ CMakeFiles/DistributedC__.dir/clean:
 .PHONY : CMakeFiles/DistributedC__.dir/clean
 
 CMakeFiles/DistributedC__.dir/depend:
-	cd /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/owner/CLionProjects/Distributed-Client /Users/owner/CLionProjects/Distributed-Client /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/DistributedC__.dir/depend
 
