@@ -229,15 +229,17 @@ void RequestReply::rec()
                 INSERT RECIEVED MSG IN BUFFER
             */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
-                printf("insering \n");
+                printf("inserting \n");
                 chunked_msgs[msg_id].first = 1;
                 chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
                 chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] =recieved_msg;
                 // check if the first packet is the last one 
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()-1){
+                    std::string packet_marshalled = recieved_msg.getMessage();
+                    Message complete = Message(marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    rec_buffer.push_back(recieved_msg);
+                    rec_buffer.push_back(complete);
                     mlock.unlock();
                 }
             }
