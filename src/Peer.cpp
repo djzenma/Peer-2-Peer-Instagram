@@ -1,18 +1,20 @@
 #include "../headers/Peer.h"
 
+#define PORT 4040
+
 Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
     this->myIp = myIp;
     this->myName = myName;
     this->dosIp = dosIp;
 
-    rrp = new RequestReply(myIp);
+    rrp = new RequestReply(myIp, PORT);
     db = new Database(std::string(PATH) + "images/DB.json");
 }
 
 
 int Peer::requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerIp) {
     Message m = buildRequestMsg(SendImage, imgId);
-    std::string send_res = rrp->sendMessage(m, destPeerIp);
+    std::string send_res = rrp->sendMessage(m, destPeerIp, PORT);
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl; 
     if(strcmp(send_res.c_str(), "ok") == 0){
         Message reply_msg;
@@ -68,7 +70,7 @@ void Peer::dispatch(Message  msg){
             int image_id = msg.getImageId();
             int num_views = rand()%10+1;
             Message msg = Image::buildImageMsg(image_id , std::to_string(num_views)+","+username+","+sender_ip, request_id);
-            rrp->sendMessage(msg, sender_ip.c_str());
+            rrp->sendMessage(msg, sender_ip.c_str(), PORT);
             std::tuple<std::string, int> userInfo(username, num_views); //add to db
             db->insertUser(image_id, userInfo);
             break;

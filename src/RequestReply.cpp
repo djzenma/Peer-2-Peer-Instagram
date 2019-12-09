@@ -2,9 +2,6 @@
 #include "../headers/Message.h"
 #include <fcntl.h>
 
-
-
-
 RequestReply::RequestReply(const char * IP, const int PORT){
 
     port = PORT;
@@ -74,8 +71,6 @@ void RequestReply::send(argsSend a)
     // Send an ACK
     Message ack_msg = Message::buildAckMsg(a.packets[0]);
     Message reciever_ack = Message();
-
-  
 
     bool dropped_packets = true;
 
@@ -170,7 +165,7 @@ std::string RequestReply::sendMessage(Message & m, const char* IP, const int POR
     a.packets= packets;
    
     sendThread = std::thread(&RequestReply::send, this, a);
-    //sendThread.join();
+
     if(a.res >=0){
         return "ok";
     }
@@ -342,8 +337,6 @@ int RequestReply::recRequest(Message & m){
 
     return 0;
 }
-
-
 
 std::vector<Message> RequestReply::createPackets(Message & m ){
     std::vector<Message> packets;
