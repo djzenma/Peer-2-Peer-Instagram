@@ -42,7 +42,6 @@ CMakeFiles/DistributedC__.dir/src/Peer.cpp.o
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/Message.h
  /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
- /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
  /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
  /Users/owner/CLionProjects/Distributed-Client/src/RequestReply.cpp
 CMakeFiles/DistributedC__.dir/src/Stego.cpp.o
@@ -63,7 +62,6 @@ CMakeFiles/DistributedC__.dir/src/main.cpp.o
  /Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
  /Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
  /Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
- /Users/owner/CLionProjects/Distributed-Client/headers/base64.h
  /Users/owner/CLionProjects/Distributed-Client/headers/utils.h
  /Users/owner/CLionProjects/Distributed-Client/src/main.cpp
  /usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
