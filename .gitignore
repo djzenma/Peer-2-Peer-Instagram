@@ -3,3 +3,4 @@ build/
 *.exe
 .vscode/
 Makefile
+CMakeLists.txt

@@ -90,7 +90,7 @@ void RequestReply::send(argsSend a)
                 /*
                     wait for ack
                 */
-                for (int i=0 ; i<10 && !reciever_ack_recieved ;i++){
+                for (int i=0 ; i<5 && !reciever_ack_recieved ;i++){
                     printf("Wating for an ack \n");
                     sleep(1);
                     reciever_ack_recieved = recieveACK(ack_msg.getRequestId(),reciever_ack);
@@ -206,7 +206,7 @@ void RequestReply::rec()
             
                 std::string dropped = "";
 
-                for(int i=0; i<chunked_msgs[msg_id].second.size(); i++){
+                for(int i=0; i<chunked_msgs[msg_id].second.size() && dropped.length() < BUFF_SIZE-3000; i++){
                     if(chunked_msgs[msg_id].second[i].getRequestId().empty())
                         dropped = dropped  + "," +  std::to_string(i);
                 }
@@ -236,7 +236,7 @@ void RequestReply::rec()
                 // check if the first packet is the last one 
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()-1){
                     std::string packet_marshalled = recieved_msg.getMessage();
-                    Message complete = Message(marshalled);
+                    Message complete = Message(packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
                     rec_buffer.push_back(complete);
