@@ -111,6 +111,7 @@ std::string Peer::getMyName() {
     return myName;
 }
 
+
 std::string generateRequestId(Peer * p){
     static int req_num = 0;
     std::cout << std::string(p->getMyIP()) + std::to_string(req_num) << std::endl;
@@ -127,6 +128,7 @@ Message Peer::buildRequestMsg(serviceOperations operation, int image_id ){
             .operation = operation,
             .packet_index = 0,
             .IP=this->getMyIP(),
+            .port=PORT,
             .msg_type = Request
     };
 

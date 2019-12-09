@@ -20,6 +20,7 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
         .operation = SendImage,
         .packet_index = 0,
         .IP="",
+        .port=0,
         .msg_type = Reply
     };
 

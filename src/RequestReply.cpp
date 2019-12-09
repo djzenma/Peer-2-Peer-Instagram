@@ -30,8 +30,8 @@ RequestReply::RequestReply(const char * IP, const int PORT){
 
 void RequestReply::send(argsSend a)
 {
-    std::ofstream out;
-    out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/debug.txt");
+    //std::ofstream out;
+    //out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/debug.txt");
 
     serverAddr.sin_addr.s_addr = inet_addr(a.IP.c_str());
     serverAddr.sin_port = htons(a.port);
@@ -39,7 +39,7 @@ void RequestReply::send(argsSend a)
     for (int i=0; i<a.packets.size();i++)
     {
         std::string packet = a.packets[i].marshal();
-        out << a.packets[i] << std::endl;
+        //out << a.packets[i] << std::endl;
         std::cout << "Sending Packet: " << a.packets[i].getPacketIndex()
                   << "with size " << packet.length() << std::endl;
 
@@ -67,7 +67,7 @@ void RequestReply::send(argsSend a)
             break;
         }
     }
-
+    //out.close();
     // Send an ACK
     Message ack_msg = Message::buildAckMsg(a.packets[0]);
     Message reciever_ack = Message();
@@ -165,6 +165,7 @@ std::string RequestReply::sendMessage(Message & m, const char* IP, const int POR
     a.packets= packets;
    
     sendThread = std::thread(&RequestReply::send, this, a);
+    sendThread.detach();
 
     if(a.res >=0){
         return "ok";
@@ -212,15 +213,17 @@ void RequestReply::rec()
                 }
                 dropped = dropped + ",";
 
-                if(strcmp(dropped.c_str(), "") == 0){
+                if(strcmp(dropped.c_str(), ",") == 0){
                     chunked_msgs.erase(msg_id);
                 }
 
                 Message my_ack = Message::buildAckMsg(recieved_msg);
                 my_ack.setMessageType(ACKReply);
                 my_ack.setIP(myIP);
+                my_ack.setPort(port);
                 my_ack.setMessage(dropped, dropped.length());
                 serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
+                serverAddr.sin_port = htons(port);
                 int res = static_cast<int>(sendto(socketfd, (void *)my_ack.marshal().c_str(), my_ack.marshal().length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
                 continue;
             }
@@ -229,11 +232,7 @@ void RequestReply::rec()
                 INSERT RECIEVED MSG IN BUFFER
             */
             if(chunked_msgs.count(msg_id) == 0){ // check if msg doesn't exist
-                printf("inserting \n");
-                chunked_msgs[msg_id].first = 1;
-                chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
-                chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] =recieved_msg;
-                // check if the first packet is the last one 
+                // check if the first packet is the last one
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()-1){
                     std::string packet_marshalled = recieved_msg.getMessage();
                     Message complete = Message(packet_marshalled);
@@ -241,6 +240,12 @@ void RequestReply::rec()
                     mlock.lock();
                     rec_buffer.push_back(complete);
                     mlock.unlock();
+                }
+                else{
+                    printf("inserting \n");
+                    chunked_msgs[msg_id].first = 1;
+                    chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
+                    chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] =recieved_msg;
                 }
             }
             else{ // if it exists

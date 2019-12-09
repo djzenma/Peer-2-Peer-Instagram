@@ -4,7 +4,7 @@
 Message::Message(): message_type(Request), operation(0), packet_index(0), total_packets(0), message_size(0), message(""), request_id(""), IP(""),image_id(0) {
 
 }
-  
+
 
 Message::Message(requestInfo req_info){
     message = req_info.p_message;
@@ -17,7 +17,9 @@ Message::Message(requestInfo req_info){
     image_id = req_info.image_id;
     request_id = req_info.request_id;
     IP = req_info.IP;
+    port = req_info.port;
 }
+
 Message::Message(std::string & marshalled_base64){
     std::string decoded = decode64(marshalled_base64);
     deserialize(decoded);
@@ -33,11 +35,12 @@ void Message::deserialize(std::string decoded){
     packet_index = hex_to_int(decoded.substr(31, 8 ));
     image_id = hex_to_int(decoded.substr(41, 8 ));
     total_packets = hex_to_int(decoded.substr(51, 8));
-    request_id = decoded.substr( 59, decoded.substr(59).find(";"));
-    IP = decoded.substr(59+request_id.length()+1, decoded.substr(59+request_id.length()+1).find(";") );
-    msg_decoded = decoded.substr(59+request_id.length()+2+IP.length());
+    port = hex_to_int(decoded.substr(61, 8));
+    request_id = decoded.substr( 69, decoded.substr(69).find(";"));
+    IP = decoded.substr(69+request_id.length()+1, decoded.substr(69+request_id.length()+1).find(";") );
+    msg_decoded = decoded.substr(69+request_id.length()+2+IP.length());
     message = msg_decoded;
-    
+
 }
 
 std::string Message::serialize(){
@@ -50,11 +53,12 @@ std::string Message::serialize(){
     std::string tot_packets_str = int_to_hex(total_packets);
 
     std::string img_id = int_to_hex(image_id);
+    std::string port_str = int_to_hex(port);
 
     // type: 1 byte | size: 2 bytes + 16 bytes  | operation : 2 bytes + 16 bytes
     // | rpc_id : 2 bytes + 16 bytes | img_id: 2 bytes + 8 bytes | storage_location | message
 
-    std::string to_encode = mtype + size_str + op_str + packet_index_str + img_id + tot_packets_str + request_id + ";" + IP + ";" + message;
+    std::string to_encode = mtype + size_str + op_str + packet_index_str + img_id + tot_packets_str + port_str + request_id + ";" + IP + ";" + message;
     return to_encode;
 }
 
@@ -112,10 +116,15 @@ void Message::setRequestId(std::string request_id){
 void Message::setIP (std::string ip){
     this->IP = ip;
 }
+void Message::setPort(int port){
+    this->port = port;
+}
 int Message::getImageId(){
     return image_id;
 }
-
+int Message::getPort() {
+    return port;
+}
 std::string Message::getRequestId(){
     return request_id;
 }
@@ -130,6 +139,7 @@ Message Message::buildAckMsg(Message & m){
     ack_msg.setPacketIndex(m.getPacketIndex());
     ack_msg.setTotalPacket(m.getTotalPackets());
     ack_msg.setIP(m.getIP());
+    ack_msg.setPort(m.getPort());
     return ack_msg;
 }
 
@@ -146,6 +156,7 @@ std::ostream& operator<< (std::ostream& stream, const Message& msg) {
            << ", Message: " << msg.message
            << ", Image ID: " << msg.image_id
            << ", Sender IP: " << msg.IP
+           << ", Sender Port " << msg.port
            << ", Request ID: " << msg.request_id << std::endl;
     return stream;
 }
