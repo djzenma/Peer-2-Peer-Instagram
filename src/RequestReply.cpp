@@ -3,9 +3,11 @@
 #include <fcntl.h>
 
 
-RequestReply::RequestReply(const char * IP){
 
-    port = 4040;
+
+RequestReply::RequestReply(const char * IP, const int PORT){
+
+    port = PORT;
     myIP = std::string(IP);
     memset(&serverAddr,'\0',sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
@@ -31,12 +33,16 @@ RequestReply::RequestReply(const char * IP){
 
 void RequestReply::send(argsSend a)
 {
-    serverAddr.sin_addr.s_addr = inet_addr(a.IP.c_str());
+    std::ofstream out;
+    out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/debug.txt");
 
-    for (int i=200; i<a.packets.size();i++)
+    serverAddr.sin_addr.s_addr = inet_addr(a.IP.c_str());
+    serverAddr.sin_port = htons(a.port);
+
+    for (int i=0; i<a.packets.size();i++)
     {
         std::string packet = a.packets[i].marshal();
-
+        out << a.packets[i] << std::endl;
         std::cout << "Sending Packet: " << a.packets[i].getPacketIndex()
                   << "with size " << packet.length() << std::endl;
 
@@ -79,7 +85,7 @@ void RequestReply::send(argsSend a)
         bool reciever_ack_recieved = false;
 
         do {
-            printf("Sending ack after image %d:  \n", ack_num_retires);
+            printf("Sending ack after sending packets %d:  \n", ack_num_retires);
             int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), ack_msg.marshal().length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
 
             if(res < 0)
@@ -98,66 +104,66 @@ void RequestReply::send(argsSend a)
             ack_num_retires--;
             printf("Retrying to send ACK \n");
             
-    } while(ack_num_retires != 0 && (!sender_ack_recieved || !reciever_ack_recieved));
+        } while(ack_num_retires != 0 && (!sender_ack_recieved || !reciever_ack_recieved));
 
-    if(reciever_ack_recieved){
-        std::string packets_dropped = reciever_ack.getMessage();
-        std::vector<int> packets_to_resend;
+        if(reciever_ack_recieved){
+            std::string packets_dropped = reciever_ack.getMessage();
+            std::vector<int> packets_to_resend;
 
-        if(strcmp(packets_dropped.c_str(), ",") == 0){
-
-        }
-        else{
-            std::string delimiter = ",";
-            size_t pos = 0;
-            std::string token;
-            while ((pos = packets_dropped.find(delimiter)) != std::string::npos) {
-                token = packets_dropped.substr(0, pos);
-                packets_dropped.erase(0, pos + delimiter.length());
-                packets_to_resend.push_back(atoi(token.c_str()));
+            if(strcmp(packets_dropped.c_str(), ",") == 0){
+                    printf("Drooped is ZERO \n");
             }
-
-        }
+            else{
+                std::string delimiter = ",";
+                size_t pos = 0;
+                std::string token;
+                while ((pos = packets_dropped.find(delimiter)) != std::string::npos) {
+                    token = packets_dropped.substr(0, pos);
+                    packets_dropped.erase(0, pos + delimiter.length());
+                    packets_to_resend.push_back(atoi(token.c_str()));
+                }
+            }
         
-        if(packets_to_resend.size() == 0)
-            dropped_packets = false;
+            if(packets_to_resend.size() == 0)
+                dropped_packets = false;
 
-        for (int i=0; i<packets_to_resend.size();i++){
-            std::string packet = a.packets[packets_to_resend[i]].marshal();
-            int num_retries = NUM_RETRIES;
-            bool recieved = false;
-            do {
-                printf("Resending : %d \n", packets_to_resend[i]);
-                int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+            for (int i=0; i<packets_to_resend.size();i++){
+                std::string packet = a.packets[packets_to_resend[i]].marshal();
+                int num_retries = NUM_RETRIES;
+                bool recieved = false;
+                do {
+                    printf("Resending : %d \n", packets_to_resend[i]);
+                    int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
 
-                if(res < 0)
-                    printf("Failed to send packet %d", i);
-                else recieved = true;
+                    if(res < 0)
+                        printf("Failed to send packet %d", i);
+                    else recieved = true;
 
-                num_retries--;
-            
-            } while(num_retries != 0 && !recieved);
+                    num_retries--;
 
-            if(!recieved){
-                printf("Failed Sending Message \n");
-                break;
+                } while(num_retries != 0 && !recieved);
+
+                if(!recieved){
+                    printf("Failed Sending Message \n");
+                    break;
+                }
             }
         }
-    }
-    else {
-        printf("Failed to recieve reciever ACK \n");
-        break;
-    }
+        else {
+            printf("Failed to recieve reciever ACK \n");
+            break;
+        }
 
     }while(dropped_packets);
   
     a.res = 1;
 }
-std::string RequestReply::sendMessage(Message & m, const char* IP){
+std::string RequestReply::sendMessage(Message & m, const char* IP, const int PORT){
     argsSend a;
     a.IP=std::string(IP);
     a.isEmpty = false;
-    
+    a.port = PORT;
+
     m.setIP(myIP);
 
     std::vector<Message> packets = createPackets(m);
@@ -175,18 +181,21 @@ void RequestReply::rec()
 {
     //call rec thread in constructor - to always listen
    //place stuff in vector
+    std::ofstream out;
+    out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/rec.txt");
 
     addr_size = sizeof(serverAddr);
     do {
          stat = recv(socketfd,read_buffer, buff_size,0);
          std::cout<<"Receive stat "<< stat<<std::endl;
-           
+
          if(stat >= 0){
             std::string marshalled = std::string(read_buffer);
+
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
             
-            std::cout << "Received Packet: \n" << recieved_msg << std::endl;
+            std::cout << "Received Packet: \n" << recieved_msg  << " with size "<< marshalled.size() <<  std::endl;
 
             if(recieved_msg.getMessageType() == ACKReply){
                 printf("Got an ACK Reply from: %s\n", recieved_msg.getIP().c_str());
@@ -246,6 +255,8 @@ void RequestReply::rec()
                         std::string marshalled = "";
 
                         for(int i=0; i<chunked_msgs[msg_id].second.size(); i++){
+                            out << chunked_msgs[msg_id].second[i] << std::endl;
+
                             if(!chunked_msgs[msg_id].second[i].getRequestId().empty())
                                 marshalled = marshalled + chunked_msgs[msg_id].second[i].getMessage();
                             else{
@@ -269,16 +280,16 @@ void RequestReply::rec()
 }
 
 bool RequestReply::recieveACK(std::string ack_id, Message & ack_msg){
-    bool recieved = false;
+    bool received = false;
     ack_lock.lock();
 
     if(acks.count(ack_id) > 0){
-        recieved = true;  
+        received = true;
         ack_msg = acks[ack_id];
         acks.erase(ack_id);  
     }   
     ack_lock.unlock();
-    return recieved;
+    return received;
 }
 //recv from all in buff
 //get form buff ip
@@ -339,7 +350,7 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
 
     int index = 0;
     int packet_index = 0;
-    int send_buff = buff_size - 18000;
+    int send_buff = buff_size - 3000;
     std::string to_chunk = m.marshal();
     int msg_size = to_chunk.length();
     int num_packets =  ceil((float) msg_size/ (send_buff));
@@ -368,3 +379,5 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
     
     return packets;
 }
+
+

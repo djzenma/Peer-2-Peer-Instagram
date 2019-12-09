@@ -16,11 +16,12 @@
 #include "Message.h"
 
 #define NUM_RETRIES 8
-#define BUFF_SIZE 65000
+#define BUFF_SIZE 9216
 
 struct argsSend{
     std::vector<Message> packets;
     std::string IP;
+    int port;
     int res;
     bool isEmpty;
 };
@@ -53,10 +54,10 @@ class RequestReply {
 
     public:
 
-        RequestReply(const char * host_ip); 
+        RequestReply(const char * host_ip, const int PORT);
         
         void send(argsSend a);
-        std::string sendMessage(Message & m, const char* IP);
+        std::string sendMessage(Message & m, const char* IP, const int PORT);
 
         void rec();
         int recReply(Message & m, std::string request_id);

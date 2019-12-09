@@ -49,5 +49,4 @@ std::string decode64(const std::string &val);
 std::string hostname_to_ip(char * hostname);
 void copyImage(std::string src, std::string dst);
 std::string saveImage(std::string image, int image_id);
-
 #endif
