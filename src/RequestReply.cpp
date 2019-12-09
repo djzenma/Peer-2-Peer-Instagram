@@ -34,8 +34,13 @@ void RequestReply::send(argsSend a)
     std::ofstream out;
     out.open(" /Users/owner/CLionProjects/Distributed-Client/images/debug.txt");
 
-    serverAddr.sin_addr.s_addr = inet_addr(a.IP.c_str());
-    serverAddr.sin_port = htons(a.port);
+    struct sockaddr_in destAddr ;
+
+    memset(&destAddr,'\0',sizeof(destAddr));
+    destAddr.sin_family = AF_INET;
+    destAddr.sin_port = htons(a.port);
+    destAddr.sin_addr.s_addr = inet_addr(a.IP.c_str());
+
 
     for (int i=0; i<a.packets.size();i++)
     {
@@ -53,7 +58,7 @@ void RequestReply::send(argsSend a)
             break;
         }
         do {
-            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+            int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
             if(res < 0)
                 printf("Failed to send packet %d", i);
@@ -82,7 +87,7 @@ void RequestReply::send(argsSend a)
 
         do {
             printf("Sending ack after sending packets %d:  \n", ack_num_retires);
-            int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), ack_msg.marshal().length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr))); 
+            int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), ack_msg.marshal().length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
             if(res < 0)
                 printf("Failed to send ack msg %d");
@@ -129,7 +134,7 @@ void RequestReply::send(argsSend a)
                 bool recieved = false;
                 do {
                     printf("Resending : %d \n", packets_to_resend[i]);
-                    int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)));
+                    int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
                     if(res < 0)
                         printf("Failed to send packet %d", i);
@@ -224,16 +229,20 @@ void RequestReply::rec()
                 my_ack.setIP(myIP);
                 my_ack.setPort(port);
                 my_ack.setMessage(dropped, dropped.length());
-                serverAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
-                serverAddr.sin_port = htons(port);
+
+                struct sockaddr_in destAddr ;
+
+                memset(&destAddr,'\0',sizeof(destAddr));
+                destAddr.sin_family = AF_INET;
+                destAddr.sin_port = htons(recieved_msg.getPort());
+                destAddr.sin_addr.s_addr = inet_addr(recieved_msg.getIP().c_str());
 
                 int num_retries = NUM_RETRIES;
                 int res;
                 do {
-                     res = static_cast<int>(sendto(socketfd, (void *) my_ack.marshal().c_str(),my_ack.marshal().length() + 1, 0, (struct sockaddr *) &serverAddr,sizeof(serverAddr)));
+                     res = static_cast<int>(sendto(socketfd, (void *) my_ack.marshal().c_str(),my_ack.marshal().length() + 1, 0, (struct sockaddr *) &destAddr,sizeof(destAddr)));
                      num_retries -- ;
                 }while(res <0 && num_retries != 0);
-                printf("hnnaaa");
                 continue;
             }
 

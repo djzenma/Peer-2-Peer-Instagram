@@ -1,3 +1,3 @@
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/DistributedC__.dir
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/owner/CLionProjects/Distributed-Client/cmake-build-debug/CMakeFiles/DistributedC__.dir
