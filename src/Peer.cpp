@@ -97,7 +97,7 @@ void Peer::serveRequst(){
         if(rrp->recRequest(msg) > 0){
             std::cout << "Handling msg: " << msg.getRequestId() << std::endl; 
             msgIdThread = std::thread(&Peer::dispatch, this, msg);
-            join();
+            msgIdThread.detach();
         }
     }
 }

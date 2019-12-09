@@ -32,7 +32,7 @@ void RequestReply::send(argsSend a)
 {
 
     std::ofstream out;
-    out.open(" /Users/owner/CLionProjects/Distributed-Client/images/debug.txt");
+    out.open("/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/images/debug.txt");
 
     struct sockaddr_in destAddr ;
 
