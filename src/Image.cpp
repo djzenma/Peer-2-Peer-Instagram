@@ -56,7 +56,7 @@ Message Image::buildProfileMsg(std::string request_id) {
 }
 
 
-void Image::reconstructSamplesMsg(Message& sampleMsg, int n){
+void Image::reconstructSamplesMsg(Message& sampleMsg, std::string directory, int n){
     static std::string delimiter = "111110";
     std::string samples = sampleMsg.getMessage();
     int imgId = sampleMsg.getImageId();
@@ -66,7 +66,7 @@ void Image::reconstructSamplesMsg(Message& sampleMsg, int n){
     while ((pos = samples.find(delimiter)) != std::string::npos) {
         token = samples.substr(0, pos);
         samples.erase(0, pos + delimiter.length());
-        saveImage(token, imgId, "requested/profiles" );
+        saveImage(token, imgId, directory );
         imgId++;
     }
 }

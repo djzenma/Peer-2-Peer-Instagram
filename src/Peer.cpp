@@ -46,7 +46,7 @@ int Peer::requestImageFromPeer(Message & imgMsg, int imgId, const char *destPeer
         }
         else{
             printf("Saving image \n");
-            saveImage(reply_msg.getMessage(), 7);
+            Image::saveImage(reply_msg.getMessage(),7, "requested/images/");
             //imgMsg = reply_msg;
             return -1;    
         }
@@ -75,7 +75,8 @@ int Peer::requestProfileFromPeer(const char *destPeerIp) {
             return -1;
         } else {
             printf("Saving image \n");
-            saveImage(reply_msg.getMessage(), 7);
+            std::string profile = reply_msg.getMessage();
+            Image::reconstructSamplesMsg(reply_msg, "requested/profile" ,6);
             //imgMsg = reply_msg;
             return -1;
         }
