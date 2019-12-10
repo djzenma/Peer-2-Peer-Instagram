@@ -256,7 +256,7 @@ void RequestReply::rec()
                     Message complete = Message(packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    rec_buffer.push_back(complete);
+                    rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                     mlock.unlock();
                 }
                 else
@@ -288,7 +288,7 @@ void RequestReply::rec()
                         std::cout << "Complete: " << complete.getRequestId() << std::endl;
                         mlock.lock();
                         printf("Inserting complete msg \n");
-                        rec_buffer.push_back(complete);
+                        rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                         mlock.unlock();
                     }
                 }
@@ -325,15 +325,18 @@ int RequestReply::recReply(Message & m, std::string request_id){
 
     printf("Pending Messages : %d\n", rec_buffer.size());
 
-    for (int i=0; i< rec_buffer.size(); i++){
-        if(rec_buffer[i].getRequestId() == request_id && rec_buffer[i].getMessageType()==Reply){
-            m = rec_buffer[i];
-            std::cout << "Found : " << m << std::endl;
-            rec_buffer.erase(rec_buffer.begin() + i);
-            mlock.unlock();
-            return 1;
-        }
+    std::map<std::string, std::pair<Message,bool>>::iterator it;
+    for ( it = rec_buffer.begin(); it != rec_buffer.end(); it++ )
+    {
+       if(it->second.first.getRequestId() == request_id && it->second.first.getMessageType() == Reply ){
+           m = it->second.first;
+           std::cout << "Found : " << m << std::endl;
+           rec_buffer.erase(it->first);
+           mlock.unlock();
+           return 1;
+       }
     }
+
     mlock.unlock();
 
     return 0;
@@ -351,19 +354,43 @@ int RequestReply::recRequest(Message & m){
 
     printf("Pending Messages : %d\n", rec_buffer.size());
 
-    for (int i=0; i< rec_buffer.size(); i++){
-        if(rec_buffer[i].getMessageType()==Request){
-            m = rec_buffer[i];
-            rec_buffer.erase(rec_buffer.begin() + i);
+    std::map<std::string, std::pair<Message,bool>>::iterator it;
+    for ( it = rec_buffer.begin(); it != rec_buffer.end(); it++ ){
+        if(it->second.first.getMessageType()==Request && it->second.second){
+            m = it->second.first;
+            rec_buffer.erase(it->first);
             mlock.unlock();
             return 1;
         }
     }
+
     mlock.unlock();
 
     return 0;
 }
 
+void RequestReply::Accept(std::string msg_id){
+    mlock.lock();
+    rec_buffer[msg_id].second = true;
+    mlock.unlock();
+}
+
+void RequestReply::Reject(std::string msg_id){
+    mlock.lock();
+    rec_buffer.erase(msg_id);
+    mlock.unlock();
+}
+
+std::vector<Message> RequestReply::getPending() {
+    std::vector<Message> messages;
+    std::map<std::string, std::pair<Message,bool>>::iterator it;
+    for ( it = rec_buffer.begin(); it != rec_buffer.end(); it++ ){
+        if(it->second.first.getMessageType()==Request){
+            messages.push_back(it->second.first);
+        }
+    }
+    return messages;
+}
 std::vector<Message> RequestReply::createPackets(Message & m ){
     std::vector<Message> packets;
 

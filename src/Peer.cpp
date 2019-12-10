@@ -95,12 +95,13 @@ void Peer::serveRequst(){
     while(true){
         Message msg = Message();
         if(rrp->recRequest(msg) > 0){
-            std::cout << "Handling msg: " << msg.getRequestId() << std::endl; 
+            std::cout << "Handling Accepted msg: " << msg.getRequestId() << std::endl;
             msgIdThread = std::thread(&Peer::dispatch, this, msg);
             msgIdThread.detach();
         }
     }
 }
+
 
 void Peer::join() {
     if (msgIdThread.joinable())

@@ -23,6 +23,7 @@ class Peer {
         void runMsgIdSys();
 
         Message buildRequestMsg(serviceOperations operation, int image_id);
+
     public:
         Peer(const char *myIp, std::string myName, std::string dosIp);
         ~Peer();

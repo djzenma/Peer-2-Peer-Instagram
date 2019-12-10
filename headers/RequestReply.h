@@ -43,7 +43,8 @@ class RequestReply {
 
         argsSend a;
         
-        std::vector<Message> rec_buffer;
+        std::map<std::string , std::pair<Message, bool>> rec_buffer;
+
         std::thread sendThread, recThread;
         std::mutex mlock;
         std::mutex ack_lock;
@@ -64,6 +65,12 @@ class RequestReply {
         int recRequest(Message & m);
         
         bool recieveACK(std::string ack_id, Message & ack_msg);
+
+        void Accept(std::string msg_id);
+        void Reject(std::string msg_id);
+
+        std::vector<Message> getPending();
+
         void shutDownFD();
 
 
