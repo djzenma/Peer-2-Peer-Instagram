@@ -256,9 +256,9 @@ void RequestReply::rec()
                     Message complete = Message(packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    if(complete.getOperation() == SendProfile)
-                        rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
-                    else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
+                    if(complete.getOperation() == SendImage)
+                        rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
+                    else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
 
                     mlock.unlock();
                 }
