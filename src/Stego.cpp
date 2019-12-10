@@ -64,19 +64,22 @@ std::string stega_encode(std::string image_file, std::string secret_msg, std::st
 
     return read_file(stego_image);  // return output stego image
 }
-std::string stega_decode(std::string stego_image){
+std::string stega_decode(std::string stego_image, bool include_cover){
     std::string str = std::string(DOCKER) +" extract -sf ";
     str = str + stego_image + " -p " + "HEY" ;
     str = str + " -xf "  + EXTRACTED_IMAGE_PATH + " -f";
     
     std::cout << "Decoding Image file \n " << std::endl; 
     exec(str);
-   
-    str = "steghide extract -sf "; 
-    str = str  + EXTRACTED_IMAGE_PATH + " -p " + "HEY" ;
-    str = str + " -xf "  + EXTRACTED_TXT + " -f";
+
+    if(include_cover){
+        str = "steghide extract -sf ";
+        str = str  + EXTRACTED_IMAGE_PATH + " -p " + "HEY" ;
+        str = str + " -xf "  + EXTRACTED_TXT + " -f";
+
+        exec(str);
+    }
+
     
-    exec(str);
-    
-    return read_file(std::string(PATH) + std::string(EXTRACTED_TXT));
+    return read_file( std::string(EXTRACTED_TXT));
 }

@@ -10,7 +10,6 @@
 
 #include "Image.h"
 
-std::string stega_encode(std::string image_file,std::string secret_msg,std::string stego_image);
-std::string stega_decode(std::string stego_image);
-std::string replace_text(std::string image_file, std::string secret_msg);
+std::string stega_encode(std::string image_file,std::string secret_msg,std::string stego_image, bool include_cover);
+std::string stega_decode(std::string stego_image, bool include_cover);
 #endif
