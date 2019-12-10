@@ -49,22 +49,23 @@ void RequestReply::send(argsSend a)
     {
         std::string packet = a.packets[i].marshal();
         //out << a.packets[i] << std::endl;
-        std::cout << "Sending Packet: " << a.packets[i].getPacketIndex()
-                  << "with size " << packet.length() << std::endl;
+        //std::cout << "Sending Packet: " << a.packets[i].getPacketIndex()
+        //          << "with size " << packet.length() << std::endl;
 
         int num_retries = NUM_RETRIES;
         bool recieved = false;
 
 
         if(packet.length()+1 > buff_size){
-            std::cout << "Msg size " << packet.length()+1 << " is greater than allowed buffer size" << std::endl;
+            //std::cout << "Msg size " << packet.length()+1 << " is greater than allowed buffer size" << std::endl;
             break;
         }
         do {
             int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
             if(res < 0)
-                printf("Failed to send packet %d", i);
+                printf("");
+                //printf("Failed to send packet %d", i);
             else recieved = true;
 
             num_retries--;
@@ -72,7 +73,7 @@ void RequestReply::send(argsSend a)
         } while(num_retries != 0 && !recieved);
 
         if(!recieved){
-            printf("Failed Sending Message \n");
+            //printf("Failed Sending Message \n");
             break;
         }
     }
@@ -89,24 +90,25 @@ void RequestReply::send(argsSend a)
         bool reciever_ack_recieved = false;
 
         do {
-            printf("Sending ack after sending packets %d:  \n", ack_num_retires);
+            //printf("Sending ack after sending packets %d:  \n", ack_num_retires);
             int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), ack_msg.marshal().length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
             if(res < 0)
-                printf("Failed to send ack msg %d");
+                printf("");
+                //printf("Failed to send ack msg %d");
             else {
                 sender_ack_recieved = true;
                 /*
                     wait for ack
                 */
                 for (int i=0 ; i<5 && !reciever_ack_recieved ;i++){
-                    printf("Wating for an ack \n");
+                    //printf("Wating for an ack \n");
                     sleep(1);
                     reciever_ack_recieved = recieveACK(ack_msg.getRequestId(),reciever_ack);
                 }
             }
             ack_num_retires--;
-            printf("Retrying to send ACK \n");
+            //printf("Retrying to send ACK \n");
 
         } while(ack_num_retires != 0 && (!sender_ack_recieved || !reciever_ack_recieved));
 
@@ -115,7 +117,7 @@ void RequestReply::send(argsSend a)
             std::vector<int> packets_to_resend;
 
             if(strcmp(packets_dropped.c_str(), ",") == 0){
-                printf("Drooped is ZERO \n");
+                //printf("Drooped is ZERO \n");
             }
             else{
                 std::string delimiter = ",";
@@ -136,11 +138,12 @@ void RequestReply::send(argsSend a)
                 int num_retries = NUM_RETRIES;
                 bool recieved = false;
                 do {
-                    printf("Resending : %d \n", packets_to_resend[i]);
+                    //printf("Resending : %d \n", packets_to_resend[i]);
                     int res = static_cast<int>(sendto(socketfd, (void *)packet.c_str(), packet.length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
                     if(res < 0)
-                        printf("Failed to send packet %d", i);
+                        printf("");
+                        //printf("Failed to send packet %d", i);
                     else recieved = true;
 
                     num_retries--;
@@ -148,13 +151,13 @@ void RequestReply::send(argsSend a)
                 } while(num_retries != 0 && !recieved);
 
                 if(!recieved){
-                    printf("Failed Sending Message \n");
+                    //printf("Failed Sending Message \n");
                     break;
                 }
             }
         }
         else {
-            printf("Failed to recieve reciever ACK \n");
+            //printf("Failed to recieve reciever ACK \n");
             break;
         }
 
@@ -192,7 +195,7 @@ void RequestReply::rec()
     addr_size = sizeof(serverAddr);
     do {
         stat = recv(socketfd,read_buffer, buff_size,0);
-        std::cout<<"Receive stat "<< stat<<std::endl;
+        //std::cout<<"Receive stat "<< stat<<std::endl;
 
         if(stat >= 0){
             std::string marshalled = std::string(read_buffer);
@@ -200,10 +203,10 @@ void RequestReply::rec()
             Message recieved_msg = Message(marshalled);
             std::string msg_id = recieved_msg.getRequestId();
 
-            std::cout << "Received Packet: \n" << recieved_msg  << " with size "<< marshalled.size() <<  std::endl;
+            //std::cout << "Received Packet: \n" << recieved_msg  << " with size "<< marshalled.size() <<  std::endl;
 
             if(recieved_msg.getMessageType() == ACKReply){
-                printf("Got an ACK Reply from: %s\n", recieved_msg.getIP().c_str());
+                //printf("Got an ACK Reply from: %s\n", recieved_msg.getIP().c_str());
                 ack_lock.lock();
                 acks[recieved_msg.getRequestId()] = recieved_msg;
                 ack_lock.unlock();
@@ -212,7 +215,7 @@ void RequestReply::rec()
 
             if(recieved_msg.getMessageType()==ACK){ // recieved an aknowledgment for a message I sent.
                 std::string ack_id = recieved_msg.getRequestId();
-                printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
+                //printf("Recieved an ACK for %s \n", recieved_msg.getRequestId().c_str());
 
                 std::string dropped = "";
 
@@ -257,7 +260,7 @@ void RequestReply::rec()
                 if(recieved_msg.getPacketIndex() == recieved_msg.getTotalPackets()-1){
                     std::string packet_marshalled = recieved_msg.getMessage();
                     Message complete = Message(packet_marshalled);
-                    printf("Inserting in Buffer \n");
+                    //printf("Inserting in Buffer \n");
                     mlock.lock();
                     if(complete.getOperation() == SendImage)
                         rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
@@ -267,7 +270,7 @@ void RequestReply::rec()
                 }
                 else
                 {
-                    printf("insering \n");
+                    //printf("insering \n");
                     chunked_msgs[msg_id].first = 1;
                     chunked_msgs[msg_id].second = std::vector<Message>(recieved_msg.getTotalPackets());
                     chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] =recieved_msg;
@@ -277,7 +280,7 @@ void RequestReply::rec()
                 if(chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()].getRequestId().empty()){
                     chunked_msgs[msg_id].first++;
                     chunked_msgs[msg_id].second[recieved_msg.getPacketIndex()] = recieved_msg;
-                    printf("inserting chunk % d\n", chunked_msgs[msg_id].first);
+                    //printf("inserting chunk % d\n", chunked_msgs[msg_id].first);
                     if(chunked_msgs[msg_id].first  == recieved_msg.getTotalPackets()){ // if msg is complete
                         std::string marshalled = "";
 
@@ -291,9 +294,9 @@ void RequestReply::rec()
                             }
                         }
                         Message complete = Message(marshalled);
-                        std::cout << "Complete: " << complete.getRequestId() << std::endl;
+                        //std::cout << "Complete: " << complete.getRequestId() << std::endl;
                         mlock.lock();
-                        printf("Inserting complete msg \n");
+                        //printf("Inserting complete msg \n");
                         if(complete.getOperation() == SendImage)
                             rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                         else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
@@ -301,7 +304,8 @@ void RequestReply::rec()
                     }
                 }
                 else
-                    printf("Received Duplicate \n");
+                    printf("");
+                    //printf("Received Duplicate \n");
             }
         }
 
@@ -331,14 +335,14 @@ int RequestReply::recReply(Message & m, std::string request_id){
         return 0;
     }
 
-    printf("Pending Messages : %d\n", rec_buffer.size());
+    //printf("Pending Messages : %d\n", rec_buffer.size());
 
     std::map<std::string, std::pair<Message,bool>>::iterator it;
     for ( it = rec_buffer.begin(); it != rec_buffer.end(); it++ )
     {
         if(it->second.first.getRequestId() == request_id && it->second.first.getMessageType() == Reply ){
             m = it->second.first;
-            std::cout << "Found : " << m << std::endl;
+            //std::cout << "Found : " << m << std::endl;
             rec_buffer.erase(it->first);
             mlock.unlock();
             return 1;
@@ -360,7 +364,7 @@ int RequestReply::recRequest(Message & m){
         return 0;
     }
 
-    printf("Pending Messages : %d\n", rec_buffer.size());
+    //printf("Pending Messages : %d\n", rec_buffer.size());
 
     std::map<std::string, std::pair<Message,bool>>::iterator it;
     for ( it = rec_buffer.begin(); it != rec_buffer.end(); it++ ){
@@ -413,7 +417,7 @@ std::vector<Message> RequestReply::createPackets(Message & m ){
     if (num_packets==0)
         num_packets=1;
 
-    printf("msg_size %i: , send_buffer %i , packets: %i \n", msg_size, send_buff, num_packets );
+    //printf("msg_size %i: , send_buffer %i , packets: %i \n", msg_size, send_buff, num_packets );
 
     while (index != num_packets-1){
         std::string msg = to_chunk.substr(index++ * send_buff, send_buff);

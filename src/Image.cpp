@@ -59,8 +59,6 @@ Message Image::buildSamplesMsg(bool fromDoS, DOS_OPERATIONS operation, int image
                 user.erase(0, pos + delimiter.length());
             }
             if(user != ownerName) {
-                std::string log = "\n\nowner:"+user +" ownerName: " + ownerName+ "\n\n";
-                std::perror(log.c_str());
                 std::cout<<"\n\nowner:"<<user<<"\n\n";
                 path = "../images/users/" + user + "/";
                 for (int i = 0; i < n; i++) {
