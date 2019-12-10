@@ -32,13 +32,15 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
 Message Image::buildProfileMsg(std::string request_id) {
     std::string path = "../images/mine/profile/";
     std::string delimiter = "111110";
-    std::string msg;
+    std::string msg= "";
 
     for (int i = 0; i<6; i++) {
-        std::string tempPath = path + std::to_string(0) + ".jpg";
+        std::string tempPath = path + std::to_string(i) + ".jpg";
         std::string image = Image::readImage(tempPath);
-        msg = image + delimiter;
+        msg += image + delimiter;
+
     }
+    std::cout << msg << std::endl;
 
     requestInfo reqinfo = {
             .image_id=0,

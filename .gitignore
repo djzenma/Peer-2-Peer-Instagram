@@ -4,3 +4,4 @@ build/
 .vscode/
 Makefile
 CMakeLists.txt
+cmake-build-debug
