@@ -59,7 +59,7 @@ Message Image::buildSamplesMsg(bool fromDoS, DOS_OPERATIONS operation, int image
                 user.erase(0, pos + delimiter.length());
             }
             if(user != ownerName) {
-                std::cout<<"\n\nowner:"<<user<<"\n\n";
+                std::cout<<"\n\nowner:"<<user<<" "<<ownerName<<"\n\n";
                 path = "../images/users/" + user + "/";
                 for (int i = 0; i < n; i++) {
                     std::string imgPath = path + std::to_string(images_id[i]) + ".jpg";
@@ -122,7 +122,9 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
         samples.erase(0, pos + delimiter.length());
         if(isDoS) {
             // Get owner Name
-            std::string hidden = stega_decode(imgToken, false);
+            int r = rand()%10000;
+            saveImage(imgToken, imgId, "temp/" + std::to_string(r));
+            std::string hidden = stega_decode("../images/temp/" + r, false);
             std::string hiddenDelimiter = "/";
             size_t pos = 0;
             std::string hiddenToken;
