@@ -256,7 +256,10 @@ void RequestReply::rec()
                     Message complete = Message(packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
+                    if(complete.getOperation() == SendProfile)
+                        rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
+                    else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
+
                     mlock.unlock();
                 }
                 else
@@ -371,7 +374,8 @@ int RequestReply::recRequest(Message & m){
 
 void RequestReply::Accept(std::string msg_id){
     mlock.lock();
-    rec_buffer[msg_id].second = true;
+    if(rec_buffer.count(msg_id) > 0)
+        rec_buffer[msg_id].second = true;
     mlock.unlock();
 }
 

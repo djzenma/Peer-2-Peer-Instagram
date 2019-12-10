@@ -9,10 +9,24 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
 
     rrp = new RequestReply(myIp, PORT);
     db = new Database(std::string(PATH) + "images/DB.json");
+
+    serveThread = std::thread(&Peer::serveRequst,this);
+    serveThread.detach();
+
+}
+
+void Peer::Accept(std::string msg_id){
+    rrp->Accept(msg_id);
+}
+void Peer::Reject(std::string msg_id){
+    rrp->Reject(msg_id);
+}
+std::vector<Message> Peer::getPending(){
+    return rrp->getPending();
 }
 
 
-int Peer::requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerIp) {
+int Peer::requestImageFromPeer(Message & imgMsg, int imgId, const char *destPeerIp) {
     Message m = buildRequestMsg(SendImage, imgId);
     std::string send_res = rrp->sendMessage(m, destPeerIp, PORT);
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl; 
@@ -43,7 +57,33 @@ int Peer::requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerI
     }
 }
 
+int Peer::requestProfileFromPeer(const char *destPeerIp) {
+    Message m = buildRequestMsg(SendProfile, 0);
+    std::string send_res = rrp->sendMessage(m, destPeerIp, PORT);
+    std::cout << strcmp(send_res.c_str(), "ok") << std::endl;
+    if (strcmp(send_res.c_str(), "ok") == 0) {
+        Message reply_msg;
+        int reply = 0;
+        // for (int i=0 ;i< 50 && !reply ;i++)
+        while (1 && !reply) {
+            sleep(1);
+            reply = rrp->recReply(reply_msg, m.getRequestId());
+        }
 
+        if (!reply) {
+            printf("Timeout! Didn't recieve a reply \n");
+            return -1;
+        } else {
+            printf("Saving image \n");
+            saveImage(reply_msg.getMessage(), 7);
+            //imgMsg = reply_msg;
+            return -1;
+        }
+    } else {
+        printf("Failed Sending Image request \n");
+        return -1;
+    }
+}
 /*
     Updates count for a certain user.
     When the user views an image or when I want to change count;
@@ -84,7 +124,12 @@ void Peer::dispatch(Message  msg){
             updateCountFor(image_id, num_views, sender_ip.c_str());
             break;
         }
-     
+        case SendProfile:{
+            Message msg = Image::buildProfileMsg(request_id);
+            msg.setIP(myIp);
+            msg.setPort(PORT);
+            rrp->sendMessage(msg, sender_ip.c_str(), sender_port);
+        }
     };
 }
 /*
@@ -104,8 +149,7 @@ void Peer::serveRequst(){
 
 
 void Peer::join() {
-    if (msgIdThread.joinable())
-        msgIdThread.join();
+    serveThread.join();
 }
 
 std::string Peer::getMyIP() {

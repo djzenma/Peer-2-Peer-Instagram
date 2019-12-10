@@ -62,15 +62,4 @@ void copyImage(std::string src, std::string dst){
     ifs.close();
 }
 
-std::string saveImage(std::string image, int image_id){
-
-    std::string temp_loc = std::string(PATH) +  "/images/requested/" + std::to_string(image_id) + ".jpg";
-
-    std::ofstream outFile;
-    outFile.open(temp_loc);
-    outFile << image;
-    outFile.close();
-    printf("Done Saving \n");
-    return "";
-}
 

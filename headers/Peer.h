@@ -16,6 +16,7 @@ class Peer {
         RequestReply * rrp;
         std::string myIp, myName, dosIp;
         std::thread msgIdThread;
+        std::thread serveThread;
 
         Database * db;
 
@@ -35,6 +36,8 @@ class Peer {
 
 
         int requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerIp);
+        int requestProfileFromPeer(const char *destPeerIp);
+
         void viewImage(int image_id);
         void updateCountFor(int image_id, int updated_cout,  const char * peerIp);
         
@@ -44,7 +47,11 @@ class Peer {
         std::string getMyIP();
         std::string getMyName();
 
-        void join();
+        void Accept(std::string msg_id);
+        void Reject(std::string msg_id);
+        std::vector<Message> getPending();
+
+    void join();
 };
 
 

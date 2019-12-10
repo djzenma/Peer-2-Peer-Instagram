@@ -29,6 +29,7 @@
 enum serviceOperations{
     SendImage = 0,
     UpdateViewCount = 1,
+    SendProfile = 2,
 };
 
 

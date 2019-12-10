@@ -12,7 +12,12 @@
 class Image{
 
     public:
-        static Message buildImageMsg(int image_id, std::string owner_ip, std::string owner_name);
+        static Message buildImageMsg(int image_id, std::string hidden_text, std::string request_id);
+        static Message buildProfileMsg(std::string request_id);
+        static void reconstructSamplesMsg(Message& sampleMsg, int n);
+        static void saveImage(std::string image, int image_id, std::string directory);
+
+        static std::string readImage(std::string path);
         static std::string encode(int image_id, std::string hidden_text);
         static std::string decode(int image_id);
         static int getViewCount(int image_id);

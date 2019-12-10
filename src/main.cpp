@@ -8,10 +8,26 @@
 using namespace std;
 
 int main(int argc,char **argv){
-
+    int n= 0;
     if(strcmp(argv[1], "Server")==0){
         Peer p("10.40.32.170", "Manar", "127.0.0.1");
-        p.serveRequst();
+        sleep(10);
+        std::vector<Message> pending = p.getPending();
+        for (int i=0; i< pending.size(); i++){
+            cout << "Rejecting request: " << pending[i].getRequestId() << std::endl;
+            n= n+1;
+            p.Reject(pending[i].getRequestId());
+        }
+        while(true){
+            std::vector<Message> pending = p.getPending();
+            for (int i=0; i< pending.size(); i++){
+                cout << "Accepting request: " << pending[i].getRequestId() << std::endl;
+
+                n= n+1;
+                p.Accept(pending[i].getRequestId());
+            }
+
+        }
     } else {
         Peer p("10.40.32.170", "Manar", "127.0.0.1");
         Message imgMsg;
