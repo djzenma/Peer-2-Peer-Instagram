@@ -6,8 +6,8 @@
 */
 Message Image::buildImageMsg(int image_id, std::string hidden, std::string request_id){
    
-    std::string path = (std::string)PATH + "/images/mine/" + std::to_string(image_id)+ ".jpg";
-    std::string temp_path = (std::string)PATH  + "/images/stego/" + std::to_string(image_id)+ "_stego.jpg";
+    std::string path =   "../images/mine/" + std::to_string(image_id)+ ".jpg";
+    std::string temp_path = "../images/stego/" + std::to_string(image_id)+ "_stego.jpg";
 
     std::string hidden_text = hidden;
 

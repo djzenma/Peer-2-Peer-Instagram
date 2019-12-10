@@ -1,13 +1,15 @@
 #include "../headers/Stego.h"
 
 
-#define DOCKER "docker run -it --rm -v "$(pwd):/src" bartimar/steghide"
-#define COVER_PATH "images/stego/cover.jpeg"
-#define SECRET_TEXT_PATH "images/stego/temp/secret.txt"
-#define EXTRACTED_IMAGE_PATH "images/stego/temp/extracted.jpeg"
-#define EXTRACTED_TXT "images/stego/temp/extracted.txt"
+#define COVER_PATH "../images/stego/cover.jpeg"
+#define SECRET_TEXT_PATH "../images/stego/temp/secret.txt"
+#define EXTRACTED_IMAGE_PATH "../images/stego/temp/extracted.jpeg"
+#define EXTRACTED_TXT "../images/stego/temp/extracted.txt"
 
 #define PASS_PHRASE "HEY"
+
+#define DOCKER "docker run -it --rm -v $(pwd)/../images:/../images bartimar/steghide"
+
 
 void exec(std::string str){
     const char *command = str.c_str(); 
@@ -39,14 +41,13 @@ std::string read_file(std::string file_name){
     };
 }
 std::string stega_encode(std::string image_file, std::string secret_msg, std::string stego_image){
-  
     // first: embed text inside image
     std::ofstream outfile (SECRET_TEXT_PATH);
     outfile << secret_msg << std::endl;
 
-    std::string str =  " steghide embed -ef "; 
-    std::string text_cmd =  "steghide embed -ef ";
-    text_cmd = text_cmd + PATH + SECRET_TEXT_PATH + " -cf " + image_file + " -sf " + stego_image;
+    std::string str =  std::string(DOCKER) + " embed -ef ";
+    std::string text_cmd =  std::string(DOCKER) + " embed -ef ";
+    text_cmd = text_cmd  + SECRET_TEXT_PATH + " -cf " + image_file + " -sf " + stego_image;
     text_cmd = text_cmd + " -p " + PASS_PHRASE + " -f";
     
     // encode secret msg inside image 
@@ -54,7 +55,7 @@ std::string stega_encode(std::string image_file, std::string secret_msg, std::st
   
     // steghid shell invocation
     // steghid embed -ef <text file to embed> -cf <cover image> -sf < output image> -p <encryption password>
-    str = str + stego_image + " -cf " + PATH + COVER_PATH + " -sf " + stego_image;
+    str = str + stego_image + " -cf "  + COVER_PATH + " -sf " + stego_image;
     str = str + " -p " + PASS_PHRASE + " -f";
     
     exec(str);
@@ -62,16 +63,16 @@ std::string stega_encode(std::string image_file, std::string secret_msg, std::st
     return read_file(stego_image);  // return output stego image
 }
 std::string stega_decode(std::string stego_image){
-    std::string str = "steghide extract -sf "; 
+    std::string str = std::string(DOCKER) +" extract -sf ";
     str = str + stego_image + " -p " + "HEY" ;
-    str = str + " -xf " + PATH + EXTRACTED_IMAGE_PATH + " -f";
+    str = str + " -xf "  + EXTRACTED_IMAGE_PATH + " -f";
     
     std::cout << "Decoding Image file \n " << std::endl; 
     exec(str);
    
     str = "steghide extract -sf "; 
-    str = str + PATH + EXTRACTED_IMAGE_PATH + " -p " + "HEY" ;
-    str = str + " -xf " + PATH + EXTRACTED_TXT + " -f";
+    str = str  + EXTRACTED_IMAGE_PATH + " -p " + "HEY" ;
+    str = str + " -xf "  + EXTRACTED_TXT + " -f";
     
     exec(str);
     
