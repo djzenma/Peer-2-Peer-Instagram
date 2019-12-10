@@ -40,7 +40,7 @@ std::string read_file(std::string file_name){
         return "";
     };
 }
-std::string stega_encode(std::string image_file, std::string secret_msg, std::string stego_image){
+std::string stega_encode(std::string image_file, std::string secret_msg, std::string stego_image, bool include_cover){
     // first: embed text inside image
     std::ofstream outfile (SECRET_TEXT_PATH);
     outfile << secret_msg << std::endl;
@@ -52,13 +52,15 @@ std::string stega_encode(std::string image_file, std::string secret_msg, std::st
     
     // encode secret msg inside image 
     exec(text_cmd);
-  
-    // steghid shell invocation
-    // steghid embed -ef <text file to embed> -cf <cover image> -sf < output image> -p <encryption password>
-    str = str + stego_image + " -cf "  + COVER_PATH + " -sf " + stego_image;
-    str = str + " -p " + PASS_PHRASE + " -f";
-    
-    exec(str);
+
+    if (include_cover){
+        // steghid shell invocation
+        // steghid embed -ef <text file to embed> -cf <cover image> -sf < output image> -p <encryption password>
+        str = str + stego_image + " -cf "  + COVER_PATH + " -sf " + stego_image;
+        str = str + " -p " + PASS_PHRASE + " -f";
+
+        exec(str);
+    }
 
     return read_file(stego_image);  // return output stego image
 }
