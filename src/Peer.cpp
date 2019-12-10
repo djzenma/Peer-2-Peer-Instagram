@@ -15,6 +15,7 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
 
 }
 
+
 void Peer::Accept(std::string msg_id){
     rrp->Accept(msg_id);
 }
@@ -26,7 +27,11 @@ std::vector<Message> Peer::getPending(){
 }
 
 
-int Peer::requestImageFromPeer(Message & imgMsg, int imgId, const char *destPeerIp) {
+std::map<std::string, int> Peer::getImageInfo(int img_id) {
+    return db->getAllUsers(img_id);
+}
+
+int Peer::requestImageFromPeer(int imgId, const char *destPeerIp) {
     Message m = buildRequestMsg(SendImage, imgId);
     std::string send_res = rrp->sendMessage(m, destPeerIp, PORT);
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl; 
@@ -47,13 +52,45 @@ int Peer::requestImageFromPeer(Message & imgMsg, int imgId, const char *destPeer
         else{
             printf("Saving image \n");
             Image::saveImage(reply_msg.getMessage(),7, "requested/images/");
-            //imgMsg = reply_msg;
-            return -1;    
+            return -1;
         }
     }
     else{
         printf("Failed Sending Image request \n");
         return -1;
+    }
+}
+
+int Peer::viewImage(int image_id, std::string & path) {
+    std::string stego_image = "../images/requested/" + std::to_string(image_id) + ".jpg";
+    std::string hidden_text = stega_decode(stego_image, true);
+    std::vector<std::string> parsed = parseHidden(hidden_text);
+
+    int num_views = atoi(parsed[0].c_str());
+    std::string owner_ip = parsed[1];
+    std::string owner_name = parsed[2];
+
+    if (num_views > 0){
+        num_views--;
+        std::string new_hidden_text = std::to_string(num_views) + hidden_text.substr(hidden_text.find(','));
+        stega_encode(std::string(EXTRACTED_IMAGE_PATH), new_hidden_text, stego_image, true);
+        path = std::string(EXTRACTED_IMAGE_PATH);
+
+        Message msg = buildRequestMsg(UpdateViewCount, image_id);
+        msg.setMessage(std::to_string(num_views),std::to_string(num_views).length());
+        msg.setIP(myIp);
+        msg.setPort(PORT);
+
+        rrp->sendMessage(msg, owner_ip.c_str(), PORT);
+        // Inform Owner of the new count
+        return num_views;
+    }
+    else {
+        if( std::remove( std::string(EXTRACTED_IMAGE_PATH).c_str()) != 0 )
+            perror( "Error deleting extracted image file" );
+        else
+            printf( "Extracted image file successfully deleted" );
+        return num_views;
     }
 }
 
@@ -81,15 +118,16 @@ int Peer::requestProfileFromPeer(const char *destPeerIp) {
             return -1;
         }
     } else {
-        printf("Failed Sending Image request \n");
+        printf("Failed Sending Profile request \n");
         return -1;
     }
 }
+
 /*
     Updates count for a certain user.
     When the user views an image or when I want to change count;
 */
-void Peer::updateCountFor(int image_id, int updated_cout,  const char * peerIp){
+void Peer::requestMoreViews(int image_id,  const char * peerIp){
 
 }
 /*
@@ -122,7 +160,7 @@ void Peer::dispatch(Message  msg){
         }
         case UpdateViewCount:{ // updates view count for image I owe when someone views it
             int num_views = atoi(msg.getMessage().c_str());
-            updateCountFor(image_id, num_views, sender_ip.c_str());
+            db->updateCount(msg.getImageId(), msg.getIP(), num_views);
             break;
         }
         case SendProfile:{

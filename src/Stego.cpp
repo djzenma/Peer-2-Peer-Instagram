@@ -1,15 +1,6 @@
 #include "../headers/Stego.h"
 
 
-#define COVER_PATH "../images/stego/cover.jpeg"
-#define SECRET_TEXT_PATH "../images/stego/temp/secret.txt"
-#define EXTRACTED_IMAGE_PATH "../images/stego/temp/extracted.jpeg"
-#define EXTRACTED_TXT "../images/stego/temp/extracted.txt"
-
-#define PASS_PHRASE "HEY"
-
-#define DOCKER "docker run -it --rm -v $(pwd)/../images:/../images bartimar/steghide"
-
 
 void exec(std::string str){
     const char *command = str.c_str(); 

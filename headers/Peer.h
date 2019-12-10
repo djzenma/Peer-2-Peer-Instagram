@@ -5,10 +5,12 @@
 #include <string>
 #include <thread>
 #include <iostream>
+#include <stdio.h>
 #include "RequestReply.h"
 #include "Communication.h"
 #include "Image.h"
 #include "Database.h"
+#include "Stego.h"
 
 class Peer {
     private:
@@ -35,11 +37,11 @@ class Peer {
         std::vector<Message> getSamplesFromDoS(int n);
 
 
-        int requestImageFromPeer(Message & imgMsg,int imgId, const char *destPeerIp);
+        int requestImageFromPeer(int imgId, const char *destPeerIp);
         int requestProfileFromPeer(const char *destPeerIp);
 
-        void viewImage(int image_id);
-        void updateCountFor(int image_id, int updated_cout,  const char * peerIp);
+        int viewImage(int image_id, std::string & path);
+        void requestMoreViews(int image_id, const char * destPeerIp);
         
         void dispatch(Message  msg);
         void serveRequst();
@@ -50,6 +52,8 @@ class Peer {
         void Accept(std::string msg_id);
         void Reject(std::string msg_id);
         std::vector<Message> getPending();
+
+        std::map<std::string, int> getImageInfo(int img_id);
 
     void join();
 };

@@ -290,8 +290,9 @@ void RequestReply::rec()
                         Message complete = Message(marshalled);
                         std::cout << "Complete: " << complete.getRequestId() << std::endl;
                         mlock.lock();
-                        printf("Inserting complete msg \n");
-                        rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
+                        if(complete.getOperation() == SendImage)
+                            rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
+                        else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
                         mlock.unlock();
                     }
                 }

@@ -11,7 +11,7 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
 
     std::string hidden_text = hidden;
 
-    std::string stego_image = stega_encode(path, hidden_text, temp_path);
+    std::string stego_image = stega_encode(path, hidden_text, temp_path, true);
 
     requestInfo reqinfo = {
             .image_id=image_id,
