@@ -164,7 +164,7 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
             profile.ip = hidden;
             //std::cout<<"\nusername: "<<profile.user<<"\n\n\n\n";
 
-            saveImage(imgToken, imgId, directory + profile.user); // save the img to the corresponding user
+            saveImage(imgToken, imgId, directory + "/" + profile.user); // save the img to the corresponding user
         }
         imgId++;
     }

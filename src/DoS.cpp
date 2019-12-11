@@ -14,8 +14,8 @@ DoS::DoS(const char *dosIp) {
     //com->dbTx = com->init_socket(dosIp, DB_PORT);
 
     reqRepAuth = new RequestReply(dosIp, AUTH_PORT);
-    reqRepLogin = new RequestReply(dosIp, LOGIN_PORT);
-    reqRepMap = new RequestReply(dosIp, MAP_PORT);
+    //reqRepLogin = new RequestReply(dosIp, LOGIN_PORT);
+    //reqRepMap = new RequestReply(dosIp, MAP_PORT);
 }
 
 
