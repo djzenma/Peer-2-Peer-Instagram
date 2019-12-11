@@ -119,12 +119,14 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
     std::string imgToken;
     while ((pos = samples.find(delimiter)) != std::string::npos) {
         imgToken = samples.substr(0, pos);
+        std::cout<<"\n\n\n\n"<<imgToken.size()<<"\n\n\n\n"<<"\n\n\n";
         samples.erase(0, pos + delimiter.length());
         if(isDoS) {
             // Get owner Name
             int r = rand()%10000;
+            // Process the hidden text
             saveImage(imgToken, imgId, "temp/" + std::to_string(r));    // save the image in a dummy dir
-            std::string hidden = stega_decode("./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".jpg", "./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".txt", false);    // decode the img from the dummy dir
+            std::string hidden = stega_decode("./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".jpg", "./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId), false);    // decode the img from the dummy dir
             std::string hiddenDelimiter = "/";
             size_t pos = 0;
             std::string hiddenToken;

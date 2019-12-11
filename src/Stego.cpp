@@ -22,6 +22,7 @@ std::string read_file(std::string file_name){
     if (  (ifs = fopen(file_name.c_str(), "r")) ){
         while((len = fread(buf, 1, sizeof(buf) - 1, ifs)) > 0){
             oss.write(buf, len);
+            printf("Reading");
         }
         std::string data = oss.str(); // get string data out of stream
         return data;
