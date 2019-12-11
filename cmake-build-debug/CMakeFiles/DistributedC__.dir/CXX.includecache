@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Communication.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
 netinet/in.h
 -
 printf.h
@@ -22,9 +22,9 @@ cstdlib
 cmath
 -
 Message.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Database.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Database.h
 fstream
 -
 string
@@ -40,17 +40,17 @@ iostream
 json/json.h
 -
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Image.h
 string.h
 -
 stdio.h
 -
 Message.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 Stego.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Stego.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 cstddef
 -
 string
@@ -60,9 +60,9 @@ iostream
 cstring
 -
 utils.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Peer.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
 string
 -
 thread
@@ -72,17 +72,17 @@ iostream
 stdio.h
 -
 RequestReply.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
 Communication.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Communication.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Communication.h
 Image.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Image.h
 Database.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Database.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Database.h
 Stego.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Stego.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/RequestReply.h
+/Users/owner/CLionProjects/Distributed-Client/headers/RequestReply.h
 cstdlib
 -
 netinet/in.h
@@ -108,9 +108,9 @@ mutex
 map
 -
 Message.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Stego.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Stego.h
 stdio.h
 -
 string
@@ -124,13 +124,13 @@ fstream
 sstream
 -
 Image.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Image.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/base64.h
+/Users/owner/CLionProjects/Distributed-Client/headers/base64.h
 string
 -
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/utils.h
+/Users/owner/CLionProjects/Distributed-Client/headers/utils.h
 sstream
 -
 iomanip
@@ -146,7 +146,7 @@ netinet/in.h
 arpa/inet.h
 -
 base64.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/base64.h
+/Users/owner/CLionProjects/Distributed-Client/headers/base64.h
 stdio.h
 -
 unistd.h
@@ -172,9 +172,9 @@ vector
 fstream
 -
 Message.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/main.cpp
+/Users/owner/CLionProjects/Distributed-Client/src/main.cpp
 string
 -
 ostream
@@ -182,82 +182,98 @@ ostream
 fstream
 -
 ../headers/Peer.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Peer.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Peer.h
 ../headers/Message.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Message.h
 ../headers/Image.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
+/Users/owner/CLionProjects/Distributed-Client/headers/Image.h
 
-/usr/include/jsoncpp/json/allocator.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
 cstring
 -
 memory
 -
 
-/usr/include/jsoncpp/json/autolink.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/autolink.h
 config.h
-/usr/include/jsoncpp/json/config.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/config.h
 cpptl/cpptl_autolink.h
 -
 autolink.h
-/usr/include/jsoncpp/json/autolink.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/autolink.h
 
-/usr/include/jsoncpp/json/config.h
-stddef.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/config.h
+cstddef
+-
+cstdint
+-
+istream
+-
+memory
+-
+ostream
+-
+sstream
 -
 string
 -
+type_traits
+-
 cpptl/config.h
 -
-version.h
-/usr/include/jsoncpp/json/version.h
 allocator.h
-/usr/include/jsoncpp/json/allocator.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
+version.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/version.h
 
-/usr/include/jsoncpp/json/features.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/features.h
 forwards.h
-/usr/include/jsoncpp/json/forwards.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/forwards.h
 
-/usr/include/jsoncpp/json/forwards.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/forwards.h
 config.h
-/usr/include/jsoncpp/json/config.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/config.h
 
-/usr/include/jsoncpp/json/json.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/json.h
 autolink.h
-/usr/include/jsoncpp/json/autolink.h
-value.h
-/usr/include/jsoncpp/json/value.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/autolink.h
+features.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/features.h
 reader.h
-/usr/include/jsoncpp/json/reader.h
-writer.h
-/usr/include/jsoncpp/json/writer.h
-features.h
-/usr/include/jsoncpp/json/features.h
-
-/usr/include/jsoncpp/json/reader.h
-features.h
-/usr/include/jsoncpp/json/features.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/reader.h
 value.h
-/usr/include/jsoncpp/json/value.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/value.h
+writer.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/writer.h
+
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/reader.h
+features.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/features.h
+value.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/value.h
 deque
 -
 iosfwd
+-
+istream
 -
 stack
 -
 string
 -
-istream
--
 
-/usr/include/jsoncpp/json/value.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/value.h
 forwards.h
-/usr/include/jsoncpp/json/forwards.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/forwards.h
+array
+-
+exception
+-
+memory
+-
 string
 -
 vector
--
-exception
 -
 map
 -
@@ -266,15 +282,15 @@ cpptl/smallmap.h
 cpptl/forwards.h
 -
 
-/usr/include/jsoncpp/json/version.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/version.h
 
-/usr/include/jsoncpp/json/writer.h
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/writer.h
 value.h
-/usr/include/jsoncpp/json/value.h
-vector
+/usr/local/Cellar/jsoncpp/1.9.1/include/json/value.h
+ostream
 -
 string
 -
-ostream
+vector
 -
 

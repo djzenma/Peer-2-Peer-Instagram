@@ -5,16 +5,6 @@ CMakeFiles/DistributedC__.dir/src/Communication.cpp.o: ../src/Communication.cpp
 
 CMakeFiles/DistributedC__.dir/src/Database.cpp.o: ../headers/Database.h
 CMakeFiles/DistributedC__.dir/src/Database.cpp.o: ../src/Database.cpp
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/allocator.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/autolink.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/config.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/features.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/forwards.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/json.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/reader.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/value.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/version.h
-CMakeFiles/DistributedC__.dir/src/Database.cpp.o: /usr/include/jsoncpp/json/writer.h
 
 CMakeFiles/DistributedC__.dir/src/Image.cpp.o: ../headers/Image.h
 CMakeFiles/DistributedC__.dir/src/Image.cpp.o: ../headers/Message.h
@@ -38,16 +28,16 @@ CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/Stego.h
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: ../src/Peer.cpp
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/allocator.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/autolink.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/config.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/features.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/forwards.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/json.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/reader.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/value.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/version.h
-CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/include/jsoncpp/json/writer.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/autolink.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/config.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/features.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/forwards.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/json.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/reader.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/value.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/version.h
+CMakeFiles/DistributedC__.dir/src/Peer.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/writer.h
 
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../headers/Message.h
 CMakeFiles/DistributedC__.dir/src/RequestReply.cpp.o: ../headers/RequestReply.h
@@ -75,16 +65,16 @@ CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/Stego.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/base64.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../headers/utils.h
 CMakeFiles/DistributedC__.dir/src/main.cpp.o: ../src/main.cpp
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/allocator.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/autolink.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/config.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/features.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/forwards.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/json.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/reader.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/value.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/version.h
-CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/include/jsoncpp/json/writer.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/allocator.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/autolink.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/config.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/features.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/forwards.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/json.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/reader.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/value.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/version.h
+CMakeFiles/DistributedC__.dir/src/main.cpp.o: /usr/local/Cellar/jsoncpp/1.9.1/include/json/writer.h
 
 CMakeFiles/DistributedC__.dir/src/utils.cpp.o: ../headers/Message.h
 CMakeFiles/DistributedC__.dir/src/utils.cpp.o: ../headers/base64.h

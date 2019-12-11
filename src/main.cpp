@@ -8,13 +8,21 @@
 
 using namespace std;
 
+void getimageInfo(string stego_image, int & num_views , string & owner_ip , string & owner_name)
+{
+    std::string extracted_path = "../images/stego/temp/scratch.jpg";
+    std::string hidden_text = stega_decode(stego_image, extracted_path, true);    std::vector<std::string> parsed = parseHidden(hidden_text);
+
+    num_views = atoi(parsed[0].c_str());
+    owner_ip = parsed[1];
+    owner_name = parsed[2];
+}
+
 int main(int argc,char **argv){
     int n= 0;
 
-    Image::saveImage("HI",1, "requested/images/Manar");
-
     if(strcmp(argv[1], "Server")==0){
-        Peer p("10.40.32.170", "Manar", "127.0.0.1");
+        Peer p("10.40.56.37", "Manar", "127.0.0.1");
         sleep(6);
         std::vector<Message> pending = p.getPending();
         for (int i=0; i< pending.size(); i++){
@@ -24,8 +32,8 @@ int main(int argc,char **argv){
         }
         sleep(500);
         perror("Updating VIEWS \n");
-        p.updateViewsForPeer(4,0, "Bassant", "10.40.56.37" );
-//        sleep(10);
+        //p.updateViewsForPeer(4,0, "Bassant", "10.40.56.37" );
+        //        sleep(10);
 
         pending = p.getPending();
         for (int i=0; i< pending.size(); i++){
@@ -42,11 +50,17 @@ int main(int argc,char **argv){
             }
         }
     } else {
-        Peer p("10.40.32.170", "Manar", "127.0.0.1");
+        Peer p("10.40.56.37", "Manar", "127.0.0.1");
         Message imgMsg;
-        p.requestImageFromPeer( 4, "10.40.56.37");
-        // sleep(10);
-        // p.requestImageFromPeer(imgMsg, 4, "10.7.126.165");
+        //p.requestImageFromPeer( 4, "10.40.32.170"); //DONE!!
+        //        int  num_views ;
+        //        string  owner_ip ;
+        //        string  owner_name;
+        //        getimageInfo("./../images/requested/images/Manar/4.jpg", num_views ,  owner_ip , owner_name);
+        //        cout << num_views << " "<< owner_ip << " "<< owner_name <<endl ;
+         //p.viewImage(4, "Manar"); //DONE!!
+        //p.requestProfileFromPeer("10.40.32.170"); //DONE!!
+        //sleep(500);
     }
 
     return 0;

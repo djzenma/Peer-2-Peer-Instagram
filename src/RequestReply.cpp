@@ -90,7 +90,7 @@ void RequestReply::send(argsSend a)
             int res = static_cast<int>(sendto(socketfd, (void *)ack_msg.marshal().c_str(), ack_msg.marshal().length()+1, 0, (struct sockaddr*)&destAddr, sizeof(destAddr)));
 
             if(res < 0)
-                printf("Failed to send ack msg %d");
+                printf("Failed to send ack msg \n");
             else {
                 sender_ack_recieved = true;
                 /*
@@ -256,7 +256,7 @@ void RequestReply::rec()
                     Message complete = Message(packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    if(complete.getOperation() == SendImage || complete.getOperation() == UpdateViewCount)
+                    if(complete.getOperation() == SendImage)
                         rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                     else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
 
@@ -290,7 +290,7 @@ void RequestReply::rec()
                         Message complete = Message(marshalled);
                         std::cout << "Complete: " << complete.getRequestId() << std::endl;
                         mlock.lock();
-                        if(complete.getOperation() == SendImage || complete.getOperation() == UpdateViewCount)
+                        if(complete.getOperation() == SendImage )
                             rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                         else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
                         mlock.unlock();
@@ -319,13 +319,12 @@ bool RequestReply::recieveACK(std::string ack_id, Message & ack_msg){
 //recv from all in buff
 //get form buff ip
 int RequestReply::recReply(Message & m, std::string request_id){
-    mlock.lock();
 
     if(rec_buffer.size() == 0){
         //printf("No Pending Messages \n");
-        mlock.unlock();
         return 0;
     }
+    mlock.lock();
 
     printf("Pending Messages : %d\n", rec_buffer.size());
 
@@ -348,14 +347,12 @@ int RequestReply::recReply(Message & m, std::string request_id){
 }
 
 int RequestReply::recRequest(Message & m){
-    mlock.lock();
 
     if(rec_buffer.size() == 0){
         //printf("No Pending Messages \n");
-        mlock.unlock();
         return 0;
     }
-
+    mlock.lock();
     printf("Pending Messages : %d\n", rec_buffer.size());
 
     std::map<std::string, std::pair<Message,bool>>::iterator it;

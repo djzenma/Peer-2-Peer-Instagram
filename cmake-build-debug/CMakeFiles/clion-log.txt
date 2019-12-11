@@ -1,4 +1,4 @@
-/home/manar/CLion-2019.3.1/clion-2019.3.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/owner/CLionProjects/Distributed-Client
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug
+-- Build files have been written to: /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug

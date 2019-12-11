@@ -33,6 +33,7 @@ std::map<std::string, int> Peer::getImageInfo(int img_id) {
 
 int Peer::requestImageFromPeer(int imgId, const char *destPeerIp) {
     Message m = buildRequestMsg(SendImage, imgId);
+    m.setSenderName(myName);
     std::string send_res = rrp->sendMessage(m, destPeerIp, PORT);
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl; 
     if(strcmp(send_res.c_str(), "ok") == 0){
@@ -81,6 +82,7 @@ int Peer::viewImage(int image_id, std::string userName) {
         msg.setMessage(std::to_string(num_views),std::to_string(num_views).length());
         msg.setIP(myIp);
         msg.setPort(PORT);
+        msg.setSenderName(myName);
 
         rrp->sendMessage(msg, owner_ip.c_str(), PORT);
         // Inform Owner of the new count
@@ -102,6 +104,7 @@ int Peer::viewImage(int image_id, std::string userName) {
 
 int Peer::requestProfileFromPeer(const char *destPeerIp) {
     Message m = buildRequestMsg(SendProfile, 0);
+    m.setSenderName(myName);
     std::string send_res = rrp->sendMessage(m, destPeerIp, PORT);
     std::cout << strcmp(send_res.c_str(), "ok") << std::endl;
     if (strcmp(send_res.c_str(), "ok") == 0) {
@@ -162,7 +165,7 @@ void Peer::dispatch(Message  msg){
         case SendImage: { // someone is requesting an image from me.
             int image_id = msg.getImageId();
             int num_views = 2;//rand()%10+1;
-            Message msg = Image::buildImageMsg(image_id , std::to_string(num_views)+","+username+","+sender_ip, request_id);
+            Message msg = Image::buildImageMsg(image_id , std::to_string(num_views)+","+myIp +"," +myName +",", request_id);
             msg.setIP(myIp);
             msg.setPort(PORT);
             msg.setSenderName(myName);
@@ -173,7 +176,7 @@ void Peer::dispatch(Message  msg){
         }
         case UpdateViewCount:{ // updates view count for image I owe when someone views it
             int num_views = atoi(msg.getMessage().c_str());
-            db->updateCount(msg.getImageId(), msg.getIP(), num_views);
+            db->updateCount(msg.getImageId(), msg.getSenderName(), num_views);
             break;
         }
         case SendProfile:{
@@ -182,6 +185,7 @@ void Peer::dispatch(Message  msg){
             msg.setPort(PORT);
             msg.setSenderName(myName);
             rrp->sendMessage(msg, sender_ip.c_str(), sender_port);
+            break ;
         }
         case UpdateViewsRequestedImage:{  // update views for image I requested
             std::string stego_image = "../images/requested/images/" + username + "/" + std::to_string(msg.getImageId()) + ".jpg";
@@ -190,7 +194,8 @@ void Peer::dispatch(Message  msg){
             std::string hidden_text = stega_decode(stego_image, extracted_path, true);
             std::string num_views = msg.getMessage();
             std::string new_hidden_text = num_views + hidden_text.substr(hidden_text.find(','));
-            stega_encode(extracted_path + request_id + ".jpg", new_hidden_text, stego_image, true);
+            stega_encode(extracted_path , new_hidden_text, stego_image, true);
+            break;
         }
     };
 }
