@@ -6,16 +6,16 @@
 #include "../headers/Database.h"
 #include "../headers/Image.h"
 
-#define PHOTOS "photos/"
 
 DoS::DoS(const char *dosIp) {
     this->dosIp = dosIp;
-    //com = new Communication();
     //com->authTx = com->init_socket(dosIp, AUTH_PORT);
     //com->loginTx = com->init_socket(dosIp, LOGIN_PORT);
     //com->dbTx = com->init_socket(dosIp, DB_PORT);
 
-    reqRep = new RequestReply(dosIp, AUTH_PORT);
+    reqRepAuth = new RequestReply(dosIp, AUTH_PORT);
+    reqRepLogin = new RequestReply(dosIp, LOGIN_PORT);
+    reqRepMap = new RequestReply(dosIp, MAP_PORT);
 }
 
 
@@ -25,29 +25,52 @@ DoS::DoS(const char *dosIp) {
 #pragma clang diagnostic push // Ignore Infinite Loop
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 void DoS::runLoginSys() {
-    int new_socket;
-    char req[2000] = {0};
     Profile credentials;
-    std::map<std::string, std::string>::iterator it;
-    char *res;
-    sockaddr_in peerAddress;
 
-    std::cout<<"DoS: Listening for Login\n";
+    std::cout<<"DoS: Listening for Login...\n";
     while(true) {
+        Message reqMsg = Message();
 
-        login_socket = com->listenTx(com->loginTx, req);
-        std::cout<<"DoS: Login request= "<<req<<"\n";
-        credentials = getCredentials(req);
+        // Listening For Login
+        if(reqRepLogin->recRequest(reqMsg) > 0) {  // Listens for request
+            int reqOperation = reqMsg.getOperation();
+            std::string ip = std::string(reqMsg.getIP());
+            const char *peerIp = ip.c_str();
+            std::cout<<"DoS: Peer IP: "<<peerIp<<"\n";
 
-        try {
-            DoS::db.at(credentials.user);
-            res = const_cast<char *>("ok");
-        } catch (std::out_of_range& exception) {
-            res = const_cast<char *>("refused");
+            Message okMsg = buildReplyMsg(reqMsg.getRequestId(), "ok", OK, peerIp, PEER_DEFAULT_PORT);
+            switch(reqOperation) {
+                case LOGIN: {          // 1. Login request
+                    // Got request
+                    std::cout << "DoS: Login request= " << reqMsg.getMessage() << "\n";
+                    credentials = getCredentials(reqMsg.getMessage());
+
+                    // Add peer credentials to db
+                    insertInDB(credentials, peerIp);
+
+                    // Send ok Response
+                    reqRepLogin->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
+                    break;
+                }
+                case PROFILE: {       // 2. Peer Sends all his photos, req = number of photos
+                    // Receive his photos
+                    std::cout<<"DoS: Received Peer's Images...\n";
+                    Profile profile = getAllImages(reqMsg);
+
+                    // Insert him to the Active users List and save his IP
+                    activeUsers.insert({profile.user, peerIp});
+                    std::cout << "DoS: User " << profile.user<< " added to the active list.\n";
+                    break;
+                }
+                case SAMPLES: {       // 3. Send peer the samples
+                    // Send him All Samples
+                    std::cout << "DoS: Sending Samples to IP: " << peerIp << "\n";
+                    sendSamples(peerIp, reqMsg.getMessage());
+                    break;
+                }
+                default: break;
+            }
         }
-
-        send(login_socket , res , strlen(res) , 0);
-        std::cout<<"DoS: sent: "<<res<<"\n";
     }
 }
 #pragma clang diagnostic pop
@@ -70,7 +93,7 @@ void DoS::runAuthSys() {
         Message reqMsg = Message();
 
         // Listening For Authentication
-        if(reqRep->recRequest(reqMsg) > 0) {  // Listens for request
+        if(reqRepAuth->recRequest(reqMsg) > 0) {  // Listens for request
             int reqOperation = reqMsg.getOperation();
             std::string ip = std::string(reqMsg.getIP());
             const char *peerIp = ip.c_str();
@@ -87,12 +110,12 @@ void DoS::runAuthSys() {
                     insertInDB(credentials, peerIp);
 
                     // Send ok Response
-                    reqRep->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
+                    reqRepAuth->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
                     break;
                 }
                 case PROFILE: {       // 2. Peer Sends all his photos, req = number of photos
                     // Send ok Response (ok send me your photos)
-                    //reqRep->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
+                    //reqRepAuth->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
 
                     //int numImgs;
                     //getCredentials_And_NumImgs(credentials, numImgs, reqMsg.getMessage());
@@ -108,9 +131,9 @@ void DoS::runAuthSys() {
                 /*
                 case SAMPLES_NUM:{  // 3. Send peer number of samples to be sent, then send them
                     std::cout << "DoS: Sending number of samples...\n";
-                    int n = 3;  // TODO
+                    int n = 3;
                     Message samplesNumMsg = buildReplyMsg(reqMsg.getRequestId(), std::to_string(n), SAMPLES_NUM, peerIp, PEER_DEFAULT_PORT);
-                    reqRep->sendMessage(samplesNumMsg, peerIp, PEER_DEFAULT_PORT);
+                    reqRepAuth->sendMessage(samplesNumMsg, peerIp, PEER_DEFAULT_PORT);
                     break;
                 }
                  */
@@ -135,7 +158,7 @@ void DoS::runAuthSys() {
 // Returns Username of the sender
 Profile DoS::getAllImages(Message profile) {
     //while(1) {
-    //    if(reqRep->recRequest(images) > 0)
+    //    if(reqRepAuth->recRequest(images) > 0)
     //        break;
     //}
     return Image::reconstructSamplesMsg(true, profile, "");
@@ -152,12 +175,12 @@ void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
                                              std::move(owner_name), n);
     std::string numImgs = std::to_string(n);
     samples.setMessage(samples.getMessage() + std::to_string(n), samples.getMessageSize() + numImgs.size() + 1);
-    reqRep->sendMessage(samples, owner_ip.c_str(), PEER_DEFAULT_PORT);
+    reqRepAuth->sendMessage(samples, owner_ip.c_str(), PEER_DEFAULT_PORT);
     /*
     for (int i = 0; i < 3; i++) {
         Message msg = Image::buildImageMsg(i, owner_ip, owner_name, AUTH_PORT);
         const char * destIp = owner_ip.c_str();
-        reqRep->sendMessage(msg, destIp, PEER_IMAGES_PORT);
+        reqRepAuth->sendMessage(msg, destIp, PEER_IMAGES_PORT);
     }*/
     std::cout<<"DoS: Samples Sent!\n";
 }
@@ -276,8 +299,35 @@ void DoS::runAuthThread() {
  * Only runs the DB thread
  */
 void DoS::runDBThread() {
-    dbThread = std::thread(&DoS::runAuthSys, this);
+    dbThread = std::thread(&DoS::runDBSys, this);
 }
+
+/*
+ * Only runs the Mapping thread
+ */
+void DoS::runIPMapThread() {
+    mapThread = std::thread(&DoS::runNameToIpSys, this);
+}
+
+
+#pragma clang diagnostic push   // Ignore Infinite Loop
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+void DoS::runNameToIpSys() {
+    Profile credentials;
+
+    std::cout<<"DoS: Listening for Name to Ip resolution...\n";
+    while(true) {
+        Message reqMsg = Message();
+
+        // Listening For Mapping Resolution
+        if(reqRepMap->recRequest(reqMsg) > 0) {  // Listens for request
+            Profile p = retrieveUserDB(reqMsg.getMessage());
+            Message reply = buildReplyMsg(reqMsg.getRequestId(), p.ip, IP_MAP, dosIp, MAP_PORT);
+            reqRepMap->sendMessage(reply, reqMsg.getIP().c_str(), PEER_DEFAULT_PORT);
+        }
+    }
+}
+#pragma clang diagnostic pop
 
 
 #pragma clang diagnostic push   // Ignore Infinite Loop
@@ -287,7 +337,7 @@ void DoS::runDBSys() {
     while(true) {
         Message reqMsg = Message();
 
-        if(reqRep->recRequest(reqMsg) > 0) {  // Listening For DB requests
+        if(reqRepAuth->recRequest(reqMsg) > 0) {  // Listening For DB requests
             std::string ip = reqMsg.getIP();
             const char *robotIp = ip.c_str();
             std::cout<<"DoS: Robot IP: "<<robotIp<<"\n";
@@ -296,7 +346,7 @@ void DoS::runDBSys() {
             // Send the DB to the Robot
             const char * dbSize = std::to_string(db.size()).c_str();
             Message dbSizeMsg = buildRequestMsg(ROBOT, robotIp, ROBOT_PORT, dbSize);
-            reqRep->sendMessage(dbSizeMsg, robotIp, DB_PORT);
+            reqRepAuth->sendMessage(dbSizeMsg, robotIp, DB_PORT);
 
             // Send the DB entries
             sleep(1);
@@ -304,7 +354,7 @@ void DoS::runDBSys() {
             for ( it = db.begin(); it != db.end(); it++ ){
                 char * ip = const_cast<char *>(it->second.data());
                 Message userIp = buildRequestMsg(ROBOT, robotIp,ROBOT_PORT, ip);
-                reqRep->sendMessage(userIp, robotIp, DB_PORT);
+                reqRepAuth->sendMessage(userIp, robotIp, DB_PORT);
                 sleep(1);
             }
             std::cout << "DoS: Finished sending my DB to the Robot...\n";

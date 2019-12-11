@@ -21,6 +21,7 @@ enum PORTS {
     AUTH_PORT = 4040,
     LOGIN_PORT = 4041,
     DB_PORT = 4042,
+    MAP_PORT = 4044,
     ROBOT_PORT = 4043,//TODO
     PEER_DEFAULT_PORT = 5052,
     PEER_IMAGES_PORT = 5050,
@@ -48,12 +49,15 @@ private:
     Communication *com;
     int new_socket, login_socket;
 
-    RequestReply* reqRep;
+    RequestReply* reqRepAuth;
+    RequestReply* reqRepLogin;
+    RequestReply* reqRepMap;
 
     // Threads
     std::thread loginThread;
     std::thread authThread;
     std::thread dbThread;
+    std::thread mapThread;
 
     // Database
     std::map<std::string, std::string> activeUsers;
@@ -74,13 +78,18 @@ private:
 
 public:
     explicit DoS(const char * dosIp);
+
     void runLoginSys();
     void runAuthSys();
-    void runLoginThread();
-    void runAuthThread();
-    void join();
-    void runDBThread();
     void runDBSys();
+    void runNameToIpSys();
+
+    void runAuthThread();
+    void runLoginThread();
+    void runIPMapThread();
+    void runDBThread();
+
+    void join();
 
     Profile retrieveUserDB(std::string hostname);
 

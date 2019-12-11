@@ -18,8 +18,8 @@ private:
     Database * db;
 
     RequestReply* reqRep;
-    //RequestReply* reqRep;
-    //RequestReply* reqRep;
+    //RequestReply* reqRepAuth;
+    //RequestReply* reqRepAuth;
 
     void runMsgIdThread();
     void runMsgIdSys();

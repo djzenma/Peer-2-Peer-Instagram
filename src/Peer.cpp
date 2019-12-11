@@ -22,8 +22,8 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
     db = new Database(path);
 
     reqRep = new RequestReply(myIp, PEER_DEFAULT_PORT);
-    //reqRep = new RequestReply(myIp, PEER_IMAGES_PORT);
-    //reqRep = new RequestReply(myIp, PEER_IMAGES_PORT);
+    //reqRepAuth = new RequestReply(myIp, PEER_IMAGES_PORT);
+    //reqRepAuth = new RequestReply(myIp, PEER_IMAGES_PORT);
 
     //com->msgIdTx = com->init_socket(myIp, PEER_IMAGES_ID_PORT);
     runMsgIdThread();
@@ -84,7 +84,7 @@ std::string Peer::authenticate(std::string username, std::string password) {
         sendMyProfile(true, "", AUTH_PORT);
 
         // Request number of Samples
-        //Message replyMsgNumSamples = sendMsg(SAMPLES_NUM, dosIp_char, AUTH_PORT, "", reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
+        //Message replyMsgNumSamples = sendMsg(SAMPLES_NUM, dosIp_char, AUTH_PORT, "", reqRepAuth, PEER_DEFAULT_PORT, SEND_RECEIVE);
 
         // Request The Samples
         std::cout<<"Peer: Requesting Samples from DoS...\n";
@@ -101,20 +101,15 @@ std::string Peer::authenticate(std::string username, std::string password) {
 std::string Peer::login(std::string username, std::string password) {
     std::string cred = username + "/" + password;
 
-    char* cred_char = const_cast<char *>(cred.c_str());
     const char* dosIp_char = dosIp.c_str();
 
-    Message replyMsgChred = sendMsg(LOGIN, dosIp_char, LOGIN_PORT, cred_char, reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
-    if(replyMsgChred.getOperation() == OK) {
-        //std::thread sendImagesThread = std::thread(&Peer::sendMyImgs, this);
+    Message replyMsgChred = sendMsg(LOGIN, dosIp_char, LOGIN_PORT, cred, reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
+    if(replyMsgChred.getOperation() == OK) {    // If response is ok
+        // Send my images
         sendMyProfile(true, "", LOGIN_PORT);
 
-        // Request number of Samples
-        Message replyMsgNumSamples = sendMsg(SAMPLES_NUM, dosIp_char, LOGIN_PORT, "", reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
-
-
-        // Get The Samples
-        // Request number of Samples
+        // Request The Samples
+        std::cout<<"Peer: Requesting Samples from DoS...\n";
         Message replyMsgSamples = sendMsg(SAMPLES, dosIp_char, LOGIN_PORT, myName, reqRep, PEER_DEFAULT_PORT, SEND);
 
         getSamplesFromDoS();
@@ -131,7 +126,7 @@ void Peer::sendMyProfile(bool toDoS, std::string destIp, int PORT) {
     std::string numImgs = std::to_string(n);
     samples.setMessage(samples.getMessage() + std::to_string(n), samples.getMessageSize() + numImgs.size() + 1);
 
-    //Message dosReply = sendMsg(PROFILE, dosIp_char, AUTH_PORT, std::to_string(n), reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
+    //Message dosReply = sendMsg(PROFILE, dosIp_char, AUTH_PORT, std::to_string(n), reqRepAuth, PEER_DEFAULT_PORT, SEND_RECEIVE);
     //if(dosReply.getOperation() == OK) {
     // Send my photos
     if(toDoS) {

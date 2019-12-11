@@ -44,7 +44,8 @@ enum DOS_OPERATIONS {
     OK = 12,
     SAMPLES = 13,
     ROBOT = 14,
-    P2P = 15
+    P2P = 15,
+    IP_MAP = 16
 };
 
 
