@@ -256,7 +256,7 @@ void RequestReply::rec()
                     Message complete = Message(packet_marshalled);
                     printf("Inserting in Buffer \n");
                     mlock.lock();
-                    if(complete.getOperation() == SendImage)
+                    if(complete.getOperation() == SendImage || complete.getOperation() == UpdateViewCount)
                         rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                     else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
 
@@ -290,7 +290,7 @@ void RequestReply::rec()
                         Message complete = Message(marshalled);
                         std::cout << "Complete: " << complete.getRequestId() << std::endl;
                         mlock.lock();
-                        if(complete.getOperation() == SendImage)
+                        if(complete.getOperation() == SendImage || complete.getOperation() == UpdateViewCount)
                             rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, false);
                         else rec_buffer[complete.getRequestId()] = std::pair<Message, bool> (complete, true);
                         mlock.unlock();

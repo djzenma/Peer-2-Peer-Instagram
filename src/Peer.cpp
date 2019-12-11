@@ -141,13 +141,7 @@ void Peer::updateViewsForPeer(int image_id, int new_count, std::string user_name
 
     db->updateCount(image_id, user_name, new_count);
 }
-/*
-    Updates count for a certain user.
-    When the user views an image or when I want to change count;
-*/
-void Peer::requestMoreViews(int image_id,  const char * peerIp){
 
-}
 /*
     Handles all Request Messages.
 */
@@ -171,6 +165,7 @@ void Peer::dispatch(Message  msg){
             Message msg = Image::buildImageMsg(image_id , std::to_string(num_views)+","+username+","+sender_ip, request_id);
             msg.setIP(myIp);
             msg.setPort(PORT);
+            msg.setSenderName(myName);
             rrp->sendMessage(msg, sender_ip.c_str(), sender_port);
             std::tuple<std::string, int> userInfo(username, num_views); //add to db
             db->insertUser(image_id, userInfo);
@@ -185,6 +180,7 @@ void Peer::dispatch(Message  msg){
             Message msg = Image::buildProfileMsg(request_id);
             msg.setIP(myIp);
             msg.setPort(PORT);
+            msg.setSenderName(myName);
             rrp->sendMessage(msg, sender_ip.c_str(), sender_port);
         }
         case UpdateViewsRequestedImage:{  // update views for image I requested
