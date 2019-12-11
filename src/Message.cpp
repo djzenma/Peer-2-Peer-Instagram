@@ -38,7 +38,8 @@ void Message::deserialize(std::string decoded){
     port = hex_to_int(decoded.substr(61, 8));
     request_id = decoded.substr( 69, decoded.substr(69).find(";"));
     IP = decoded.substr(69+request_id.length()+1, decoded.substr(69+request_id.length()+1).find(";") );
-    msg_decoded = decoded.substr(69+request_id.length()+2+IP.length());
+    sender_name = decoded.substr(decoded.substr(69+request_id.length()+1+IP.length()+1,69+IP.length()+1+request_id.length()+1).find(";"));
+    msg_decoded = decoded.substr(69+request_id.length()+2+IP.length() + sender_name.length());
     message = msg_decoded;
 
 }
@@ -58,7 +59,7 @@ std::string Message::serialize(){
     // type: 1 byte | size: 2 bytes + 16 bytes  | operation : 2 bytes + 16 bytes
     // | rpc_id : 2 bytes + 16 bytes | img_id: 2 bytes + 8 bytes | storage_location | message
 
-    std::string to_encode = mtype + size_str + op_str + packet_index_str + img_id + tot_packets_str + port_str + request_id + ";" + IP + ";" + message;
+    std::string to_encode = mtype + size_str + op_str + packet_index_str + img_id + tot_packets_str + port_str + request_id + ";" + IP + ";" + sender_name + ";" + message;
     return to_encode;
 }
 
@@ -86,6 +87,14 @@ int Message::getPacketIndex(){
 }
 int Message::getTotalPackets(){
     return total_packets;
+}
+
+std::string Message::getSenderName(){
+    return sender_name;
+}
+
+void Message::setSenderName(std::string name) {
+    sender_name = name;
 }
 
 

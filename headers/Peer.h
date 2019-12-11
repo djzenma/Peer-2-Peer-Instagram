@@ -39,7 +39,7 @@ class Peer {
 
         int requestImageFromPeer(int imgId, const char *destPeerIp);
         int requestProfileFromPeer(const char *destPeerIp);
-
+        void updateViewsForPeer(int image_id, int new_count, std::string user_name, const char * peerIp);
         int viewImage(int image_id, std::string & path);
         void requestMoreViews(int image_id, const char * destPeerIp);
         

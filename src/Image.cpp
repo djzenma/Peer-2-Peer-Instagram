@@ -21,6 +21,7 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
             .packet_index = 0,
             .IP="",
             .port=0,
+            .sender_name ="",
             .msg_type = Reply
     };
 
@@ -50,6 +51,7 @@ Message Image::buildProfileMsg(std::string request_id) {
             .packet_index = 0,
             .IP="",
             .port=0,
+            .sender_name="",
             .msg_type = Reply
     };
 

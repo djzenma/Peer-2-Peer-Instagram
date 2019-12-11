@@ -11,17 +11,15 @@ int main(int argc,char **argv){
     int n= 0;
     if(strcmp(argv[1], "Server")==0){
         Peer p("10.40.32.170", "Manar", "127.0.0.1");
-        std::string path = "";
-        p.viewImage(7, path);
 
-        //sleep(10);
+        sleep(10);
 
-       // std::vector<Message> pending = p.getPending();
-//        for (int i=0; i< pending.size(); i++){
-//            cout << "Rejecting request: " << pending[i].getRequestId() << std::endl;
-//            n= n+1;
-//            p.Reject(pending[i].getRequestId());
-//        }
+        std::vector<Message> pending = p.getPending();
+        for (int i=0; i< pending.size(); i++){
+            cout << "Rejecting request: " << pending[i].getRequestId() << std::endl;
+            n= n+1;
+            p.Accept(pending[i].getRequestId());
+        }
         while(true){
 
         }

@@ -28,8 +28,9 @@
 
 enum serviceOperations{
     SendImage = 0,
-    UpdateViewCount = 1,
+    UpdateViewCount = 1, // from client side
     SendProfile = 2,
+    UpdateViewsRequestedImage = 3, // from server side
 };
 
 

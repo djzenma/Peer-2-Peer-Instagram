@@ -64,10 +64,9 @@ std::string stega_decode(std::string stego_image, bool include_cover){
     exec(str);
 
     if(include_cover){
-        str = "steghide extract -sf ";
+        str = std::string(DOCKER) + " extract -sf ";
         str = str  + EXTRACTED_IMAGE_PATH + " -p " + "HEY" ;
         str = str + " -xf "  + EXTRACTED_TXT + " -f";
-
         exec(str);
     }
 

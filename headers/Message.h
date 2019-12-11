@@ -25,6 +25,7 @@ struct requestInfo {
     int packet_index;                    // Unique request id
     std::string IP;
     int port;
+    std::string sender_name;
     MessageType msg_type;
 };
 
@@ -43,6 +44,7 @@ private:
     std::string request_id;
     std::string IP;
     int port;
+    std::string sender_name;
 
 protected:
     std::string serialize();
@@ -66,7 +68,7 @@ public:
     std::string getIP();
     std::string getRequestId();
     int getPort();
-
+    std::string getSenderName();
     // setters
     void setOperation (int operation);
     void setMessage (std::string message, size_t message_size);
@@ -77,6 +79,7 @@ public:
     void setIP (std::string ip);
     void setPort(int port);
     void setMessageSize(size_t message_size);
+    void setSenderName(std::string name);
 
     // BUILD ACK msg
     static Message buildAckMsg(Message & m);
