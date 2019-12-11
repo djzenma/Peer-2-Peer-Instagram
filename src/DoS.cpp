@@ -19,13 +19,12 @@ DoS::DoS(const char *dosIp) {
 }
 
 
-
 /*
  * Listen For Login Requests
  */
 #pragma clang diagnostic push // Ignore Infinite Loop
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
-/*void DoS::runLoginSys() {
+void DoS::runLoginSys() {
     int new_socket;
     char req[2000] = {0};
     Profile credentials;
@@ -50,7 +49,7 @@ DoS::DoS(const char *dosIp) {
         send(login_socket , res , strlen(res) , 0);
         std::cout<<"DoS: sent: "<<res<<"\n";
     }
-}*/
+}
 #pragma clang diagnostic pop
 
 

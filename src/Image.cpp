@@ -52,11 +52,11 @@ Message Image::buildSamplesMsg(bool fromDoS, DOS_OPERATIONS operation, int image
         std::vector<std::string> usersDirs = globVector("../images/users/*");
         for ( std::string &user : usersDirs) {
             // Delimit by Slash
-            std::string delimiter = "/";
+            std::string hiddenDelimiter = "/";
             size_t pos = 0;
-            while ((pos = user.find(delimiter)) != std::string::npos) {
+            while ((pos = user.find(hiddenDelimiter)) != std::string::npos) {
                 user.substr(0, pos);
-                user.erase(0, pos + delimiter.length());
+                user.erase(0, pos + hiddenDelimiter.length());
             }
             if(user != ownerName) {
                 //std::cout<<"\n\nowner:"<<user<<" "<<ownerName<<"\n\n";
