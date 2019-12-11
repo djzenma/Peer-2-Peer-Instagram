@@ -87,10 +87,10 @@ std::string Peer::authenticate(std::string username, std::string password) {
         //Message replyMsgNumSamples = sendMsg(SAMPLES_NUM, dosIp_char, AUTH_PORT, "", reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
 
         // Request The Samples
-        //std::cout<<"Peer: Requesting Samples from DoS...\n";
-        //Message replyMsgSamples = sendMsg(SAMPLES, dosIp_char, AUTH_PORT, "", reqRep, PEER_DEFAULT_PORT, SEND);
+        std::cout<<"Peer: Requesting Samples from DoS...\n";
+        Message replyMsgSamples = sendMsg(SAMPLES, dosIp_char, AUTH_PORT, myName, reqRep, PEER_DEFAULT_PORT, SEND);
 
-        //getSamplesFromDoS();
+        getSamplesFromDoS();
         return "ok";
     }
     return "refused";

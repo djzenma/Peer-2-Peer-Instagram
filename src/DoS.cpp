@@ -150,7 +150,7 @@ void DoS::sendSamples(std::string owner_ip, std::string owner_name) {
     int n = 3;
     int imagesId[3] = {0,1,2};
     Message samples = Image::buildSamplesMsg(true, SAMPLES, imagesId, dosIp, AUTH_PORT,
-                                             std::move(owner_name), 3);
+                                             std::move(owner_name), n);
     std::string numImgs = std::to_string(n);
     samples.setMessage(samples.getMessage() + std::to_string(n), samples.getMessageSize() + numImgs.size() + 1);
     reqRep->sendMessage(samples, owner_ip.c_str(), PEER_DEFAULT_PORT);

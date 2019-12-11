@@ -119,25 +119,28 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
     std::string imgToken;
     while ((pos = samples.find(delimiter)) != std::string::npos) {
         imgToken = samples.substr(0, pos);
-        std::cout<<"\n\n\n\n"<<imgToken.size()<<"\n\n\n\n"<<"\n\n\n";
         samples.erase(0, pos + delimiter.length());
         if(isDoS) {
             // Get owner Name
             int r = rand()%10000;
             // Process the hidden text
             saveImage(imgToken, imgId, "temp/" + std::to_string(r));    // save the image in a dummy dir
-            std::string hidden = stega_decode("./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".jpg", "./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId), false);    // decode the img from the dummy dir
+            std::string hidden = stega_decode("./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".jpg",
+                                       "./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".txt", false);    // decode the img from the dummy dir
+            std::cout<<"\nHIDDEN: "<<hidden<<"\n\n\n\n";
+
             std::string hiddenDelimiter = "/";
-            size_t pos = 0;
+            size_t position = 0;
             std::string hiddenToken;
-            while ((pos = hidden.find(hiddenDelimiter)) != std::string::npos) {
-                hiddenToken = hidden.substr(0, pos);
+            while ((position = hidden.find(hiddenDelimiter)) != std::string::npos) {
+                hiddenToken = hidden.substr(0, position);
                 profile.user= hiddenToken;
-                hiddenToken.erase(0, pos + hiddenDelimiter.length());
+                hidden.erase(0, position + hiddenDelimiter.length());
             }
             profile.ip = hidden;
+            std::cout<<"\nusername: "<<profile.user<<"\n\n\n\n";
 
-            saveImage(imgToken, imgId, "users/"+ profile.user); // save the img to the corresponding user
+            saveImage(imgToken, imgId, "users/" + profile.user); // save the img to the corresponding user
         }
         else
             saveImage(imgToken, imgId, directory);

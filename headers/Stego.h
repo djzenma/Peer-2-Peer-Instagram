@@ -19,5 +19,7 @@
 std::string stega_encode(std::string image_file,std::string secret_msg,std::string stego_image, bool include_cover);
 std::string stega_decode(std::string stego_image, std::string extracted_image,  bool include_cover);
 std::string replace_text(std::string image_file, std::string secret_msg);
+
+std::string read_file(std::string file_name);
 #endif
 

@@ -17,12 +17,12 @@ std::string read_file(std::string file_name){
     char buf[1024];
     std::ostringstream oss;
     FILE * ifs;
-    printf("Reading file \n");
+    //printf("Reading file %s, \n", file_name.c_str());
     //ifs = fopen(file_name.c_str(), "r");
     if (  (ifs = fopen(file_name.c_str(), "r")) ){
-        while((len = fread(buf, 1, sizeof(buf) - 1, ifs)) > 0){
+        while((len = static_cast<int>(fread(buf, 1, sizeof(buf) - 1, ifs))) > 0){
+            //std::cout<<"Reading";
             oss.write(buf, len);
-            printf("Reading");
         }
         std::string data = oss.str(); // get string data out of stream
         return data;
@@ -57,6 +57,8 @@ std::string stega_encode(std::string image_file, std::string secret_msg, std::st
 
     return read_file(stego_image);  // return output stego image
 }
+
+
 std::string stega_decode(std::string stego_image, std::string  extracted_path, bool include_cover){
     std::string extracted_text = extracted_path + ".txt";
 
@@ -74,6 +76,8 @@ std::string stega_decode(std::string stego_image, std::string  extracted_path, b
         exec(str);
     }
 
-
-    return read_file( std::string(extracted_text));
+    if(include_cover)
+        return  read_file(std::string(extracted_text));
+    else
+        return read_file(std::string(extracted_path));
 }
