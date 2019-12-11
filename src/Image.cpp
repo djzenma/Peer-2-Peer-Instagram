@@ -142,8 +142,30 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
 
             saveImage(imgToken, imgId, "users/" + profile.user); // save the img to the corresponding user
         }
-        else
-            saveImage(imgToken, imgId, directory);
+        else {
+            // Previously : saveImage(imgToken, imgId, directory);
+            // Changed:
+            // Get owner Name
+            int r = rand()%10000;
+            // Process the hidden text
+            saveImage(imgToken, imgId, "temp/" + std::to_string(r));    // save the image in a dummy dir
+            std::string hidden = stega_decode("./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".jpg",
+                                              "./../images/temp/" + std::to_string(r) + "/" + std::to_string(imgId) + ".txt", false);    // decode the img from the dummy dir
+            std::cout<<"\nHIDDEN: "<<hidden<<"\n\n\n\n";
+
+            std::string hiddenDelimiter = "/";
+            size_t position = 0;
+            std::string hiddenToken;
+            while ((position = hidden.find(hiddenDelimiter)) != std::string::npos) {
+                hiddenToken = hidden.substr(0, position);
+                profile.user= hiddenToken;
+                hidden.erase(0, position + hiddenDelimiter.length());
+            }
+            profile.ip = hidden;
+            //std::cout<<"\nusername: "<<profile.user<<"\n\n\n\n";
+
+            saveImage(imgToken, imgId, directory + profile.user); // save the img to the corresponding user
+        }
         imgId++;
     }
 
