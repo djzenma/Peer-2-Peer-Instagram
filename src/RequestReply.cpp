@@ -387,7 +387,7 @@ std::vector<Message> RequestReply::getPending() {
     std::vector<Message> messages;
     std::map<std::string, std::pair<Message,bool>>::iterator it;
     for ( it = rec_buffer.begin(); it != rec_buffer.end(); it++ ){
-        if(it->second.first.getMessageType()==Request){
+        if(it->second.first.getMessageType()==Request && !it->second.second){
             messages.push_back(it->second.first);
         }
     }

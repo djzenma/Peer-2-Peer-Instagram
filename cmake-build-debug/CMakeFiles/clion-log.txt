@@ -1,4 +1,21 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/owner/CLionProjects/Distributed-Client
+/home/manar/CLion-2019.3.1/clion-2019.3.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets
+-- The C compiler identification is GNU 7.4.0
+-- The CXX compiler identification is GNU 7.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.1") 
+-- Checking for module 'jsoncpp'
+--   Found jsoncpp, version 1.7.4
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/owner/CLionProjects/Distributed-Client/cmake-build-debug
+-- Build files have been written to: /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug
