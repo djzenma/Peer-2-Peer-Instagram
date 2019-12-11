@@ -38,8 +38,8 @@ void Message::deserialize(std::string decoded){
     port = hex_to_int(decoded.substr(61, 8));
     request_id = decoded.substr( 69, decoded.substr(69).find(";"));
     IP = decoded.substr(69+request_id.length()+1, decoded.substr(69+request_id.length()+1).find(";") );
-    sender_name = decoded.substr(decoded.substr(69+request_id.length()+1+IP.length()+1,69+IP.length()+1+request_id.length()+1).find(";"));
-    msg_decoded = decoded.substr(69+request_id.length()+2+IP.length() + sender_name.length());
+    sender_name = decoded.substr(69+request_id.length()+2+IP.length(), decoded.substr(69+request_id.length()+2+IP.length(),69+IP.length()+request_id.length()+2).find(";"));
+    msg_decoded = decoded.substr(69+request_id.length()+3+IP.length() + sender_name.length());
     message = msg_decoded;
 
 }

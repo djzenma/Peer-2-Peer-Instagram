@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
-string.h
--
-Message.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
-Stego.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Stego.h
-
 /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
 cstddef
 -
@@ -25,22 +17,6 @@ cstring
 -
 utils.h
 /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/utils.h
-
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Stego.h
-stdio.h
--
-string
--
-stdlib.h
--
-iostream
--
-fstream
--
-sstream
--
-Image.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
 
 /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/base64.h
 string
@@ -90,7 +66,9 @@ fstream
 Message.h
 /home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
 
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Image.cpp
-../headers/Image.h
-/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h
+/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Message.cpp
+../headers/Message.h
+/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h
+../headers/utils.h
+/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/utils.h
 

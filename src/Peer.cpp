@@ -187,7 +187,7 @@ void Peer::dispatch(Message  msg){
             msg.setPort(PORT);
             rrp->sendMessage(msg, sender_ip.c_str(), sender_port);
         }
-        case UpdateViewsRequestedImage:{
+        case UpdateViewsRequestedImage:{  // update views for image I requested
             std::string stego_image = "../images/requested/" + std::to_string(msg.getImageId()) + ".jpg";
             std::string hidden_text = stega_decode(stego_image, true);
             std::vector<std::string> parsed = parseHidden(hidden_text);
