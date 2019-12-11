@@ -112,7 +112,7 @@ void RequestReply::send(argsSend a)
             std::vector<int> packets_to_resend;
 
             if(strcmp(packets_dropped.c_str(), ",") == 0){
-                    printf("Drooped is ZERO \n");
+                    printf("Dropped is ZERO \n");
             }
             else{
                 std::string delimiter = ",";

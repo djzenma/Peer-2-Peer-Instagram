@@ -1,13 +1,37 @@
+#include <fcntl.h>
+#include <sys/stat.h>
 #include "../headers/Image.h"
 
 /*
     Builds a reply message with the stego image
 */
 
+
+bool makeDirectory(std::string dir){
+    struct stat info;
+    int file_stat = stat(dir.c_str(), &info);
+    if (file_stat != 0) {
+        if (mkdir(dir.c_str(),S_IRWXU) != 0) {
+            std::cout << "Not Able to Create Directory\n";
+            return true;
+        }
+    }
+    else if( info.st_mode & S_IFDIR ) {
+        printf("%s is a directory\n", dir.c_str());
+        return true;
+    }
+    else
+        std::cout << "Error occured when creating directory\n";
+    return false;
+}
+
 Message Image::buildImageMsg(int image_id, std::string hidden, std::string request_id) {
 
-    std::string path = "../images/mine/" + std::to_string(image_id) + ".jpg";
-    std::string temp_path = "../images/stego/" + std::to_string(image_id) + "_stego.jpg";
+    std::string path = "../images/mine/profile/" + std::to_string(image_id) + ".jpg";
+
+
+
+    std::string temp_path = "../images/stego/" + request_id + "_" + std::to_string(image_id) + "_stego.jpg";
 
     std::string hidden_text = hidden;
 
@@ -31,7 +55,7 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
 
 
 Message Image::buildProfileMsg(std::string request_id) {
-    std::string path = "../images/mine/profile/";
+    std::string path = "../images/mine/samples/";
     std::string delimiter = "111110";
     std::string msg= "";
 
@@ -84,11 +108,35 @@ std::string Image::readImage(std::string path) {
 }
 
 void Image::saveImage(std::string image, int image_id, std::string directory){
+    std::string path = "./../images/"+ directory + "/";
+    std::string temp_loc = path + std::to_string(image_id) + ".jpg";
 
-    std::string temp_loc = "./../images/"+ directory + "/" + std::to_string(image_id) + ".jpg";
+    struct stat info;
+    int file_stat = stat(path.c_str(), &info);
+    if (file_stat != 0) {
+        if (mkdir(path.c_str(),S_IRWXU) != 0)
+            std::cout << "Not Able to Create Directory\n";
+    }
+    else if( info.st_mode & S_IFDIR )
+        printf( "%s is a directory\n", path.c_str());
+    else
+        std::cout << "Error occured when creating directory\n";
+
+    std::string log = "\n\n\n\nImage directory: "+ temp_loc +"\n\n\n\n\n";
+    std::perror(log.c_str());
 
     std::ofstream outFile;
     outFile.open(temp_loc);
     outFile << image;
     outFile.close();
 }
+
+//void Image::saveImage(std::string image, int image_id, std::string directory){
+//
+//    std::string temp_loc = "./../images/"+ directory + "/" + std::to_string(image_id) + ".jpg";
+//
+//    std::ofstream outFile;
+//    outFile.open(temp_loc);
+//    outFile << image;
+//    outFile.close();
+//}

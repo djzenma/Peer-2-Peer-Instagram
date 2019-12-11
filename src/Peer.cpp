@@ -12,16 +12,16 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
 
     serveThread = std::thread(&Peer::serveRequst,this);
     serveThread.detach();
-
 }
-
 
 void Peer::Accept(std::string msg_id){
     rrp->Accept(msg_id);
 }
+
 void Peer::Reject(std::string msg_id){
     rrp->Reject(msg_id);
 }
+
 std::vector<Message> Peer::getPending(){
     return rrp->getPending();
 }
@@ -51,7 +51,7 @@ int Peer::requestImageFromPeer(int imgId, const char *destPeerIp) {
         }
         else{
             printf("Saving image \n");
-            Image::saveImage(reply_msg.getMessage(),imgId, "requested");
+            Image::saveImage(reply_msg.getMessage(),imgId, "requested/images/" + reply_msg.getSenderName()  );
             return -1;
         }
     }
@@ -62,9 +62,10 @@ int Peer::requestImageFromPeer(int imgId, const char *destPeerIp) {
 }
 
 // Should take user name as an argument
-int Peer::viewImage(int image_id, std::string & path) {
-    std::string stego_image = "../images/requested/" + std::to_string(image_id) + ".jpg";
-    std::string hidden_text = stega_decode(stego_image, true);
+int Peer::viewImage(int image_id, std::string userName) {
+    std::string stego_image = "../images/requested/images/"+userName+"/" + std::to_string(image_id) + ".jpg";
+    std::string extracted_path = "../images/stego/temp/" + userName + "_" + std::to_string(image_id) + ".jpg";
+    std::string hidden_text = stega_decode(stego_image, extracted_path, true);
     std::vector<std::string> parsed = parseHidden(hidden_text);
 
     int num_views = atoi(parsed[0].c_str());
@@ -74,8 +75,7 @@ int Peer::viewImage(int image_id, std::string & path) {
     if (num_views > 0){
         num_views--;
         std::string new_hidden_text = std::to_string(num_views) + hidden_text.substr(hidden_text.find(','));
-        stega_encode(std::string(EXTRACTED_IMAGE_PATH), new_hidden_text, stego_image, true);
-        path = std::string(EXTRACTED_IMAGE_PATH);
+        stega_encode(extracted_path, new_hidden_text, stego_image, true);
 
         Message msg = buildRequestMsg(UpdateViewCount, image_id);
         msg.setMessage(std::to_string(num_views),std::to_string(num_views).length());
@@ -87,7 +87,7 @@ int Peer::viewImage(int image_id, std::string & path) {
         return num_views;
     }
     else {
-        if( std::remove( std::string(EXTRACTED_IMAGE_PATH).c_str()) != 0 )
+        if( std::remove( extracted_path.c_str()) != 0 )
             perror( "Error deleting extracted image file" );
         else
             printf( "Extracted image file successfully deleted" );
@@ -119,7 +119,7 @@ int Peer::requestProfileFromPeer(const char *destPeerIp) {
         } else {
             printf("Saving image \n");
             std::string profile = reply_msg.getMessage();
-            Image::reconstructSamplesMsg(reply_msg, "requested/profile" ,6);
+            Image::reconstructSamplesMsg(reply_msg, "requested/profile/"+ reply_msg.getSenderName() ,6);
             //imgMsg = reply_msg;
             return -1;
         }
@@ -161,7 +161,7 @@ void Peer::dispatch(Message  msg){
     int sender_port =  msg.getPort();
 
 
-    std::string username="Manar";
+    std::string username = msg.getSenderName();
 
     switch (msg.getOperation())
     {
@@ -188,15 +188,13 @@ void Peer::dispatch(Message  msg){
             rrp->sendMessage(msg, sender_ip.c_str(), sender_port);
         }
         case UpdateViewsRequestedImage:{  // update views for image I requested
-            std::string stego_image = "../images/requested/" + std::to_string(msg.getImageId()) + ".jpg";
-            std::string hidden_text = stega_decode(stego_image, true);
-            std::vector<std::string> parsed = parseHidden(hidden_text);
-
-            int num_views = atoi(parsed[0].c_str());
-            std::string owner_ip = parsed[1];
-            std::string owner_name = parsed[2];
-            std::string new_hidden_text = std::to_string(num_views) + hidden_text.substr(hidden_text.find(','));
-            stega_encode(std::string(EXTRACTED_IMAGE_PATH), new_hidden_text, stego_image, true);
+            std::string stego_image = "../images/requested/images/" + username + "/" + std::to_string(msg.getImageId()) + ".jpg";
+            std::string extracted_path = "../images/stego/temp/" + request_id + ".jpg";
+            std::string extracted_text = "../images/stego/temp/" + request_id + ".txt";
+            std::string hidden_text = stega_decode(stego_image, extracted_path, true);
+            std::string num_views = msg.getMessage();
+            std::string new_hidden_text = num_views + hidden_text.substr(hidden_text.find(','));
+            stega_encode(extracted_path + request_id + ".jpg", new_hidden_text, stego_image, true);
         }
     };
 }

@@ -2,6 +2,8 @@
 #define IMAGE_H
 
 #include <string.h>
+#include <stdio.h>
+
 #include "Message.h"
 #include "Stego.h"
 

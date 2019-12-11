@@ -13,8 +13,6 @@
 
 #define COVER_PATH "../images/stego/cover.jpeg"
 #define SECRET_TEXT_PATH "../images/stego/temp/secret.txt"
-#define EXTRACTED_IMAGE_PATH "../images/stego/temp/extracted.jpeg"
-#define EXTRACTED_TXT "../images/stego/temp/extracted.txt"
 
 #define PASS_PHRASE "HEY"
 
@@ -22,5 +20,5 @@
 
 
 std::string stega_encode(std::string image_file,std::string secret_msg,std::string stego_image, bool include_cover);
-std::string stega_decode(std::string stego_image, bool include_cover);
+std::string stega_decode(std::string stego_image, std::string extracted_image,  bool include_cover);
 #endif
