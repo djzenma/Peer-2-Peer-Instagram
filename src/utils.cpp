@@ -78,7 +78,7 @@ void copyImage(std::string src, std::string dst){
     ifs.close();
 }
 
-void saveImage(std::string image, int image_id, std::string directory){
+void saveImg(std::string image, int image_id, std::string directory){
 
     std::string temp_loc = "./../images/"+ directory + "/" + std::to_string(image_id) + ".jpg";
 
@@ -139,4 +139,10 @@ std::vector<std::string> globVector(const std::string& pattern){
     }
     globfree(&glob_result);
     return files;
+}
+
+std::string getCurrentDir() {
+    char buffer[1024];
+    std::string dir = getcwd(buffer, sizeof(buffer));
+    return dir.replace(dir.size() -17, dir.size(), "");
 }

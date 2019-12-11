@@ -200,8 +200,6 @@ void Image::saveImage(std::string image, int image_id, std::string directory){
     else
         std::cout << "Error occured when creating directory\n";
 
-    std::string log = "\n\n\n\nImage directory: "+ temp_loc +"\n\n\n\n\n";
-    std::perror(log.c_str());
 
     std::ofstream outFile;
     outFile.open(temp_loc);

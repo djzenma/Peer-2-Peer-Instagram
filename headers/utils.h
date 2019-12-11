@@ -70,7 +70,7 @@ std::string getIP(struct sockaddr_in addr);
 
 bool is_number(const std::string s);
 
-std::string saveImage(std::string image, int image_id);
+std::string saveImg(std::string image, int image_id);
 
 Message buildRequestMsg(DOS_OPERATIONS operation, const std::string senderIP, const int senderPort, const std::string msg);
 Message buildReplyMsg(std::string requestId, const std::string msg, DOS_OPERATIONS operation, const std::string senderIP, const int senderPort);
@@ -78,5 +78,6 @@ std::string generateRequestId(const std::string ip);
 
 
 std::vector<std::string> globVector(const std::string& pattern);
+std::string getCurrentDir();
 
 #endif
