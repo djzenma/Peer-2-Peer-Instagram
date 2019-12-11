@@ -59,7 +59,7 @@ Message Image::buildSamplesMsg(bool fromDoS, DOS_OPERATIONS operation, int image
                 user.erase(0, pos + delimiter.length());
             }
             if(user != ownerName) {
-                std::cout<<"\n\nowner:"<<user<<" "<<ownerName<<"\n\n";
+                //std::cout<<"\n\nowner:"<<user<<" "<<ownerName<<"\n\n";
                 path = "../images/users/" + user + "/";
                 for (int i = 0; i < n; i++) {
                     std::string imgPath = path + std::to_string(images_id[i]) + ".jpg";
@@ -138,7 +138,7 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
                 hidden.erase(0, position + hiddenDelimiter.length());
             }
             profile.ip = hidden;
-            std::cout<<"\nusername: "<<profile.user<<"\n\n\n\n";
+            //std::cout<<"\nusername: "<<profile.user<<"\n\n\n\n";
 
             saveImage(imgToken, imgId, "users/" + profile.user); // save the img to the corresponding user
         }
