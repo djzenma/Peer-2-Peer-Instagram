@@ -11,11 +11,21 @@ using namespace std;
 void getimageInfo(string stego_image, int & num_views , string & owner_ip , string & owner_name)
 {
     std::string extracted_path = "../images/stego/temp/scratch.jpg";
-    std::string hidden_text = stega_decode(stego_image, extracted_path, true);    std::vector<std::string> parsed = parseHidden(hidden_text);
-
+    std::string hidden_text = stega_decode(stego_image, extracted_path, true);
+    std::vector<std::string> parsed = parseHidden(hidden_text);
     num_views = atoi(parsed[0].c_str());
     owner_ip = parsed[1];
     owner_name = parsed[2];
+}
+
+
+void getSampleInfo(string sample_image, string & owner_ip , string & owner_name)
+{
+    std::string extracted_path = "../images/stego/temp/scratch.jpg";
+    std::string hidden_text = stega_decode(sample_image, extracted_path, true);
+    std::vector<std::string> parsed = parseHidden(hidden_text);
+    owner_name = parsed[0];
+    owner_ip = parsed[1];
 }
 
 int main(int argc,char **argv){

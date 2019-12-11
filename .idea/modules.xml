@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Distributed-Client.iml" filepath="$PROJECT_DIR$/.idea/Distributed-Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Dist_Sockets.iml" filepath="$PROJECT_DIR$/.idea/Dist_Sockets.iml" />
     </modules>
   </component>
 </project>

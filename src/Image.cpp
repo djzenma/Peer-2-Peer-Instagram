@@ -29,8 +29,6 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
 
     std::string path = "../images/mine/profile/" + std::to_string(image_id) + ".jpg";
 
-
-
     std::string temp_path = "../images/stego/" + request_id + "_" + std::to_string(image_id) + "_stego.jpg";
 
     std::string hidden_text = hidden;
