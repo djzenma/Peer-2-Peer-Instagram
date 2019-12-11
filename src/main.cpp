@@ -11,37 +11,7 @@
 using namespace std;
 
 
-string getIp(std::string imageId){
-    string image = "/Users/owner/CLionProjects/Distributed-Client/images/requested/"+imageId+".jpg";
-    std::string output = stega_decode(image, true); // TODO
-    stringstream ss(output);
-    string  token [3];
-    int i =0 ;
-    while (getline(ss, token[i], ',')) {
-        i++ ;
-    }
-    int numViews = stoi(token[0]);
-    std::string senderPort= token[1];
-    std::string senderIp= token[2];
-    return senderIp;
 
-}
-
-string getPort(std::string imageId){
-    string image = "/Users/owner/CLionProjects/Distributed-Client/images/requested/"+imageId+".jpg";
-    std::string output = stega_decode(image, true); // TODO
-    stringstream ss(output);
-    string  token [3];
-    int i =0 ;
-    while (getline(ss, token[i], ',')) {
-        i++ ;
-    }
-    int numViews = stoi(token[0]);
-    std::string senderPort= token[1];
-    std::string senderIp= token[2];
-    return senderPort;
-
-}
 
 int main(int argc,char **argv){
 
