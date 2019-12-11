@@ -73,6 +73,8 @@ std::string stega_decode(std::string stego_image, std::string  extracted_path, b
         exec(str);
     }
 
-    
-    return read_file( std::string(extracted_text));
+    if(include_cover)
+        return  read_file(std::string(extracted_text));
+    else
+        return read_file(std::string(extracted_path));
 }

@@ -22,7 +22,7 @@ void getimageInfo(string stego_image, int & num_views , string & owner_ip , stri
 void getSampleInfo(string sample_image, string & owner_ip , string & owner_name)
 {
     std::string extracted_path = "../images/stego/temp/scratch.jpg";
-    std::string hidden_text = stega_decode(sample_image, extracted_path, true);
+    std::string hidden_text = stega_decode(sample_image, extracted_path, false);
     std::vector<std::string> parsed = parseHidden(hidden_text);
     owner_name = parsed[0];
     owner_ip = parsed[1];
