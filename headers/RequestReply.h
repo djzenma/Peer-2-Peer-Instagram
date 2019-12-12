@@ -53,16 +53,18 @@ private:
     std::map<std::string, Message> acks;
     std::vector<Message> createPackets(Message& m);
 
-    void send(argsSend a);
-    void rec();
-    bool recieveACK(std::string ack_id, Message & ack_msg);
 public:
 
     RequestReply(const char * host_ip, const int PORT);
 
+    void send(argsSend a);
     std::string sendMessage(Message & m, const char* IP, const int PORT);
-    int recReply(Message & m, std::string request_id);  // reqID of the request
-    int recRequest(Message & m);    // Returns message of type Request, > 0
+
+    void rec();
+    int recReply(Message & m, std::string request_id);
+    int recRequest(Message & m);
+
+    bool recieveACK(std::string ack_id, Message & ack_msg);
 
     void Accept(std::string msg_id);
     void Reject(std::string msg_id);

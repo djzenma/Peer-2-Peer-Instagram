@@ -18,15 +18,16 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
     this->dosIp = dosIp;
     //com = new Communication();
 
-    std::string path = (std::string)PATH +"./../images/DB.json";
-    db = new Database(path);
 
     reqRep = new RequestReply(myIp, PEER_DEFAULT_PORT);
     //reqRepAuth = new RequestReply(myIp, PEER_IMAGES_PORT);
     //reqRepAuth = new RequestReply(myIp, PEER_IMAGES_PORT);
 
-    //com->msgIdTx = com->init_socket(myIp, PEER_IMAGES_ID_PORT);
-    runMsgIdThread();
+    db = new Database("../images/DB.json");
+
+    serveThread = std::thread(&Peer::serveRequst,this);
+    serveThread.detach();
+
 }
 
 Message Peer::sendMsg(DOS_OPERATIONS operation, const char *destIp, int destPort, std::string msg,
@@ -140,25 +141,6 @@ void Peer::sendMyProfile(bool toDoS, std::string destIp, int PORT) {
     }
 }
 
-void Peer::requestProfileFrom(std::string destIp, bool robot) {
-    int n = 6;
-    const char* destIp_char = destIp.c_str();
-    int port;
-    if(robot)
-        port = ROBOT_PORT;
-    else
-        port = PEER_IMAGES_ID_PORT;
-
-    RequestReply* rrp = new RequestReply(myIp.c_str(), port);
-    Message res = sendMsg(PROFILE, destIp_char, PEER_IMAGES_ID_PORT, "", rrp, PEER_DEFAULT_PORT, SEND_RECEIVE);
-    if(res.getMessage() == "ok") {
-        for(int i=0; i<n; i++) {
-            Message img = receiveMsg(port); // TODO:: Port: PEER_IMAGES_ID_PORT, destination dir: (robot) ? ROBOT+destIp+"/":REQ
-            sleep(1);
-        }
-    }
-
-}
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
@@ -174,38 +156,6 @@ void Peer::getSamplesFromDoS() {
 #pragma clang diagnostic pop
 
 
-void Peer::sendImageToPeer(Message &m ,std::string destIp, int destPort ) {
-
-    int num_views = rand()%10+1;
-    std::tuple<std::string, int> userInfo(destIp, num_views); //add to db
-    db->insertUser(m.getImageId(), userInfo);
-
-    const char * destIp_char = destIp.c_str();
-    sendMsg(PROFILE, destIp_char, destPort, m.getMessage(), reqRep, PEER_DEFAULT_PORT, SEND);
-}
-
-/*
- * Requests an image from a Peer
- */
-Message Peer::requestImageFromPeer(int imgId, const char *destPeerIp) {
-    bool flag = true ;
-    std::cout<<"Peer "<<myName<<": requesting image from other Peer!\n";
-
-    Message res = sendMsg(PROFILE, destPeerIp, PEER_IMAGES_ID_PORT,
-                          const_cast<char *>(std::to_string(imgId).c_str()), reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
-    if(res.getMessage() == "ok") {
-        std::cout<<"Peer "<<myName<<": waiting for the image from other Peer!\n";
-        Message image;
-
-        receiveMsg(PEER_IMAGES_PORT); // TODO:: PEER_IMAGES_PORT, SAVE PATH = REQ
-        std::cout<<"Peer "<<myName<<": Image Received Successfully from other Peer!\n";
-        return image;
-    }
-    else
-        std::cout<<"Peer: Image not received from other Peer!\n";
-}
-
-
 std::string Peer::getMyIP() {
     return myIp;
 }
@@ -214,137 +164,241 @@ std::string Peer::getMyIP() {
 std::string Peer::getMyName() {
     return myName;
 }
-/*
- * Run the Msg Id thread
- */
-void Peer::runMsgIdThread() {
-    msgIdThread = std::thread(&Peer::runMsgIdSys, this);
-}
 
-/*
- * Listens for Msg Id requests
- */
-#pragma clang diagnostic push   // Ignore Infinite Loop
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-void Peer::runMsgIdSys() {
-    int new_socket;
 
-    std::cout<<"Peer: Listening for Msg ID requests...\n";
-    while(true) {
-        char req[2000] = {0};
 
-        // Listening For Msg ID requests
-        //new_socket = com->listenTx(com->msgIdTx, req);
-        send(new_socket , "ok" , strlen("ok") , 0);
-
-        if(strcmp(req, "profile") == 0) {
-            //std::string peerIp = getIP(com->msgIdTx.address);
-            //std::cout << "Peer: Sending My Profile to IP: " << peerIp << "\n";
-            //sendMyProfile(false, peerIp, PEER_IMAGES_ID_PORT);
-        }
-        else {
-            // Send him the requested ID
-            //std::string peerIp = getIP(com->msgIdTx.address);
-            //std::cout << "Peer: Sending The requested image with ID "<<req<<" to IP: " << peerIp << "\n";
-            //Message imgMsg = com->buildImageMsg(std::stoi(req), myIp, myName);
-            //sendImageToPeer(imgMsg,peerIp, PEER_IMAGES_PORT ) ;
-            //std::cout << "Peer "<<myName<<": Finished Sending The requested image with ID "<<req<<" to IP: " << peerIp << "\n";
-        }
-
-    }
-}
-
-#pragma clang diagnostic pop
 
 void Peer::join() {
-if (msgIdThread.joinable())
-msgIdThread.join();
+    serveThread.join();
 }
 
-std::vector<Message> Peer::getDbFromDoS(int n) {
-    std::vector<Message> images;
-    bool flag = true ;
-    for (int i=0; i<n; i++) {
-        Message image;
-        // com->getImage(flag ,image, PEER_IMAGES_PORT, myIp, );
-        images.push_back(image);
-    }
-    return images;
+
+
+
+
+void Peer::Accept(std::string msg_id){
+    reqRep->Accept(msg_id);
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-void Peer::listenForDBRequests (const char *destIp  )
-{
-    int new_socket;
-    std::cout<<"Peer: Listening for DB requests...\n";
-    while(true) {
-        char req[2000] = {0};
+void Peer::Reject(std::string msg_id){
+    reqRep->Reject(msg_id);
+}
 
-        // Listening For DB requests
-        //new_socket = com->listenTx(com->peerDBTx, req);
-        //std::string robotIp = getIP(com->peerDBTx.address);
-        //std::cout<<"Peer: Robot IP: "<<robotIp<<"\n";
+std::vector<Message> Peer::getPending(){
+    return reqRep->getPending();
+}
 
-        if(strcmp(req, "robot") == 0) {   // Send the DB to the Robot
-            std::cout << "Peer: Sending my DB to the Robot...\n";
 
-            //what if image not sent to any one
-            int numImages = 6 ;
-            for (int i=0 ; i< numImages ;i++) { //loop over images
-                std::map <std::string,int> table= db->getAllUsers(i);
-                int mapSize = table.size();
-                const char * dbSize = std::to_string(mapSize).c_str(); //listen foe size*2
-                send(new_socket, dbSize, strlen(dbSize), 0);
+std::map<std::string, int> Peer::getImageInfo(int img_id) {
+    return db->getAllUsers(img_id);
+}
 
-                std::map<std::string, int>::iterator it;
-                for ( it = table.begin(); it != table.end(); it++ )
-                {
-                    //com->comMsg(destIp, DB_PORT, const_cast<char *>(it->first.c_str()), SEND);
-                    sleep(1);
-                    //com->comMsg(destIp, DB_PORT, const_cast<char *>(std::to_string(it->second).c_str()), SEND);
-                    sleep(1);
-                }
 
-            }
+int Peer::requestImageFromPeer(int imgId, const char *destPeerIp) {
+    Message m = buildRequest(SendImage, imgId);
+    m.setSenderName(myName);
+    std::string send_res = reqRep->sendMessage(m, destPeerIp, PEER_DEFAULT_PORT);
+    std::cout << strcmp(send_res.c_str(), "ok") << std::endl;
+    if(strcmp(send_res.c_str(), "ok") == 0){
+        Message reply_msg;
+        int reply= 0 ;
+        // for (int i=0 ;i< 50 && !reply ;i++)
+        while(1 && !reply)
+        {
+            sleep(1);
+            reply = reqRep->recReply(reply_msg, m.getRequestId());
+        }
 
-            std::cout << "Peer: Finished sending my DB to the Robot...\n";
+        if(!reply){
+            printf("Timeout! Didn't recieve a reply \n");
+            return -1;
+        }
+        else{
+            printf("Saving image \n");
+            Image::saveImage(reply_msg.getMessage(),imgId, "requested/images/" + reply_msg.getSenderName()  );
+            return -1;
         }
     }
+    else{
+        printf("Failed Sending Image request \n");
+        return -1;
+    }
+}
 
+// Should take user name as an argument
+int Peer::viewImage(int image_id, std::string userName) {
+    std::string stego_image = "../images/requested/images/"+userName+"/" + std::to_string(image_id) + ".jpg";
+    std::string extracted_path = "../images/stego/temp/" + userName + "_" + std::to_string(image_id) + ".jpg";
+    std::string hidden_text = stega_decode(stego_image, extracted_path, true);
+    std::vector<std::string> parsed = parseHidden(hidden_text);
+
+    int num_views = atoi(parsed[0].c_str());
+    std::string owner_ip = parsed[1];
+    std::string owner_name = parsed[2];
+
+    if (num_views > 0){
+        num_views--;
+        std::string new_hidden_text = std::to_string(num_views) + hidden_text.substr(hidden_text.find(','));
+        stega_encode(extracted_path, new_hidden_text, stego_image, true);
+
+        Message msg = buildRequest(UpdateViewCount, image_id);
+        msg.setMessage(std::to_string(num_views),std::to_string(num_views).length());
+        msg.setIP(myIp);
+        msg.setPort(PEER_DEFAULT_PORT);
+        msg.setSenderName(myName);
+
+        reqRep->sendMessage(msg, owner_ip.c_str(), PEER_DEFAULT_PORT);
+        // Inform Owner of the new count
+        return num_views;
+    }
+    else {
+        if( std::remove( extracted_path.c_str()) != 0 )
+            perror( "Error deleting extracted image file" );
+        else
+            printf( "Extracted image file successfully deleted" );
+
+        if( std::remove(stego_image.c_str()) != 0 )
+            perror( "Error deleting  image file" );
+        else
+            printf( "image file successfully deleted" );
+        return num_views;
+    }
+}
+
+int Peer::requestProfileFromPeer(const char *destPeerIp) {
+    Message m = buildRequest(SendProfile, 0);
+    m.setSenderName(myName);
+    std::string send_res = reqRep->sendMessage(m, destPeerIp, PEER_DEFAULT_PORT);
+    std::cout << strcmp(send_res.c_str(), "ok") << std::endl;
+    if (strcmp(send_res.c_str(), "ok") == 0) {
+        Message reply_msg;
+        int reply = 0;
+        // for (int i=0 ;i< 50 && !reply ;i++)
+        while (1 && !reply) {
+            sleep(1);
+            reply = reqRep->recReply(reply_msg, m.getRequestId());
+        }
+
+        if (!reply) {
+            printf("Timeout! Didn't recieve a reply \n");
+            return -1;
+        } else {
+            printf("Saving image \n");
+            std::string profile = reply_msg.getMessage();
+            Image::reconstructSamplesMsg(reply_msg, "requested/profile/"+ reply_msg.getSenderName() ,6);
+            //imgMsg = reply_msg;
+            return -1;
+        }
+    } else {
+        printf("Failed Sending Profile request \n");
+        return -1;
+    }
+}
+
+
+void Peer::updateViewsForPeer(int image_id, int new_count, std::string user_name, const char * peerIp){
+    Message msg = buildRequest(UpdateViewsRequestedImage, image_id);
+    std::string num_views = std::to_string(new_count);
+    msg.setMessage(num_views, num_views.length());
+    msg.setIP(myIp);
+    msg.setPort(PEER_DEFAULT_PORT);
+    msg.setSenderName(myName);
+    reqRep->sendMessage(msg, peerIp, PEER_DEFAULT_PORT);
+
+    db->updateCount(image_id, user_name, new_count);
+}
+
+/*
+    Handles all Request Messages.
+*/
+void Peer::dispatch(Message  msg){
+
+    printf("Request Number: %i\n", msg.getOperation());
+
+    int image_id = msg.getImageId();
+    std::string request_id = msg.getRequestId();
+    std::string sender_ip = msg.getIP();
+    int sender_port =  msg.getPort();
+
+
+    std::string username = msg.getSenderName();
+
+    switch (msg.getOperation())
+    {
+        case SendImage: { // someone is requesting an image from me.
+            int image_id = msg.getImageId();
+            int num_views = 2;//rand()%10+1;
+            Message msg = Image::buildImageMsg(image_id , std::to_string(num_views)+","+myIp +"," +myName +",", request_id);
+            msg.setIP(myIp);
+            msg.setPort(PEER_DEFAULT_PORT);
+            msg.setSenderName(myName);
+            reqRep->sendMessage(msg, sender_ip.c_str(), sender_port);
+            std::tuple<std::string, int> userInfo(username, num_views); //add to db
+            db->insertUser(image_id, userInfo);
+            break;
+        }
+        case UpdateViewCount:{ // updates view count for image I owe when someone views it
+            int num_views = atoi(msg.getMessage().c_str());
+            db->updateCount(msg.getImageId(), msg.getSenderName(), num_views);
+            break;
+        }
+        case SendProfile:{
+            Message msg = Image::buildProfileMsg(request_id);
+            msg.setIP(myIp);
+            msg.setPort(PEER_DEFAULT_PORT);
+            msg.setSenderName(myName);
+            reqRep->sendMessage(msg, sender_ip.c_str(), sender_port);
+            break ;
+        }
+        case UpdateViewsRequestedImage:{  // update views for image I requested
+            std::string stego_image = "../images/requested/images/" + username + "/" + std::to_string(msg.getImageId()) + ".jpg";
+            std::string extracted_path = "../images/stego/temp/" + request_id + ".jpg";
+            std::string extracted_text = "../images/stego/temp/" + request_id + ".txt";
+            std::string hidden_text = stega_decode(stego_image, extracted_path, true);
+            std::string num_views = msg.getMessage();
+            std::string new_hidden_text = num_views + hidden_text.substr(hidden_text.find(','));
+            stega_encode(extracted_path , new_hidden_text, stego_image, true);
+            break;
+        }
+    };
+}
+
+/*
+    Always listens for request messages.
+*/
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+void Peer::serveRequst(){
+    while(true){
+        Message msg = Message();
+        if(reqRep->recRequest(msg) > 0){
+            std::cout << "Handling Accepted msg: " << msg.getRequestId() << std::endl;
+            serveThread = std::thread(&Peer::dispatch, this, msg);
+            serveThread.detach();
+        }
+    }
 }
 #pragma clang diagnostic pop
 
+Message Peer::buildRequest(serviceOperations operation, int image_id ){
 
-void Peer::getDB (const char *destIp )
-{
-    std::string path = (std::string)PATH +ROBOT +"/"+destIp+".json";
-    std::ofstream o(path);
-    o << std::setw(4) << "{\n}" << std::endl;
+    requestInfo reqinfo = {
+            .image_id=image_id,
+            .request_id= generateRequestId(this->myIp),
+            .p_message= "",
+            .operation = operation,
+            .packet_index = 0,
+            .IP=this->getMyIP(),
+            .port=PEER_DEFAULT_PORT,
+            .sender_name=myName,
+            .msg_type = Request
+    };
 
-    db = new Database(path);
-
-
-    int num_images = 6 ;
-    std::string robot = "robot";/*
-    char* res = com->comMsg(destIp, DB_PORT, const_cast<char *>(robot.c_str()), SEND_RECEIVE); //send request
-    if(strcmp(res,"ok") == 0) {
-       for (int i=0 ;i<num_images ;i++ ) { //for ever image
-           char *dbSize = com->comMsg(const_cast<char *>(myIp.c_str()), DB_PORT, "", RECEIVE); // get size of image db
-           for (int j =0 ; j < std::stoi(dbSize) ; j++) //for every peer with that image
-           {
-
-               //char *ip = com->comMsg(const_cast<char *>(myIp.c_str()), DB_PORT, "", RECEIVE); // get size of image db
-               char *numViews = com->comMsg(const_cast<char *>(myIp.c_str()), DB_PORT, "", RECEIVE); // get size of image db
-
-               std::tuple<std::string, int> userInfo(ip, std::stoi(numViews));
-               db->insertUser(i, userInfo);
-           }
-       }
-    }
-
-    else
-        std::cout<<"Peer: Image not received from other Peer!\n";*/
-
+    Message msg = Message(reqinfo);
+    return msg;
 }
 
+Peer::~Peer(){
+    delete reqRep;
+    delete db;
+}

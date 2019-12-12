@@ -146,3 +146,17 @@ std::string getCurrentDir() {
     std::string dir = getcwd(buffer, sizeof(buffer));
     return dir.replace(dir.size() -17, dir.size(), "");
 }
+
+
+std::vector<std::string> parseHidden(std::string hidden_text){
+    std::string delimiter = ",";
+    size_t pos = 0;
+    std::string token;
+    std::vector<std::string> hidden;
+    while ((pos = hidden_text.find(delimiter)) != std::string::npos) {
+        token = hidden_text.substr(0, pos);
+        hidden_text.erase(0, pos + delimiter.length());
+        hidden.push_back(token);
+    }
+    return hidden;
+}

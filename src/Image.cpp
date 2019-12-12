@@ -13,6 +13,35 @@
     Builds a reply message with the stego image
 */
 
+
+
+Message Image::buildImageMsg(int image_id, std::string hidden, std::string request_id) {
+
+    std::string path = "../images/mine/profile/" + std::to_string(image_id) + ".jpg";
+
+    std::string temp_path = "../images/stego/" + request_id + "_" + std::to_string(image_id) + "_stego.jpg";
+
+    std::string hidden_text = hidden;
+
+    std::string stego_image = stega_encode(path, hidden_text, temp_path, true);
+
+    requestInfo reqinfo = {
+            .image_id=image_id,
+            .request_id= request_id,
+            .p_message= stego_image,
+            .operation = SendImage,
+            .packet_index = 0,
+            .IP="",
+            .port=0,
+            .sender_name ="",
+            .msg_type = Reply
+    };
+
+    Message msg = Message(reqinfo);
+    return msg;
+}
+
+
 Message Image::buildImageMsg(int image_id, std::string hidden, std::string request_id, const int senderPort) {
 
     std::string path = "../images/mine/" + std::to_string(image_id) + ".jpg";
@@ -172,6 +201,21 @@ Profile Image::reconstructSamplesMsg(bool isDoS, Message& sampleMsg, std::string
     return profile;
 }
 
+void Image::reconstructSamplesMsg(Message& sampleMsg, std::string directory, int n){
+    static std::string delimiter = "111110";
+    std::string samples = sampleMsg.getMessage();
+    int imgId = sampleMsg.getImageId();
+
+    size_t pos = 0;
+    std::string token;
+    while ((pos = samples.find(delimiter)) != std::string::npos) {
+        token = samples.substr(0, pos);
+        samples.erase(0, pos + delimiter.length());
+        saveImage(token, imgId, directory );
+        imgId++;
+    }
+}
+
 
 std::string Image::readImage(std::string path) {
     std::ifstream fin(path, std::ios::in | std::ios::binary);
@@ -181,9 +225,8 @@ std::string Image::readImage(std::string path) {
     return data;
 }
 
-
-Message Image::buildProfileMsg(std::string request_id, const int senderPort) {
-    std::string path = "../images/mine/profile/";
+Message Image::buildProfileMsg(std::string request_id) {
+    std::string path = "../images/mine/samples/";
     std::string delimiter = "111110";
     std::string msg= "";
 
@@ -202,13 +245,15 @@ Message Image::buildProfileMsg(std::string request_id, const int senderPort) {
             .operation = SendProfile,
             .packet_index = 0,
             .IP="",
-            .port= senderPort,
+            .port=0,
+            .sender_name="",
             .msg_type = Reply
     };
 
     Message m = Message(reqinfo);
     return m;
 }
+
 
 
 

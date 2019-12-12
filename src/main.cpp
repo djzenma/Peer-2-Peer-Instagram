@@ -44,8 +44,8 @@ int main(int argc,char **argv){
             }
             else {
                 auto peer2 = new Peer("10.40.45.193", "Bassant", dosIp);
-                peer2->requestProfileFrom("10.40.50.55", false);
-                peer2->requestProfileFrom("10.40.50.55", false);
+                peer2->requestProfileFromPeer("10.40.50.55");
+                peer2->requestProfileFromPeer("10.40.50.55");
                 //peer2->requestImageFromPeer(0, const_cast<char *>("10.40.35.216"));
             }
         }

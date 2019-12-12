@@ -14,35 +14,41 @@
 class Peer {
 private:
     std::string myIp, myName, dosIp;
-    std::thread msgIdThread;
+
     Database * db;
 
+    std::thread serveThread;
+
     RequestReply* reqRep;
-    //RequestReply* reqRepAuth;
-    //RequestReply* reqRepAuth;
 
-    void runMsgIdThread();
-    void runMsgIdSys();
-
+    Message buildRequest(serviceOperations operation, int image_id);
 public:
     Peer(const char *myIp, std::string myName, std::string dosIp);
+    ~Peer();
 
     std::string authenticate(std::string username, std::string password);
     std::string login(std::string username, std::string password);
     void getSamplesFromDoS();
 
     void sendMyProfile(bool toDoS, std::string destIp, int PORT);
-    void requestProfileFrom(std::string destIp, bool robot);
 
-    Message requestImageFromPeer(int imgId, const char *destPeerIp);
-    void sendImageToPeer(Message &m ,std::string destIp, int destPort ) ;
 
-    void listenForDBRequests (const char * destIp);
-    std::vector<Message>getDbFromDoS(int n) ;
-    void getDB (const char *robotIp );
+    int requestImageFromPeer(int imgId, const char *destPeerIp);
+    int requestProfileFromPeer(const char *destPeerIp);
+    void updateViewsForPeer(int image_id, int new_count, std::string user_name, const char * peerIp);
+    int viewImage(int image_id, std::string user_name);
+
+    void dispatch(Message  msg);
+    void serveRequst();
 
     std::string getMyIP();
     std::string getMyName();
+
+    void Accept(std::string msg_id);
+    void Reject(std::string msg_id);
+    std::vector<Message> getPending();
+
+    std::map<std::string, int> getImageInfo(int img_id);
 
     // Communication
     Message sendMsg(DOS_OPERATIONS operation, const char *destIp, int destPort,

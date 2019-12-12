@@ -29,11 +29,7 @@ enum serviceOperations{
     SendImage = 0,
     UpdateViewCount = 1,
     SendProfile = 2,
-    GrantAccess = 3,
-    DecrementView = 4,
-    SendSample = 5,
-    SendImages = 6,
-    ViewAccess = 7,
+    UpdateViewsRequestedImage = 3, // from server side
 };
 
 enum DOS_OPERATIONS {
@@ -48,7 +44,6 @@ enum DOS_OPERATIONS {
     IP_MAP = 16
 };
 
-
 template< typename T >
 std::string int_to_hex( T i ) {
     std::stringstream stream;
@@ -57,6 +52,7 @@ std::string int_to_hex( T i ) {
            << std::hex << i;
     return stream.str();
 }
+
 
 int hex_to_int(std::string  hex);
 
@@ -80,5 +76,8 @@ std::string generateRequestId(const std::string ip);
 
 std::vector<std::string> globVector(const std::string& pattern);
 std::string getCurrentDir();
+
+
+std::vector<std::string> parseHidden(std::string hidden_text);
 
 #endif
