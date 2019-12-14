@@ -90,22 +90,25 @@ Message Image::buildSamplesMsg(bool fromDoS, DOS_OPERATIONS operation, int image
             }
             if(user != ownerName) {
                 //std::cout<<"\n\nowner:"<<user<<" "<<ownerName<<"\n\n";
-                path = "../images/users/" + user + "/";
-                for (int i = 0; i < n; i++) {
-                    std::string imgPath = path + std::to_string(images_id[i]) + ".jpg";
-                    //std::string image = Image::readImage(imgPath);
+                std::vector<std::string> imgsFolder = globVector("../images/users/" + user + "/*");
+                if(imgsFolder.size() >= n) {
+                    path = "../images/users/" + user + "/";
+                    for (int i = 0; i < n; i++) {
+                        std::string imgPath = path + std::to_string(images_id[i]) + ".jpg";
+                        //std::string image = Image::readImage(imgPath);
 
-                    // Read Json of the user
-                    Json::Value userProfile;
-                    std::ifstream userJson(path+"/profile.json", std::ifstream::binary);
-                    userJson >> userProfile;
-                    Profile profile;
-                    profile.user = userProfile[user]["username"].asString();
-                    profile.ip = userProfile[user]["ip"].asString();
+                        // Read Json of the user
+                        Json::Value userProfile;
+                        std::ifstream userJson(path+"/profile.json", std::ifstream::binary);
+                        userJson >> userProfile;
+                        Profile profile;
+                        profile.user = userProfile[user]["username"].asString();
+                        profile.ip = userProfile[user]["ip"].asString();
 
-                    std::string hiddenTxt = profile.user + "/" + profile.ip;
-                    std::string encodedImage = stega_encode(imgPath, hiddenTxt, "../images/stego/" + std::to_string(images_id[i]) + ".jpg", false);
-                    msg += encodedImage + delimiter;
+                        std::string hiddenTxt = profile.user + "/" + profile.ip;
+                        std::string encodedImage = stega_encode(imgPath, hiddenTxt, "../images/stego/" + std::to_string(images_id[i]) + ".jpg", false);
+                        msg += encodedImage + delimiter;
+                    }
                 }
             }
         }
