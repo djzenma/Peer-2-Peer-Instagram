@@ -14,7 +14,7 @@ DoS::DoS(const char *dosIp) {
     //com->dbTx = com->init_socket(dosIp, DB_PORT);
 
     reqRepAuth = new RequestReply(dosIp, AUTH_PORT);
-    //reqRepLogin = new RequestReply(dosIp, LOGIN_PORT);
+    reqRepLogin = new RequestReply(dosIp, LOGIN_PORT);
     //reqRepMap = new RequestReply(dosIp, MAP_PORT);
 }
 
@@ -45,11 +45,20 @@ void DoS::runLoginSys() {
                     std::cout << "DoS: Login request= " << reqMsg.getMessage() << "\n";
                     credentials = getCredentials(reqMsg.getMessage());
 
-                    // Add peer credentials to db
-                    insertInDB(credentials, peerIp);
+                    Profile p = retrieveUserDB(credentials.user);
+                    if(p.user == "refused") {
+                        Message refMsg = buildReplyMsg(reqMsg.getRequestId(), "refused", REFUSED, peerIp, PEER_DEFAULT_PORT);
 
-                    // Send ok Response
-                    reqRepLogin->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
+                        // Send refused Response
+                        reqRepLogin->sendMessage(refMsg, peerIp, PEER_DEFAULT_PORT);
+                    }
+                    else {
+                        // Add peer credentials to db
+                        insertInDB(credentials, peerIp);
+
+                        // Send ok Response
+                        reqRepLogin->sendMessage(okMsg, peerIp, PEER_DEFAULT_PORT);
+                    }
                     break;
                 }
                 case PROFILE: {       // 2. Peer Sends all his photos, req = number of photos
@@ -250,6 +259,7 @@ void DoS::insertInDB(Profile credentials, std::string ip) {
 }
 
 Profile DoS::retrieveUserDB(std::string hostname) {
+    bool found = false;
     std::vector<std::string> usersDirs = globVector("../images/users/*");
 
     for ( std::string &user : usersDirs) {
@@ -269,9 +279,16 @@ Profile DoS::retrieveUserDB(std::string hostname) {
             profile.user = userProfile[user]["username"].asString();
             profile.pass = userProfile[user]["pass"].asString();
             profile.ip = userProfile[user]["ip"].asString();
+            found = true;
             return profile;
         }
     }
+    if (!found) {
+        Profile profile;
+        profile.user = "refused";
+        return profile;
+    }
+
 }
 
 
@@ -283,9 +300,9 @@ Profile DoS::retrieveUserDB(std::string hostname) {
 /*
  * Only runs the Login thread
  */
-/*void DoS::runLoginThread() {
+void DoS::runLoginThread() {
     loginThread = std::thread(&DoS::runLoginSys, this);
-}*/
+}
 
 /*
  * Only runs the Auth thread

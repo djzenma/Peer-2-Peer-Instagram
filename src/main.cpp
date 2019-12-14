@@ -55,7 +55,7 @@ int main(int argc,char **argv){
 
             auto dos = new DoS(dosIp);
             dos->runAuthThread();
-            //dos->runLoginThread();
+            dos->runLoginThread();
             dos->join();
         }
     }

@@ -116,7 +116,8 @@ std::string Peer::login(std::string username, std::string password) {
         getSamplesFromDoS();
         return "ok";
     }
-    return "refused";
+    else
+        return "refused";
 }
 
 void Peer::sendMyProfile(bool toDoS, std::string destIp, int PORT) {

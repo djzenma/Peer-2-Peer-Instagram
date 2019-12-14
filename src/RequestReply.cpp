@@ -350,12 +350,13 @@ int RequestReply::recReply(Message & m, std::string request_id){
 }
 
 int RequestReply::recRequest(Message & m){
+    mlock.lock();
 
     if(rec_buffer.size() == 0){
         //printf("No Pending Messages \n");
+        mlock.unlock();
         return 0;
     }
-    mlock.lock();
     printf("Pending Messages : %d\n", rec_buffer.size());
 
     std::map<std::string, std::pair<Message,bool>>::iterator it;

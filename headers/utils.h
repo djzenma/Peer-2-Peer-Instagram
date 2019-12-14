@@ -41,7 +41,8 @@ enum DOS_OPERATIONS {
     SAMPLES = 13,
     ROBOT = 14,
     P2P = 15,
-    IP_MAP = 16
+    IP_MAP = 16,
+    REFUSED = 17,
 };
 
 template< typename T >
