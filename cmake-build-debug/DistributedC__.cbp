@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="DistributedC__"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="DistributedC__">
+				<Option output="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/DistributedC__" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/jsoncpp"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 DistributedC__"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="DistributedC__/fast">
+				<Option output="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/DistributedC__" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/jsoncpp"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 DistributedC__/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Database.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/DoS.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Image.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Message.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Peer.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/RequestReply.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/Stego.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/headers/utils.h">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Database.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/DoS.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Image.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Message.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Peer.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/RequestReply.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/Stego.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/base64.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/experiment.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/main.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/src/utils.cpp">
+			<Option target="DistributedC__"/>
+		</Unit>
+		<Unit filename="/home/manar/Documents/Uni/Fall2019/RRPSocket/Dist_Sockets/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

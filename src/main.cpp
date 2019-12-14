@@ -15,13 +15,9 @@ using namespace std;
 
 int main(int argc,char **argv){
 
-    /*Message msg = buildRequestMsg(AUTH, "127.0.0.1", "HI", Reply);
-    msg.setPort(2);
-    std::string marshalled = msg.marshal();
+    auto peer1 = new Peer("10.40.33.37", "Mazen", "");
 
-    std::cout << msg << endl;
-    Message m = Message(marshalled);*/
-
+    std::map<string, int> users = peer1->getImageInfo(0);
 
     if(argc > 1 && strcmp(argv[2], "dos") == 0)
     {// DoS

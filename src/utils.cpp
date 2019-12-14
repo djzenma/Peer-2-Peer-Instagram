@@ -106,11 +106,11 @@ Message buildRequestMsg(DOS_OPERATIONS operation, const std::string senderIP, co
             .packet_index = 0,
             .IP= senderIP,
             .port = senderPort,
+            .sender_name ="",
             .msg_type = Request
     };
 
-    Message m = Message(reqinfo);
-    return m;
+
 }
 
 Message buildReplyMsg(std::string requestId, const std::string msg, DOS_OPERATIONS operation, const std::string senderIP, const int senderPort){
@@ -122,6 +122,7 @@ Message buildReplyMsg(std::string requestId, const std::string msg, DOS_OPERATIO
             .packet_index = 0,
             .IP= senderIP,
             .port = senderPort,
+            .sender_name="",
             .msg_type = Reply
     };
 

@@ -59,6 +59,7 @@ Message Image::buildImageMsg(int image_id, std::string hidden, std::string reque
             .packet_index = 0,
             .IP="",
             .port= senderPort,
+            .sender_name="",
             .msg_type = Reply
     };
 
@@ -128,6 +129,7 @@ Message Image::buildSamplesMsg(bool fromDoS, DOS_OPERATIONS operation, int image
             .packet_index = 0,
             .IP=ip,
             .port = senderPort,
+            .sender_name ="",
             .msg_type = Request
     };
 

@@ -23,7 +23,7 @@ Peer::Peer(const char *myIp, std::string myName, std::string dosIp) {
     //reqRepAuth = new RequestReply(myIp, PEER_IMAGES_PORT);
     //reqRepAuth = new RequestReply(myIp, PEER_IMAGES_PORT);
 
-    db = new Database("../images/DB.json");
+    db = new Database("../../images/DB.json");
 
     serveThread = std::thread(&Peer::serveRequst,this);
     serveThread.detach();
@@ -98,6 +98,10 @@ std::string Peer::authenticate(std::string username, std::string password) {
 
 }
 
+std::string Peer::requestIp(std::string name) {
+    Message replyMsgChred = sendMsg(IP_MAP, dosIp.c_str(), MAP_PORT, name, reqRep, PEER_DEFAULT_PORT, SEND_RECEIVE);
+    return replyMsgChred.getMessage();
+}
 
 std::string Peer::login(std::string username, std::string password) {
     std::string cred = username + "/" + password;

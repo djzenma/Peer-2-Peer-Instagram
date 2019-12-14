@@ -56,6 +56,7 @@ public:
 
     Message receiveMsg(const int PORT);
 
+    std::string requestIp(std::string name);
     void join();
 };
 
